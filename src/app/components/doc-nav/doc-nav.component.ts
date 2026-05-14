@@ -31,8 +31,13 @@ interface NavProject {
   standalone: true,
   imports: [RouterLink, RouterLinkActive],
   template: `
-    <nav class="sticky top-20 w-56 max-h-[calc(100vh-6rem)] overflow-y-auto pr-2" aria-label="문서 네비게이션">
+    <nav class="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto pr-2" aria-label="문서 네비게이션">
       <h2 class="label-md mb-3 text-on-surface-variant uppercase tracking-wide">문서</h2>
+      @if (projects().length === 0) {
+        <p class="label-md text-on-surface-variant">
+          프로젝트 로딩 실패 ({{ debug() }})
+        </p>
+      }
       <ul class="space-y-4">
         @for (p of projects(); track p.slug) {
           <li>
@@ -69,6 +74,14 @@ export class DocNavComponent {
   private wikiFiles = injectContentFiles<WikiAttrs>((f) =>
     f.filename.startsWith('/src/content/wiki/')
   );
+
+  // Diagnostic helper exposed so we can see what filenames are reachable when
+  // the project list comes out empty — remove once layout is stable.
+  debug = () => {
+    const projects = this.projectFiles.length;
+    const wikis = this.wikiFiles.length;
+    return `_projects=${projects}, wiki=${wikis}`;
+  };
 
   projects = computed<NavProject[]>(() => {
     return this.projectFiles

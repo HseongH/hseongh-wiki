@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { injectContentFiles, injectContentFilesMap, MarkdownComponent } from '@analogjs/content';
-import { TocComponent, TocEntry } from '../../components/toc/toc.component';
 import { BadgeComponent } from '../../components/badge/badge.component';
 import { DocNavComponent } from '../../components/doc-nav/doc-nav.component';
 
@@ -18,13 +17,15 @@ interface WikiAttrs {
 @Component({
   selector: 'app-wiki-article',
   standalone: true,
-  imports: [MarkdownComponent, TocComponent, BadgeComponent, DocNavComponent],
+  imports: [MarkdownComponent, BadgeComponent, DocNavComponent],
   template: `
-    @if (entry()) {
-      <div class="mx-auto grid max-w-(--container-site) grid-cols-[14rem_minmax(0,720px)_14rem] gap-8 px-6 py-12">
-        <app-doc-nav />
-
-        <article class="body-md">
+    <div class="mx-auto grid max-w-(--container-site) grid-cols-[14rem_minmax(0,1fr)] gap-8 px-6 py-12">
+      <app-doc-nav />
+      @if (entry()) {
+        <article class="body-md max-w-(--container-article)">
+          <div class="mb-4 flex items-center gap-2">
+            <app-badge variant="primary">{{ entry()!.attributes.project }}</app-badge>
+          </div>
           <h1 class="headline-xl mb-2">{{ title() }}</h1>
           <p class="label-md mb-6 text-on-surface-variant">
             원문: <a [href]="entry()!.attributes.source" class="hover:text-primary">{{ entry()!.attributes.source }}</a>
@@ -38,18 +39,10 @@ interface WikiAttrs {
             }
           </div>
         </article>
-
-        <aside class="space-y-6">
-          <app-badge variant="primary">{{ entry()!.attributes.project }}</app-badge>
-          <app-toc [entries]="toc()" />
-        </aside>
-      </div>
-    } @else {
-      <div class="mx-auto grid max-w-(--container-site) grid-cols-[14rem_1fr] gap-8 px-6 py-12">
-        <app-doc-nav />
+      } @else {
         <p class="body-md text-on-surface-variant">페이지를 찾을 수 없습니다.</p>
-      </div>
-    }
+      }
+    </div>
   `,
 })
 export default class WikiArticlePage {
@@ -108,26 +101,17 @@ export default class WikiArticlePage {
     });
   }
 
-  body = computed(() => this.rawHtml());
+  body = computed(() => stripDuplicateH1(this.rawHtml()));
 
   title = computed(
     () => this.rawHtml().match(/<h1\b[^>]*>([\s\S]+?)<\/h1>/i)?.[1]?.replace(/<[^>]+>/g, '').trim() ?? ''
   );
+}
 
-  toc = computed<TocEntry[]>(() => {
-    const html = this.rawHtml();
-    const entries: TocEntry[] = [];
-    const re = /<h([234])\b[^>]*\sid="([^"]+)"[^>]*>([\s\S]+?)<\/h\1>/g;
-    let m: RegExpExecArray | null;
-    while ((m = re.exec(html))) {
-      entries.push({
-        level: Number(m[1]),
-        id: m[2],
-        text: m[3].replace(/<[^>]+>/g, '').trim(),
-      });
-    }
-    return entries;
-  });
+// The rendered body's first <h1> is duplicated by the article's own <h1>; drop
+// the leading occurrence from the markdown so it doesn't appear twice.
+function stripDuplicateH1(html: string): string {
+  return html.replace(/^\s*<h1\b[^>]*>[\s\S]*?<\/h1>\s*/i, '');
 }
 
 function stripFrontmatter(raw: string): string {
