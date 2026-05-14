@@ -71,7 +71,7 @@ export class DocNavComponent {
   );
 
   private wikiFiles = injectContentFiles<WikiAttrs>((f) =>
-    isUnder(f.filename, 'wiki')
+    isUnder(f.filename, '_wiki')
   );
 
   projects = computed<NavProject[]>(() => {

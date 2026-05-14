@@ -13,7 +13,7 @@ export function normalizeContentFilename(filename: string): string {
 
 export function wikiPathFromFilename(filename: string): string {
   return normalizeContentFilename(filename)
-    .replace(/^\/src\/content\/wiki\//, '')
+    .replace(/^\/src\/content\/_wiki\//, '')
     .replace(/\.md$/, '');
 }
 

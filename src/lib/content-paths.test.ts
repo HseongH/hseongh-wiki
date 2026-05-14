@@ -8,25 +8,25 @@ import {
 
 describe('content-paths', () => {
   it('AnalogJS injectContentFiles filename (no leading slash) is normalized', () => {
-    expect(normalizeContentFilename('src/content/wiki/pnpm/motivation.md')).toBe(
-      '/src/content/wiki/pnpm/motivation.md'
+    expect(normalizeContentFilename('src/content/_wiki/pnpm/motivation.md')).toBe(
+      '/src/content/_wiki/pnpm/motivation.md'
     );
-    expect(normalizeContentFilename('/src/content/wiki/pnpm/motivation.md')).toBe(
-      '/src/content/wiki/pnpm/motivation.md'
+    expect(normalizeContentFilename('/src/content/_wiki/pnpm/motivation.md')).toBe(
+      '/src/content/_wiki/pnpm/motivation.md'
     );
   });
 
-  it('wikiHrefFromFilename strips leading prefix regardless of slash', () => {
-    expect(wikiHrefFromFilename('src/content/wiki/pnpm/motivation.md')).toBe(
+  it('wikiHrefFromFilename strips leading prefix and maps to public /wiki/ URL', () => {
+    expect(wikiHrefFromFilename('src/content/_wiki/pnpm/motivation.md')).toBe(
       '/wiki/pnpm/motivation'
     );
-    expect(wikiHrefFromFilename('/src/content/wiki/pnpm/motivation.md')).toBe(
+    expect(wikiHrefFromFilename('/src/content/_wiki/pnpm/motivation.md')).toBe(
       '/wiki/pnpm/motivation'
     );
   });
 
   it('wikiPathFromFilename returns the project-relative path', () => {
-    expect(wikiPathFromFilename('src/content/wiki/pnpm/installation.md')).toBe(
+    expect(wikiPathFromFilename('src/content/_wiki/pnpm/installation.md')).toBe(
       'pnpm/installation'
     );
   });
@@ -34,7 +34,8 @@ describe('content-paths', () => {
   it('isUnder matches both slash variants and only the requested subdir', () => {
     expect(isUnder('src/content/_projects/pnpm.md', '_projects')).toBe(true);
     expect(isUnder('/src/content/_projects/pnpm.md', '_projects')).toBe(true);
-    expect(isUnder('src/content/wiki/pnpm/foo.md', '_projects')).toBe(false);
+    expect(isUnder('src/content/_wiki/pnpm/foo.md', '_projects')).toBe(false);
+    expect(isUnder('src/content/_wiki/pnpm/foo.md', '_wiki')).toBe(true);
     expect(isUnder('src/content/_glossary/promise.md', '_glossary')).toBe(true);
   });
 });

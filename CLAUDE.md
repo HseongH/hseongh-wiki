@@ -33,7 +33,7 @@ hseongh-wiki/                  # project root (AnalogJS)
 │   │   ├── _meta/             # index.md, log.md, STYLE.md, domains.yml
 │   │   ├── _glossary/         # term pages (globally shared across projects)
 │   │   ├── _projects/         # project cards
-│   │   └── wiki/              # body pages — mirrors upstream repo structure
+│   │   └── _wiki/             # body pages — mirrors upstream repo structure (underscore prevents AnalogJS auto-routing collision with /wiki/* URLs)
 │   │       └── <project>/
 │   ├── lib/                   # marked plugins + build-time utilities
 │   └── styles/                # Tailwind entry + DESIGN.md tokens
@@ -46,7 +46,7 @@ hseongh-wiki/                  # project root (AnalogJS)
 
 ## Page templates
 
-### Body page (`src/content/wiki/<project>/<path>.md`)
+### Body page (`src/content/_wiki/<project>/<path>.md`)
 
 ```markdown
 ---
@@ -148,7 +148,7 @@ Unknown targets fall back to the raw path as link text.
 
 1. The user supplies the translation target (URL or GitHub repo path).
 2. Read the source and briefly confirm key points with the user.
-3. Write a faithful translation to `src/content/wiki/<project>/<path>.md`, following the body template.
+3. Write a faithful translation to `src/content/_wiki/<project>/<path>.md`, following the body template.
 4. For each term that appears in the page for the first time:
    - If `src/content/_glossary/<term>.md` does not exist, create it.
    - If it exists, append the current page to its "등장하는 문서" list.
@@ -237,8 +237,9 @@ If styles ever stop applying, check this import first.
 
 ### AnalogJS content gotchas
 
-- **`injectContentFiles()` returns frontmatter only — no body content.** AnalogJS's build-time transform (`?analog-content-list=true`) extracts only frontmatter attributes for the list. The rendered HTML body lives in **separate lazy loaders** exposed by `injectContentFilesMap()` (keyed by absolute filename like `/src/content/wiki/pnpm/motivation.md`; values are `() => Promise<string>`). The loader resolves to `---\n<frontmatter>\n---\n\n<HTML>`, so strip the frontmatter delimiters before passing to `<analog-markdown>`. `ContentFile.content` is typed `string | object`, but **at runtime it is `undefined`** when obtained from `injectContentFiles()` — never read it; use the filesMap loader instead.
-- **`injectContentFiles()` filenames are missing the leading slash** — they look like `src/content/wiki/...`, while `injectContentFilesMap()` keys look like `/src/content/wiki/...`. Use the helpers in `src/lib/content-paths.ts` (`normalizeContentFilename`, `wikiPathFromFilename`, `wikiHrefFromFilename`, `isUnder`) so filters, href generation, and filesMap lookups stay consistent. A literal `f.filename.startsWith('/src/content/...')` filter silently returns 0 results.
+- **`injectContentFiles()` returns frontmatter only — no body content.** AnalogJS's build-time transform (`?analog-content-list=true`) extracts only frontmatter attributes for the list. The rendered HTML body lives in **separate lazy loaders** exposed by `injectContentFilesMap()` (keyed by absolute filename like `/src/content/_wiki/pnpm/motivation.md`; values are `() => Promise<string>`). The loader resolves to `---\n<frontmatter>\n---\n\n<HTML>`, so strip the frontmatter delimiters before passing to `<analog-markdown>`. `ContentFile.content` is typed `string | object`, but **at runtime it is `undefined`** when obtained from `injectContentFiles()` — never read it; use the filesMap loader instead.
+- **`injectContentFiles()` filenames are missing the leading slash** — they look like `src/content/_wiki/...`, while `injectContentFilesMap()` keys look like `/src/content/_wiki/...`. Use the helpers in `src/lib/content-paths.ts` (`normalizeContentFilename`, `wikiPathFromFilename`, `wikiHrefFromFilename`, `isUnder`) so filters, href generation, and filesMap lookups stay consistent. A literal `f.filename.startsWith('/src/content/...')` filter silently returns 0 results.
+- **AnalogJS auto-routes every `src/content/**/*.md` file**, with the path under `src/content/` becoming the URL. Wiki bodies live under `src/content/_wiki/` (underscore prefix) so the auto-route is `/_wiki/...` instead of `/wiki/...`, leaving the `/wiki/[...path]` catch-all in `src/app/pages/wiki/` free to handle the public URL with its own layout. Meta-prefixed dirs `_glossary/`, `_projects/`, `_meta/`, `_wiki/` are never meant to be browsed at their underscored URL — those are auto-route artifacts.
 - **`injectContent({ customFilename })` accepts a static string, not a function.** For dynamic routes use `injectContentFiles(filter)` for the entry + `injectContentFilesMap()` for the body loader, wired via `effect()` to a `toSignal(route.paramMap)` or `toSignal(route.url)` source.
 - **Catch-all `[...path].page.ts` becomes Angular's `**` wildcard route.** Named param access (`paramMap.get('path')`) does not work — reconstruct the path from `route.url.map(s => s.path).join('/')`. **Use the `route.url` Observable, not `route.snapshot.url`**: Angular reuses the same component instance when navigating between catch-all paths (`ngOnInit` only fires once), so reading the snapshot once leaves the page stuck on the initial content. Wrap with `toSignal(route.url)` and drive `post`/`toc`/etc. via `computed()`.
 - **Markdown pipeline is `marked`, not `remark`.** Production wikilink rewriting lives in `src/lib/marked-wikilink.ts`. `src/lib/remark-wikilink.ts` exists only as a TDD-driven reference implementation of the same resolver logic.

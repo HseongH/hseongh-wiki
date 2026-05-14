@@ -74,7 +74,7 @@ export default class ProjectPage {
     isUnder(f.filename, '_projects')
   );
 
-  private wikiFiles = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, 'wiki'));
+  private wikiFiles = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, '_wiki'));
 
   private filesMap = injectContentFilesMap();
 

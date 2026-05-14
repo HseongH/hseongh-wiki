@@ -46,7 +46,7 @@ function scanProjects(): Lookups['projectLookup'] {
 }
 
 function scanWiki(): Lookups['wikiLookup'] {
-  const dir = join(CONTENT_ROOT, 'wiki');
+  const dir = join(CONTENT_ROOT, '_wiki');
   const out: Lookups['wikiLookup'] = {};
   walk(dir, (filePath) => {
     if (!filePath.endsWith('.md')) return;

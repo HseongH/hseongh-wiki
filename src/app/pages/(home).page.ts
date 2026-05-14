@@ -29,7 +29,7 @@ interface WikiAttrs {
   `,
 })
 export default class HomePage {
-  private files = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, 'wiki'));
+  private files = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, '_wiki'));
 
   posts: PostCardData[] = this.files
     .sort((a, b) =>

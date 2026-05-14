@@ -67,7 +67,7 @@ export default class DomainPage {
   );
 
   private projects = injectContentFiles<ProjectAttrs>((f) => isUnder(f.filename, '_projects'));
-  private wikiFiles = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, 'wiki'));
+  private wikiFiles = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, '_wiki'));
 
   domain = computed(() => this.domainService.listDomains().find((d) => d.id === this.id()));
 

@@ -25,7 +25,7 @@ export class DomainService {
   private projects = injectContentFiles<ProjectAttributes>((f) =>
     isUnder(f.filename, '_projects')
   );
-  private wikiPages = injectContentFiles<WikiAttributes>((f) => isUnder(f.filename, 'wiki'));
+  private wikiPages = injectContentFiles<WikiAttributes>((f) => isUnder(f.filename, '_wiki'));
 
   // domains.yml is the source of truth — currently mirrored here.
   // TODO (future): load via vite-plugin-yaml or build-time generator.

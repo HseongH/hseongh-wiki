@@ -48,7 +48,7 @@ interface WikiAttrs {
 })
 export default class WikiArticlePage {
   private route = inject(ActivatedRoute);
-  private allFiles = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, 'wiki'));
+  private allFiles = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, '_wiki'));
   private filesMap = injectContentFilesMap();
 
   // Catch-all routes (`**`) reuse the component on URL changes, so subscribe
@@ -59,7 +59,7 @@ export default class WikiArticlePage {
   );
 
   entry = computed(() => {
-    const target = `/src/content/wiki/${this.segments()}`;
+    const target = `/src/content/_wiki/${this.segments()}`;
     return this.allFiles.find((f) => {
       const fn = normalizeContentFilename(f.filename);
       return fn === `${target}.md` || fn === `${target}/index.md`;
