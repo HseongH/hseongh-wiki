@@ -27,6 +27,7 @@
     "@fontsource/hanken-grotesk": "^5.2.8",
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@fontsource/source-serif-4": "^5.2.9",
+    "@shikijs/rehype": "^1.29.2",
     "front-matter": "^4.0.2",
     "marked": "^15.0.12",
     "marked-gfm-heading-id": "^4.1.4",
@@ -34,6 +35,7 @@
     "marked-mangle": "^1.1.13",
     "prismjs": "^1.30.0",
     "rxjs": "~7.8.0",
+    "shiki": "^1.29.2",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

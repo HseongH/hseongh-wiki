@@ -4,6 +4,7 @@ import { defineConfig } from 'vite';
 import analog from '@analogjs/platform';
 import viteTsConfigPaths from 'vite-tsconfig-paths';
 import tailwindcss from '@tailwindcss/vite';
+import { shikiOptions } from './src/lib/shiki-config';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -23,7 +24,13 @@ export default defineConfig(({ mode }) => {
         prerender: {
           routes: [],
         },
-        content: {},
+        // Path (a): AnalogJS natively integrates Shiki via content options.
+        // No separate rehype plugin needed — shikiOptions flows through
+        // AnalogJS's marked-shiki integration with dual theme support.
+        content: {
+          highlighter: 'shiki',
+          shikiOptions,
+        },
       }),
       viteTsConfigPaths(),
     ],
