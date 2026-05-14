@@ -3,6 +3,10 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { injectContentFiles } from '@analogjs/content';
 import { wikiTitles, projectNames } from 'virtual:wiki-titles';
 
+interface AnyAttrs {
+  project?: string;
+}
+
 interface ProjectAttrs {
   project: string;
   name: string;
@@ -67,20 +71,21 @@ interface NavProject {
   `,
 })
 export class DocNavComponent {
-  private projectFiles = injectContentFiles<ProjectAttrs>((f) =>
-    f.filename.startsWith('/src/content/_projects/')
-  );
+  private allFiles = injectContentFiles<AnyAttrs>();
 
-  private wikiFiles = injectContentFiles<WikiAttrs>((f) =>
-    f.filename.startsWith('/src/content/wiki/')
-  );
+  private projectFiles = this.allFiles.filter((f) =>
+    /(^|\/)src\/content\/_projects\//.test(f.filename)
+  ) as Array<{ filename: string; slug: string; attributes: ProjectAttrs }>;
+
+  private wikiFiles = this.allFiles.filter((f) =>
+    /(^|\/)src\/content\/wiki\//.test(f.filename)
+  ) as Array<{ filename: string; slug: string; attributes: WikiAttrs }>;
 
   // Diagnostic helper exposed so we can see what filenames are reachable when
   // the project list comes out empty — remove once layout is stable.
   debug = () => {
-    const projects = this.projectFiles.length;
-    const wikis = this.wikiFiles.length;
-    return `_projects=${projects}, wiki=${wikis}`;
+    const sample = this.allFiles.slice(0, 3).map((f) => f.filename).join(' | ');
+    return `total=${this.allFiles.length}, _projects=${this.projectFiles.length}, wiki=${this.wikiFiles.length}, sample=[${sample}]`;
   };
 
   projects = computed<NavProject[]>(() => {
