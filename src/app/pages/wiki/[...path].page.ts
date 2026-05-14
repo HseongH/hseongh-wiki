@@ -1,5 +1,7 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 import { injectContentFiles, MarkdownComponent } from '@analogjs/content';
 import { TocComponent, TocEntry } from '../../components/toc/toc.component';
 import { BadgeComponent } from '../../components/badge/badge.component';
@@ -54,14 +56,30 @@ interface WikiFile {
     }
   `,
 })
-export default class WikiArticlePage implements OnInit {
+export default class WikiArticlePage {
   private route = inject(ActivatedRoute);
   private allFiles = injectContentFiles<WikiAttrs>((f) =>
     f.filename.startsWith('/src/content/wiki/')
   );
 
-  post = signal<WikiFile | null>(null);
-  toc = signal<TocEntry[]>([]);
+  // Catch-all routes (`**`) reuse the component on URL changes, so subscribe to
+  // the reactive `url` stream rather than reading a one-shot snapshot.
+  private segments = toSignal(
+    this.route.url.pipe(map((url) => url.map((s) => s.path).join('/'))),
+    { initialValue: this.route.snapshot.url.map((s) => s.path).join('/') }
+  );
+
+  post = computed<WikiFile | null>(() => {
+    const target = `/src/content/wiki/${this.segments()}`;
+    return (
+      (this.allFiles.find(
+        (f) =>
+          f.filename === target ||
+          f.filename === `${target}.md` ||
+          f.filename === `${target}/index.md`
+      ) as WikiFile | undefined) ?? null
+    );
+  });
 
   markdown = computed(() => {
     const c = this.post()?.content;
@@ -70,33 +88,13 @@ export default class WikiArticlePage implements OnInit {
 
   title = computed(() => this.extractTitle(this.markdown()));
 
-  ngOnInit(): void {
-    // For catch-all route (**), reconstruct path from URL segments.
-    // The route URL at this level contains all segments after /wiki/
-    const segments = this.route.snapshot.url.map((s) => s.path).join('/');
-    const target = `/src/content/wiki/${segments}`;
-
-    // Try exact match, then with .md, then index.md
-    const match =
-      this.allFiles.find(
-        (f) =>
-          f.filename === target ||
-          f.filename === `${target}.md` ||
-          f.filename === `${target}/index.md`
-      ) ?? null;
-
-    this.post.set(match as WikiFile | null);
-    if (match) {
-      this.toc.set(this.extractToc(match.content ?? ''));
-    }
-  }
+  toc = computed(() => this.extractToc(this.markdown()));
 
   extractTitle(md: string): string {
     return md.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? '';
   }
 
-  extractToc(md: string | object): TocEntry[] {
-    if (typeof md !== 'string') return [];
+  extractToc(md: string): TocEntry[] {
     const entries: TocEntry[] = [];
     for (const line of md.split('\n')) {
       const m = line.match(/^(#{2,4})\s+(.+)$/);

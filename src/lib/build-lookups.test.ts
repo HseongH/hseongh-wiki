@@ -8,6 +8,7 @@ describe('buildLookups', () => {
     expect(lookups.projectLookup['pnpm'].name).toBe('pnpm');
     expect(lookups.glossaryLookup['package']).toBeDefined();
     expect(lookups.glossaryLookup['package'].korean).toBe('패키지');
-    expect(lookups.wikiLookup['pnpm/README']).toBeDefined();
+    expect(lookups.wikiLookup['pnpm/motivation']).toBeDefined();
+    expect(lookups.wikiLookup['pnpm/motivation'].title).toBe('동기');
   });
 });

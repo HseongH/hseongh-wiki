@@ -12,4 +12,5 @@ status: 정착어
 
 ## 등장하는 문서
 
-- [[wiki/pnpm/README]]
+- [[wiki/pnpm/motivation]]
+- [[wiki/pnpm/installation]]

@@ -15,10 +15,6 @@ last_ingest: 2026-05-14
 
 ## 번역된 페이지
 
-소스: `pnpm/pnpm` repo
-
-- [[wiki/pnpm/README]] — pnpm 저장소 README
-
 소스: `pnpm/pnpm.io` repo (공식 docs 사이트)
 
 - [[wiki/pnpm/motivation]] — 동기 (왜 pnpm 인가)

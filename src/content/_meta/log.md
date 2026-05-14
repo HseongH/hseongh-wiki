@@ -1,7 +1,17 @@
 # Log
 
 각 항목은 `## [YYYY-MM-DD] <type> | <Title>` 형식입니다.
-타입: `ingest` | `query` | `lint` | `glossary` | `style` | `setup`
+타입: `ingest` | `query` | `lint` | `glossary` | `style` | `setup` | `fix`
+
+## [2026-05-14] fix | wiki catch-all 라우트 콘텐츠 갱신 + README 정리
+
+증상: 한 wiki 페이지에서 다른 wiki 페이지(예: 인덱스 → motivation)로 링크 이동 시 콘텐츠가 갱신되지 않음.
+
+원인: `src/app/pages/wiki/[...path].page.ts` 가 `ActivatedRoute.snapshot.url` 을 `ngOnInit` 에서 1회만 읽음. AnalogJS 의 catch-all (`**`) 은 라우트 변경 시 동일 컴포넌트를 재사용 → ngOnInit 미실행 → 이전 페이지 콘텐츠 잔존.
+
+수정: `snapshot.url` 을 `toSignal(route.url)` 기반 반응형으로 전환. `post` / `toc` / `markdown` / `title` 모두 `computed` 로 도출. 다른 동적 페이지(`[slug]`, `[term]`, `[id]`) 의 패턴과 통일.
+
+부수 정리: 직전 커밋(517ded9)에서 삭제된 `wiki/pnpm/README.md` 의 잔여 참조 15곳 제거 — 본문 6개·용어집 6개·프로젝트 카드·`index.md`. `log.md` 의 과거 ingest 항목 2곳은 역사 기록으로 보존 (위키링크 미해석 시 raw path 로 폴백). 용어집 6개는 새 pnpm.io 페이지 등장처로 재연결.
 
 `grep "^## \[" log.md | tail -10` 으로 최근 작업을 훑을 수 있습니다.
 

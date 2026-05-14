@@ -146,6 +146,5 @@ export const hooks = {
 - [[_glossary/hoisting]]
 - [[_glossary/dependency]]
 - [[_glossary/package]]
-- [[wiki/pnpm/README]]
 - [[wiki/pnpm/motivation]]
 - [[wiki/pnpm/pnpm-vs-npm]]

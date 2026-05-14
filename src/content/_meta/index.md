@@ -22,8 +22,8 @@ IT 공식문서 한국어 번역 위키. 본문은 충실한 번역, 그 위에 
 
 ## 최근 작업
 
+- 2026-05-14 `fix` — wiki catch-all 라우트 재사용 시 콘텐츠 갱신 안 되던 버그 수정 + 삭제된 README 잔여 참조 정리
 - 2026-05-14 `ingest` — pnpm.io docs 1차 (motivation, installation, pnpm-cli, feature-comparison, faq, pnpm-vs-npm), 용어 5개 신규
-- 2026-05-14 `ingest` — [[wiki/pnpm/README]] (pnpm 저장소 README, 용어 6개 신규)
 - 2026-05-14 `setup` — 위키 초기화
 
 ## 빠른 진입점

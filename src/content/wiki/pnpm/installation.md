@@ -251,5 +251,4 @@ pnpm self-update
 ## 관련 페이지
 - [[_glossary/package-manager]]
 - [[_glossary/registry]]
-- [[wiki/pnpm/README]]
 - [[wiki/pnpm/pnpm-cli]]
