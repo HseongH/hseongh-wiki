@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+  /* DESIGN.md tokens to be mapped in Task 4 */
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
