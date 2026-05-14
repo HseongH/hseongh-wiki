@@ -1,6 +1,6 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { injectContentFiles, MarkdownComponent } from '@analogjs/content';
+import { injectContentFiles, injectContentFilesMap, MarkdownComponent } from '@analogjs/content';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { BadgeComponent } from '../../components/badge/badge.component';
@@ -26,7 +26,7 @@ interface GlossaryAttrs {
             <app-badge variant="neutral">{{ d }}</app-badge>
           }
         </div>
-        <analog-markdown [content]="e.content ?? ''" classes="prose" />
+        <analog-markdown [content]="body()" classes="prose" />
       </section>
     } @else {
       <p class="mx-auto max-w-(--container-article) px-6 py-12">용어를 찾을 수 없습니다.</p>
@@ -43,6 +43,7 @@ export default class GlossaryTermPage {
   private files = injectContentFiles<GlossaryAttrs>((f) =>
     f.filename.startsWith('/src/content/_glossary/')
   );
+  private filesMap = injectContentFilesMap();
 
   entry = computed(() => {
     const s = this.termSlug();
@@ -50,4 +51,41 @@ export default class GlossaryTermPage {
       (f) => f.slug === s || f.filename === `/src/content/_glossary/${s}.md`
     );
   });
+
+  rawHtml = signal<string>('');
+
+  constructor() {
+    effect((onCleanup) => {
+      const e = this.entry();
+      if (!e) {
+        this.rawHtml.set('');
+        return;
+      }
+      const loader = (this.filesMap as Record<string, unknown>)[e.filename];
+      if (typeof loader !== 'function') {
+        this.rawHtml.set('');
+        return;
+      }
+      let cancelled = false;
+      onCleanup(() => {
+        cancelled = true;
+      });
+      (loader as () => Promise<string>)()
+        .then((raw) => {
+          if (cancelled) return;
+          this.rawHtml.set(stripFrontmatter(raw));
+        })
+        .catch(() => {
+          if (cancelled) return;
+          this.rawHtml.set('');
+        });
+    });
+  }
+
+  body = computed(() => this.rawHtml());
+}
+
+function stripFrontmatter(raw: string): string {
+  if (typeof raw !== 'string') return '';
+  return raw.replace(/^---\n[\s\S]*?\n---\n\n?/, '');
 }

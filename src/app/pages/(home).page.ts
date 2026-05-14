@@ -6,6 +6,7 @@ import { PostCardComponent, PostCardData } from '../components/post-card/post-ca
 interface WikiAttrs {
   project: string;
   translated_at: string;
+  title?: string;
 }
 
 @Component({
@@ -36,25 +37,24 @@ export default class HomePage {
       (b.attributes.translated_at ?? '').localeCompare(a.attributes.translated_at ?? '')
     )
     .slice(0, 12)
-    .map((f) => {
-      const content = typeof f.content === 'string' ? f.content : '';
-      return {
-        title: this.extractTitle(content),
-        excerpt: this.extractExcerpt(content),
-        project: f.attributes.project,
-        translatedAt: f.attributes.translated_at,
-        href: f.slug?.replace(/^\/src\/content/, '') ?? '/',
-      };
-    });
+    .map((f) => ({
+      title: f.attributes.title ?? titleFromFilename(f.filename),
+      excerpt: '',
+      project: f.attributes.project,
+      translatedAt: f.attributes.translated_at,
+      href: hrefFromFilename(f.filename),
+    }));
+}
 
-  private extractTitle(md: string): string {
-    return md.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? '제목 없음';
-  }
+// `injectContentFiles()` exposes only frontmatter and a basename `slug`, so the
+// route URL and a fallback title are derived from `filename` until per-page
+// `title` fields are added to wiki frontmatter.
+function hrefFromFilename(filename: string): string {
+  return filename
+    .replace(/^\/src\/content\/wiki\//, '/wiki/')
+    .replace(/\.md$/, '');
+}
 
-  private extractExcerpt(md: string): string {
-    const para = md
-      .split('\n\n')
-      .find((b) => b.trim() && !b.startsWith('#') && !b.startsWith('---') && !b.startsWith('>'));
-    return (para ?? '').replace(/\s+/g, ' ').slice(0, 160);
-  }
+function titleFromFilename(filename: string): string {
+  return filename.split('/').pop()?.replace(/\.md$/, '') ?? '';
 }

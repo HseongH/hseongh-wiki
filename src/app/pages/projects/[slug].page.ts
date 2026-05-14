@@ -1,6 +1,6 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { injectContentFiles, MarkdownComponent } from '@analogjs/content';
+import { injectContentFiles, injectContentFilesMap, MarkdownComponent } from '@analogjs/content';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { BadgeComponent } from '../../components/badge/badge.component';
@@ -40,7 +40,7 @@ interface WikiAttrs {
           }
         </div>
 
-        <analog-markdown [content]="p.content ?? ''" classes="prose max-w-none" />
+        <analog-markdown [content]="body()" classes="prose max-w-none" />
 
         <h2 class="headline-md mt-12 mb-4">번역된 페이지</h2>
         <ul class="space-y-2">
@@ -72,6 +72,8 @@ export default class ProjectPage {
     f.filename.startsWith('/src/content/wiki/')
   );
 
+  private filesMap = injectContentFilesMap();
+
   project = computed(() => {
     const s = this.slug();
     return this.projectFiles.find(
@@ -79,18 +81,65 @@ export default class ProjectPage {
     );
   });
 
+  rawHtml = signal<string>('');
+
+  constructor() {
+    effect((onCleanup) => {
+      const p = this.project();
+      if (!p) {
+        this.rawHtml.set('');
+        return;
+      }
+      const loader = (this.filesMap as Record<string, unknown>)[p.filename];
+      if (typeof loader !== 'function') {
+        this.rawHtml.set('');
+        return;
+      }
+      let cancelled = false;
+      onCleanup(() => {
+        cancelled = true;
+      });
+      (loader as () => Promise<string>)()
+        .then((raw) => {
+          if (cancelled) return;
+          this.rawHtml.set(stripFrontmatter(raw));
+        })
+        .catch(() => {
+          if (cancelled) return;
+          this.rawHtml.set('');
+        });
+    });
+  }
+
+  body = computed(() => this.rawHtml());
+
   pagesForProject = computed(() => {
     const p = this.project();
     if (!p) return [];
     return this.wikiFiles
       .filter((f) => f.attributes.project === p.attributes.project)
-      .map((f) => {
-        const content = typeof f.content === 'string' ? f.content : '';
-        return {
-          title: (content.match(/^#\s+(.+)$/m)?.[1] ?? '').trim(),
-          href: f.slug?.replace(/^\/src\/content/, '') ?? '/',
-          translated_at: f.attributes.translated_at,
-        };
-      });
+      .map((f) => ({
+        title: wikiTitleFromFilename(f.filename),
+        href: hrefFromWikiFilename(f.filename),
+        translated_at: f.attributes.translated_at,
+      }));
   });
+}
+
+function stripFrontmatter(raw: string): string {
+  if (typeof raw !== 'string') return '';
+  return raw.replace(/^---\n[\s\S]*?\n---\n\n?/, '');
+}
+
+// `injectContentFiles` exposes only frontmatter and a basename `slug`, so derive
+// link target and title from `filename` until a per-page title field is added.
+function hrefFromWikiFilename(filename: string): string {
+  return filename
+    .replace(/^\/src\/content\/wiki\//, '/wiki/')
+    .replace(/\.md$/, '');
+}
+
+function wikiTitleFromFilename(filename: string): string {
+  const base = filename.split('/').pop()?.replace(/\.md$/, '') ?? '';
+  return base;
 }
