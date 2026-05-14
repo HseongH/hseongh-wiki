@@ -1,0 +1,9 @@
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "hseongh-wiki",
+  "compatibility_date": "2026-05-14",
+  "assets": {
+    "directory": "./dist/analog/public",
+    "not_found_handling": "single-page-application"
+  }
+}

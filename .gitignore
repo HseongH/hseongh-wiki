@@ -47,6 +47,11 @@ yarn-error.log
 /.nx/
 /.vite/
 
+# Cloudflare Workers / Wrangler
+.wrangler/
+.dev.vars
+worker-configuration.d.ts
+
 # Misc
 .sass-cache/
 /connect.lock
