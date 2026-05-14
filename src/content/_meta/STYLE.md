@@ -12,7 +12,7 @@
 
 - 첫 등장 시 `한국어(원어)` 형태로 병기. 이후 같은 페이지 안에서는 한국어만 사용.
 - 한국어 정착어가 없으면 원어 유지 (예: hook).
-- 약어는 그대로 유지 (API, REST, HTTP, URL, JSON 등).
+- 약어는 그대로 유지 (API, REST, HTTP, URL, JSON, CI, SBOM, JSR, POSIX, CAS 등).
 
 ## 코드 블록
 
@@ -25,6 +25,12 @@
 - 원문의 헤딩 구조, 단락 순서, 코드 예시 위치, 이미지 위치, 강조(굵게/이탤릭) 위치를 그대로 유지합니다.
 - 의역·번역자 주석·재구성은 본문에 넣지 않습니다. 필요한 정리는 본문 바깥(채팅, 향후 `_notes/`)에서만.
 
+## 외부 docs 의 상대 경로 처리
+
+- 다른 위키 페이지를 가리키는 상대 링크는 `.md` 확장자를 떼고 사용: `./workspaces.md` → `./workspaces`. AnalogJS 파일 기반 라우팅이 정상 해석.
+- 외부 docs 사이트의 이미지 (`/img/...`) 는 절대 URL 로 재작성: `/img/foo.svg` → `https://pnpm.io/img/foo.svg`. alt 텍스트는 번역.
+- Docusaurus admonition (`:::tip`, `:::warning`, `:::info`, `:::caution`) 는 그대로 유지. 향후 marked 플러그인으로 스타일 부여 검토.
+
 ## 용어 결정 표
 
 | 원어 | 한국어 정착어 | status | 결정일 | 비고 |
@@ -35,9 +41,17 @@
 | monorepo | 모노레포 | 정착어 | 2026-05-14 | |
 | lockfile | 락 파일 | 정착어 | 2026-05-14 | |
 | content-addressable storage | 콘텐츠 주소화 저장소 | 정착어 | 2026-05-14 | content-addressable filesystem 도 같은 정착어 적용 |
-| hard-link | 하드 링크 | 정착어 | 2026-05-14 | |
+| hard link | 하드 링크 | 정착어 | 2026-05-14 | hard-link 표기도 동일 |
+| symbolic link | 심볼릭 링크 | 정착어 | 2026-05-14 | symlink 도 같은 정착어 |
+| hoisting | 호이스팅 | 정착어 | 2026-05-14 | hoisted 형태 포함 |
+| registry | 레지스트리 | 정착어 | 2026-05-14 | |
+| workspace | 워크스페이스 | 정착어 | 2026-05-14 | |
+| junction | 정션 | 정착어 | 2026-05-14 | Windows 의 파일 시스템 링크 (첫 등장 시 `정션(junction)`) |
+| catalog | 카탈로그 | 정착어 | 2026-05-14 | pnpm 의 catalogs 기능명 |
 | reflink | reflink | 원어유지 | 2026-05-14 | copy-on-write 의 의미로 함께 사용됨 |
 | hook | hook | 원어유지 | 2026-05-14 | 한국어 정착어 없음 |
+| Plug'n'Play | Plug'n'Play | 원어유지 | 2026-05-14 | Yarn 의 기능명 (PnP) |
+| Corepack | Corepack | 원어유지 | 2026-05-14 | Node.js 의 패키지 매니저 관리 기능 |
 
 상태값:
 

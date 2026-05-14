@@ -28,10 +28,21 @@ export const shikiOptions = {
       'markdown',
       'bash',
       'shell',
+      'shellsession',
+      'console',
+      'powershell',
+      'dockerfile',
       'python',
       'yaml',
       'toml',
+      'diff',
     ] as BundledLanguage[],
+    langAlias: {
+      // Map languages Shiki doesn't recognize natively to safe equivalents.
+      sh: 'bash',
+      text: 'plaintext',
+      txt: 'plaintext',
+    },
   },
   highlight: {
     themes: {

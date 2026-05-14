@@ -7,6 +7,25 @@
 
 ---
 
+## [2026-05-14] ingest | pnpm.io docs 1차 (foundational)
+
+원문: [github.com/pnpm/pnpm.io](https://github.com/pnpm/pnpm.io) / commit `5b4b807`
+
+번역 페이지 (6):
+- [[wiki/pnpm/motivation]] — 동기
+- [[wiki/pnpm/installation]] — 설치
+- [[wiki/pnpm/pnpm-cli]] — pnpm CLI 개요
+- [[wiki/pnpm/feature-comparison]] — npm/Yarn 과의 기능 비교
+- [[wiki/pnpm/faq]] — 자주 묻는 질문
+- [[wiki/pnpm/pnpm-vs-npm]] — pnpm vs npm
+
+신규 용어집 (5): [[_glossary/symbolic-link]], [[_glossary/hoisting]], [[_glossary/registry]], [[_glossary/workspace]], [[_glossary/hard-link]] (이전엔 STYLE.md 결정만 있고 페이지 없음 → 페이지 생성)
+
+영향받은 페이지:
+- `_meta/index.md` (프로젝트/용어집/최근 작업 갱신)
+- `_meta/STYLE.md` (용어 결정 표에 신규 항목 + 외부 docs 처리 규칙 추가: 상대 경로 `.md` 제거, 이미지 절대 URL, admonition 유지)
+- `_projects/pnpm.md` (번역된 페이지 목록에 6개 추가, docs_repo 필드 신규)
+
 ## [2026-05-14] setup | AnalogJS 사이트 v1 배포
 
 위키 콘텐츠를 렌더링하는 AnalogJS 정적 사이트 v1 구현 + Cloudflare Workers 배포 완료.
