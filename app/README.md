@@ -1,59 +1,21 @@
-# App
+# app — HseongH 위키 사이트
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.11.
+AnalogJS + Angular 21 + Tailwind v4.
 
-## Development server
-
-To start a local development server, run:
+## 개발
 
 ```bash
-ng serve
+pnpm install
+pnpm dev          # 개발 서버 (http://localhost:4200)
+pnpm build        # 프로덕션 빌드 → dist/analog/public/
+pnpm test:unit    # vitest 단위 테스트
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 구조
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `src/content/` — 위키 콘텐츠 (마크다운). 자세한 모델은 루트의 `CLAUDE.md` 참조.
+- `src/app/pages/` — 파일 기반 라우팅 (AnalogJS)
+- `src/app/components/` — 공유 UI
+- `src/app/services/` — 도메인 / 테마 등 서비스
+- `src/lib/` — remark/marked 플러그인 + 빌드 타임 유틸
+- `src/styles/` — Tailwind 진입점 + DESIGN.md 토큰
