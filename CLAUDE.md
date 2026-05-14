@@ -12,18 +12,22 @@
 
 ```
 hseongh-wiki/
-├── index.md          # 전역 카탈로그. 첫 진입점
-├── log.md            # 시간순 작업 로그
-├── STYLE.md          # 톤 앤 매너 + 용어 결정 표 (본문 작성의 단일 진실 소스)
-├── _glossary/        # 용어 페이지 (글로벌 공유)
-├── _projects/        # 프로젝트 카드
-└── wiki/             # 본문 — 프로젝트별 폴더, 원본 repo 구조를 따라감
-    └── <project>/
+├── CLAUDE.md             # 이 파일 — LLM 운영 매뉴얼
+├── README.md             # 사람용 프로젝트 소개
+├── docs/                 # 설계 문서, 구현 계획
+└── app/                  # AnalogJS 사이트
+    └── src/
+        └── content/      # 모든 마크다운 콘텐츠
+            ├── _meta/    # index.md, log.md, STYLE.md, domains.yml
+            ├── _glossary/# 용어 페이지 (글로벌 공유)
+            ├── _projects/# 프로젝트 카드
+            └── wiki/     # 본문 — 프로젝트별 폴더, 원본 repo 구조를 따라감
+                └── <project>/
 ```
 
 ## 페이지 템플릿
 
-### 본문 페이지 (`wiki/<project>/<path>.md`)
+### 본문 페이지 (`app/src/content/wiki/<project>/<path>.md`)
 
 ```markdown
 ---
@@ -48,7 +52,7 @@ tags: [...]
 - [[wiki/<project>/<adjacent-page>]]
 ```
 
-### 용어집 (`_glossary/<term>.md`)
+### 용어집 (`app/src/content/_glossary/<term>.md`)
 
 ```markdown
 ---
@@ -67,11 +71,12 @@ status: 정착어   # 정착어 | 원어유지 | 미정
 - [[wiki/<project>/<path>]]
 ```
 
-### 프로젝트 카드 (`_projects/<project>.md`)
+### 프로젝트 카드 (`app/src/content/_projects/<project>.md`)
 
 ```markdown
 ---
 project: react
+domain: frontend
 source_repo: <repo URL>
 official_site: <site URL>
 last_ingest: YYYY-MM-DD
@@ -90,7 +95,7 @@ last_ingest: YYYY-MM-DD
 
 ## 톤 앤 매너
 
-`STYLE.md` 가 본문 작성의 단일 진실 소스입니다. 모든 본문은 STYLE.md 의 문체·용어·약어 규칙을 따릅니다.
+`app/src/content/_meta/STYLE.md` 가 본문 작성의 단일 진실 소스입니다. 모든 본문은 STYLE.md 의 문체·용어·약어 규칙을 따릅니다.
 
 핵심 (자세한 건 STYLE.md):
 - 격식체 (`~합니다` / `~입니다`)
@@ -110,21 +115,22 @@ last_ingest: YYYY-MM-DD
 
 1. 사용자가 번역 대상 (URL 또는 GitHub repo 경로) 을 지정합니다.
 2. 원문을 읽고 핵심 내용을 사용자와 짧게 확인합니다.
-3. `wiki/<project>/<path>.md` 에 충실한 번역을 작성합니다. 페이지 템플릿 준수.
+3. `app/src/content/wiki/<project>/<path>.md` 에 충실한 번역을 작성합니다. 페이지 템플릿 준수.
 4. 본문에서 처음 등장하는 용어:
-   - `_glossary/<term>.md` 가 없으면 신규 생성
+   - `app/src/content/_glossary/<term>.md` 가 없으면 신규 생성
    - 있으면 "등장하는 문서" 목록에 본 페이지 추가
-   - 새 정착어가 결정되면 `STYLE.md` 의 용어 결정 표 갱신
-5. `_projects/<project>.md` 의 "번역된 페이지" 목록과 `last_ingest` 를 갱신합니다.
-6. `index.md` 의 프로젝트/용어집/최근 작업 섹션을 갱신합니다.
-7. `log.md` 에 `## [YYYY-MM-DD] ingest | <Project>: <Page Title>` 형식의 항목을 추가합니다.
+   - 새 정착어가 결정되면 `app/src/content/_meta/STYLE.md` 의 용어 결정 표 갱신
+4-1. 새 프로젝트가 새 도메인에 속하는데 `app/src/content/_meta/domains.yml` 에 없으면 사용자에게 도메인 항목을 제안하고 확인 후 추가합니다. 프로젝트 카드 frontmatter 의 `domain` 필드는 필수입니다.
+5. `app/src/content/_projects/<project>.md` 의 "번역된 페이지" 목록과 `last_ingest` 를 갱신합니다.
+6. `app/src/content/_meta/index.md` 의 프로젝트/용어집/최근 작업 섹션을 갱신합니다.
+7. `app/src/content/_meta/log.md` 에 `## [YYYY-MM-DD] ingest | <Project>: <Page Title>` 형식의 항목을 추가합니다.
 
 한 번의 ingest 가 영향을 주는 페이지는 보통 5–10개. 일관성을 위해 모두 한 번에 갱신합니다.
 
 ### Query — 위키 질의
 
 1. 사용자 질문 수신.
-2. `index.md` → 관련 `_projects/` 또는 `_glossary/` → 본문 페이지 순으로 탐색합니다.
+2. `app/src/content/_meta/index.md` → 관련 `app/src/content/_projects/` 또는 `app/src/content/_glossary/` → 본문 페이지 순으로 탐색합니다.
 3. 답변에는 위키 페이지 인용을 포함합니다 (예: `[[wiki/react/learn/your-first-component]]` 참고).
 4. 답변이 충실한 번역 원칙 안에서 정리 가능하면 적절한 본문 페이지나 용어집 항목을 보강합니다. 본문 충실성을 깨는 commentary 가 필요하면 본문은 건드리지 않고 채팅 안에서만 정리합니다.
 
@@ -133,10 +139,10 @@ last_ingest: YYYY-MM-DD
 사용자가 요청하면 다음을 점검하고 보고합니다:
 
 - 원문이 갱신되었는데 번역 페이지 동기화가 안 된 곳 (`source_commit` 비교)
-- 용어 사용 일관성 (`STYLE.md` 의 정착어와 다르게 본문에 쓰인 곳)
+- 용어 사용 일관성 (`app/src/content/_meta/STYLE.md` 의 정착어와 다르게 본문에 쓰인 곳)
 - orphan 페이지 (어디서도 링크되지 않는 페이지)
-- `_glossary/` 의 정의가 빈약한 항목
-- `_projects/` 의 `last_ingest` 가 실제 갱신 이력과 어긋난 곳
+- `app/src/content/_glossary/` 의 정의가 빈약한 항목
+- `app/src/content/_projects/` 의 `last_ingest` 가 실제 갱신 이력과 어긋난 곳
 
 Lint 결과는 보고만 하고 자동 수정은 하지 않습니다. 사용자 결정 후 일괄 처리합니다.
 
@@ -145,11 +151,27 @@ Lint 결과는 보고만 하고 자동 수정은 하지 않습니다. 사용자 
 모든 항목은 `## [YYYY-MM-DD] <type> | <Title>` 헤딩으로 시작합니다.
 `<type>` ∈ { ingest, query, lint, glossary, style, setup }.
 
-`grep "^## \[" log.md` 로 타임라인을 빠르게 훑을 수 있습니다.
+`grep "^## \[" app/src/content/_meta/log.md` 로 타임라인을 빠르게 훑을 수 있습니다.
 
 ## 주의
 
 - 본문의 "충실한 번역" 원칙은 협상 가능하지 않습니다. 의역·주석·재구성이 필요하면 본문이 아닌 채팅이나 향후 도입할 `_notes/` 영역에 둡니다.
-- 정착어 결정은 `STYLE.md` 가 단일 진실 소스. 본문에서 다른 표기가 발견되면 lint 가 잡아냅니다.
+- 정착어 결정은 `app/src/content/_meta/STYLE.md` 가 단일 진실 소스. 본문에서 다른 표기가 발견되면 lint 가 잡아냅니다.
 - 이 폴더는 git 저장소이며 `origin` 은 `git@github.com:HseongH/hseongh-wiki.git` 입니다. 변경은 commit + push 로 반영합니다.
-- LLM 은 본문을 작성하기 전에 항상 `STYLE.md` 를 먼저 확인합니다. 새 용어 결정이 본 작업 중 발생하면 본문 작성 전에 `STYLE.md` 갱신을 완료해야 합니다.
+- LLM 은 본문을 작성하기 전에 항상 `app/src/content/_meta/STYLE.md` 를 먼저 확인합니다. 새 용어 결정이 본 작업 중 발생하면 본문 작성 전에 STYLE.md 갱신을 완료해야 합니다.
+
+## Angular / AnalogJS 작업 시
+
+이 저장소의 `app/` 은 Angular 21 + AnalogJS 기반입니다. Angular 코드를 생성·수정할 때는 다음 스킬을 적극 활용합니다:
+
+- **`/angular-new-app`** — 새 프로젝트나 컴포넌트 스캐폴드가 필요할 때
+- **`/angular-developer`** — Angular 베스트 프랙티스 (시그널·RxJS·라우팅 등) 가 필요할 때
+
+스킬을 호출하지 않고 임의로 코드를 작성하지 않습니다. 일관된 패턴 유지가 목적.
+
+빌드/실행:
+- 개발: `cd app && pnpm dev` (Vite, http://localhost:4200)
+- 빌드: `cd app && pnpm build` (산출물: `app/dist/analog/public/`)
+- 테스트: `cd app && pnpm test:unit` (vitest)
+
+배포: `main` 브랜치 푸시 시 Cloudflare Pages 가 자동 빌드 + 배포.
