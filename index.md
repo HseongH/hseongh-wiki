@@ -4,17 +4,21 @@ IT 공식문서 한국어 번역 위키. 본문은 충실한 번역, 그 위에 
 
 ## 프로젝트
 
-(아직 없음. 첫 ingest 시 [[_projects/...]] 항목이 추가됩니다.)
+- [[_projects/pnpm]] — 디스크 공간 효율이 뛰어난 Node.js 패키지 매니저
 
 ## 용어집
 
-(아직 없음. 첫 ingest 시 [[_glossary/...]] 항목이 추가됩니다.)
+- [[_glossary/content-addressable-storage]] — 콘텐츠 주소화 저장소
+- [[_glossary/dependency]] — 의존성
+- [[_glossary/lockfile]] — 락 파일
+- [[_glossary/monorepo]] — 모노레포
+- [[_glossary/package]] — 패키지
+- [[_glossary/package-manager]] — 패키지 매니저
 
 ## 최근 작업
 
-(log.md 마지막 5개 항목을 ingest 시마다 미러)
-
-- [[log#2026-05-14 setup 위키 초기화]] — 초기 디렉토리 구조 생성
+- 2026-05-14 `ingest` — [[wiki/pnpm/README]] (pnpm 저장소 README 번역, 용어 6개 신규)
+- 2026-05-14 `setup` — 위키 초기화
 
 ## 빠른 진입점
 
