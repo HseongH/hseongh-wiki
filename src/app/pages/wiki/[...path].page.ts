@@ -1,7 +1,7 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
+import { filter, map, startWith } from 'rxjs';
 import { injectContentFiles, injectContentFilesMap, MarkdownComponent } from '@analogjs/content';
 import { BadgeComponent } from '../../components/badge/badge.component';
 import { DocNavComponent } from '../../components/doc-nav/doc-nav.component';
@@ -47,19 +47,25 @@ interface WikiAttrs {
   `,
 })
 export default class WikiArticlePage {
-  private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private allFiles = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, '_wiki'));
   private filesMap = injectContentFilesMap();
 
-  // Catch-all routes (`**`) reuse the component on URL changes, so subscribe
-  // to the reactive `url` stream rather than reading a one-shot snapshot.
+  // Angular's `**` wildcard does not expose the matched segments on the
+  // activated route, so parse the full URL from the Router instead. Reactive
+  // via NavigationEnd so navigation between catch-all paths re-derives.
   private segments = toSignal(
-    this.route.url.pipe(map((url) => url.map((s) => s.path).join('/'))),
-    { initialValue: this.route.snapshot.url.map((s) => s.path).join('/') }
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      startWith(null),
+      map(() => extractWikiPath(this.router.url))
+    ),
+    { initialValue: extractWikiPath(this.router.url) }
   );
 
   entry = computed(() => {
-    const target = `/src/content/_wiki/${this.segments()}`;
+    const segs = this.segments();
+    const target = `/src/content/_wiki/${segs}`;
     return this.allFiles.find((f) => {
       const fn = normalizeContentFilename(f.filename);
       return fn === `${target}.md` || fn === `${target}/index.md`;
@@ -115,4 +121,13 @@ function stripDuplicateH1(html: string): string {
 function stripFrontmatter(raw: string): string {
   if (typeof raw !== 'string') return '';
   return raw.replace(/^---\n[\s\S]*?\n---\n\n?/, '');
+}
+
+function extractWikiPath(routerUrl: string): string {
+  // Router.url is the full URL ('/wiki/pnpm/motivation?x=1'). Strip the '/wiki/'
+  // prefix plus any query string / fragment so what remains lines up with the
+  // file's project-relative path under src/content/_wiki/.
+  return routerUrl
+    .replace(/[?#].*$/, '')
+    .replace(/^\/wiki\/?/, '');
 }
