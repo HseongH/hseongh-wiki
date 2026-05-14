@@ -239,7 +239,7 @@ If styles ever stop applying, check this import first.
 
 - **`ContentFile.content` is typed `string | object`**. Body pages always have string content, but TypeScript needs narrowing. Use `typeof f.content === 'string' ? f.content : ''` before passing to string-typed helpers.
 - **`injectContent({ customFilename })` accepts a static string, not a function.** For dynamic routes use `injectContentFiles(filter)` and a `computed(() => files.find(...))` against the route param.
-- **Catch-all `[...path].page.ts` becomes Angular's `**` wildcard route.** Named param access (`paramMap.get('path')`) does not work — reconstruct the path from `ActivatedRoute.snapshot.url.map(s => s.path).join('/')` instead.
+- **Catch-all `[...path].page.ts` becomes Angular's `**` wildcard route.** Named param access (`paramMap.get('path')`) does not work — reconstruct the path from `route.url.map(s => s.path).join('/')`. **Use the `route.url` Observable, not `route.snapshot.url`**: Angular reuses the same component instance when navigating between catch-all paths (`ngOnInit` only fires once), so reading the snapshot once leaves the page stuck on the initial content. Wrap with `toSignal(route.url)` and drive `post`/`toc`/etc. via `computed()`.
 - **Markdown pipeline is `marked`, not `remark`.** Production wikilink rewriting lives in `src/lib/marked-wikilink.ts`. `src/lib/remark-wikilink.ts` exists only as a TDD-driven reference implementation of the same resolver logic.
 - **Build outputs**: client to `dist/analog/public/` (this is what Cloudflare serves), server stub to `dist/analog/server/` (unused while SSR is off). Both are gitignored.
 
