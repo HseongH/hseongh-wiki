@@ -84,10 +84,13 @@ export default class ProjectPage {
     if (!p) return [];
     return this.wikiFiles
       .filter((f) => f.attributes.project === p.attributes.project)
-      .map((f) => ({
-        title: (f.content?.match(/^#\s+(.+)$/m)?.[1] ?? '').trim(),
-        href: f.slug?.replace(/^\/src\/content/, '') ?? '/',
-        translated_at: f.attributes.translated_at,
-      }));
+      .map((f) => {
+        const content = typeof f.content === 'string' ? f.content : '';
+        return {
+          title: (content.match(/^#\s+(.+)$/m)?.[1] ?? '').trim(),
+          href: f.slug?.replace(/^\/src\/content/, '') ?? '/',
+          translated_at: f.attributes.translated_at,
+        };
+      });
   });
 }

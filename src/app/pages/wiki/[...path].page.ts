@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { injectContentFiles, MarkdownComponent } from '@analogjs/content';
 import { TocComponent, TocEntry } from '../../components/toc/toc.component';
@@ -29,12 +29,12 @@ interface WikiFile {
         <app-toc [entries]="toc()" />
 
         <article class="body-md">
-          <h1 class="headline-xl mb-2">{{ extractTitle(post()!.content ?? '') }}</h1>
+          <h1 class="headline-xl mb-2">{{ title() }}</h1>
           <p class="label-md mb-6 text-on-surface-variant">
             원문: <a [href]="post()!.attributes.source" class="hover:text-primary">{{ post()!.attributes.source }}</a>
             · 동기화: {{ post()!.attributes.translated_at }} / {{ post()!.attributes.source_commit?.slice(0, 7) }}
           </p>
-          <analog-markdown [content]="post()!.content ?? ''" classes="prose prose-lg max-w-none" />
+          <analog-markdown [content]="markdown()" classes="prose prose-lg max-w-none" />
 
           <div class="mt-12 flex flex-wrap gap-2">
             @for (t of post()!.attributes.tags ?? []; track t) {
@@ -62,6 +62,13 @@ export default class WikiArticlePage implements OnInit {
 
   post = signal<WikiFile | null>(null);
   toc = signal<TocEntry[]>([]);
+
+  markdown = computed(() => {
+    const c = this.post()?.content;
+    return typeof c === 'string' ? c : '';
+  });
+
+  title = computed(() => this.extractTitle(this.markdown()));
 
   ngOnInit(): void {
     // For catch-all route (**), reconstruct path from URL segments.

@@ -77,12 +77,15 @@ export default class DomainPage {
     const projectSlugs = this.projectsInDomain().map((p) => p.project);
     return this.wikiFiles
       .filter((f) => projectSlugs.includes(f.attributes.project))
-      .map((f) => ({
-        title: (f.content?.match(/^#\s+(.+)$/m)?.[1] ?? '').trim(),
-        excerpt: '',
-        project: f.attributes.project,
-        translatedAt: f.attributes.translated_at,
-        href: f.slug?.replace(/^\/src\/content/, '') ?? '/',
-      }));
+      .map((f) => {
+        const content = typeof f.content === 'string' ? f.content : '';
+        return {
+          title: (content.match(/^#\s+(.+)$/m)?.[1] ?? '').trim(),
+          excerpt: '',
+          project: f.attributes.project,
+          translatedAt: f.attributes.translated_at,
+          href: f.slug?.replace(/^\/src\/content/, '') ?? '/',
+        };
+      });
   });
 }

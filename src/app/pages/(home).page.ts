@@ -36,13 +36,16 @@ export default class HomePage {
       (b.attributes.translated_at ?? '').localeCompare(a.attributes.translated_at ?? '')
     )
     .slice(0, 12)
-    .map((f) => ({
-      title: this.extractTitle(f.content ?? ''),
-      excerpt: this.extractExcerpt(f.content ?? ''),
-      project: f.attributes.project,
-      translatedAt: f.attributes.translated_at,
-      href: f.slug?.replace(/^\/src\/content/, '') ?? '/',
-    }));
+    .map((f) => {
+      const content = typeof f.content === 'string' ? f.content : '';
+      return {
+        title: this.extractTitle(content),
+        excerpt: this.extractExcerpt(content),
+        project: f.attributes.project,
+        translatedAt: f.attributes.translated_at,
+        href: f.slug?.replace(/^\/src\/content/, '') ?? '/',
+      };
+    });
 
   private extractTitle(md: string): string {
     return md.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? '제목 없음';
