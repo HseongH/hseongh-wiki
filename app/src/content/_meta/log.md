@@ -7,6 +7,18 @@
 
 ---
 
+## [2026-05-14] setup | AnalogJS 사이트 v1 구현
+
+위키 콘텐츠를 렌더링하는 AnalogJS 정적 사이트 v1 구현 완료. Cloudflare Pages 연결은 별도 사용자 작업.
+
+- **스택**: Angular 21 + AnalogJS 2.5.1 + Tailwind v4 + Shiki + pnpm
+- **레이아웃**: 7개 페이지 타입 (`/`, `/about`, `/wiki/:project/*`, `/projects/:slug`, `/domains/:id`, `/glossary`, `/glossary/:term`)
+- **기능**: 다크 모드 (localStorage 유지), 위키링크 빌드 타임 변환 (`[[...]]` → `<a>` 한국어 정착어 자동), Shiki 코드 하이라이트 (dual theme)
+- **빌드 산출**: `app/dist/analog/public/` (SPA shell + 클라이언트 라우팅)
+- **구현 계획**: [docs/superpowers/plans/2026-05-14-angular-blog-implementation.md](../../../docs/superpowers/plans/2026-05-14-angular-blog-implementation.md)
+- **사이트 설계**: [docs/superpowers/specs/2026-05-14-angular-blog-design.md](../../../docs/superpowers/specs/2026-05-14-angular-blog-design.md)
+- **남은 작업**: Cloudflare Pages 대시보드 연결 (수동), 배포 후 Lighthouse 측정
+
 ## [2026-05-14] ingest | pnpm: README
 
 원문: [github.com/pnpm/pnpm/blob/main/README.md](https://github.com/pnpm/pnpm/blob/main/README.md) / commit `94240bc`
