@@ -17,7 +17,7 @@ HseongH 위키의 markdown 콘텐츠를 렌더링하는 **AnalogJS 기반의 정
 | 코드 하이라이트 | Shiki (dual-theme light/dark) |
 | 폰트 | 셀프 호스트 — Hanken Grotesk · Source Serif 4 · JetBrains Mono |
 | 다크 모드 | v1 포함 (`html.dark` 클래스 + Tailwind `dark:` variant + localStorage) |
-| 저장소 레이아웃 | 같은 repo, 앱은 `app/` 서브폴더, 콘텐츠는 `app/src/content/` 로 이동 |
+| 저장소 레이아웃 | 단일 repo, AnalogJS 프로젝트가 루트, 콘텐츠는 `src/content/` |
 | 콘텐츠 카테고리 | 도메인 기반 (`_meta/domains.yml`) — 프로젝트가 도메인에 속함 |
 | 배포 타깃 | Cloudflare Pages (`main` 푸시 시 자동 빌드) |
 | 패키지 매니저 | pnpm (위키 콘텐츠와 일치, 학습 효과) |
@@ -27,52 +27,49 @@ HseongH 위키의 markdown 콘텐츠를 렌더링하는 **AnalogJS 기반의 정
 ## 저장소 구조
 
 ```
-hseongh-wiki/
-├── app/                              ← AnalogJS 프로젝트 (신규)
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── pages/                ← 파일 기반 라우팅
-│   │   │   │   ├── (home).page.ts
-│   │   │   │   ├── about.page.ts
-│   │   │   │   ├── domains/[id].page.ts
-│   │   │   │   ├── projects/[slug].page.ts
-│   │   │   │   ├── wiki/[...path].page.ts
-│   │   │   │   ├── glossary/(index).page.ts
-│   │   │   │   └── glossary/[term].page.ts
-│   │   │   └── components/           ← UI 컴포넌트 (Header, Footer, TOC, PostCard, DomainSidebar, ...)
-│   │   ├── content/                  ← ★ 위키 콘텐츠 이주 후 위치
-│   │   │   ├── wiki/
-│   │   │   │   └── pnpm/
-│   │   │   │       └── README.md
-│   │   │   ├── _glossary/*.md
-│   │   │   ├── _projects/*.md        ← 각 파일에 domain 필드 추가
-│   │   │   └── _meta/
-│   │   │       ├── domains.yml
-│   │   │       ├── index.md
-│   │   │       ├── log.md
-│   │   │       └── STYLE.md
-│   │   ├── styles/                   ← Tailwind 진입점 + 커스텀 레이어
-│   │   ├── main.ts
-│   │   └── index.html
-│   ├── public/
-│   │   └── fonts/                    ← woff2 셀프 호스트
-│   ├── angular.json
-│   ├── package.json
-│   ├── tailwind.config.ts (또는 v4 의 CSS-first 설정)
-│   ├── vite.config.ts
-│   └── README.md                     ← 개발 셋업 안내
-├── docs/                              ← 기존 spec
-├── stitch_visual_study_archive/       ← 디자인 참고자료 (유지)
-├── CLAUDE.md                          ← 새 구조 반영해 갱신
-├── README.md                          ← 위키 + 사이트 양쪽 안내
-└── .gitignore                         ← app/node_modules/, app/dist/, app/.angular/, .DS_Store 추가
+hseongh-wiki/                          ← AnalogJS 프로젝트 루트
+├── src/
+│   ├── app/
+│   │   ├── pages/                    ← 파일 기반 라우팅
+│   │   │   ├── (home).page.ts
+│   │   │   ├── about.page.ts
+│   │   │   ├── domains/[id].page.ts
+│   │   │   ├── projects/[slug].page.ts
+│   │   │   ├── wiki/[...path].page.ts
+│   │   │   ├── glossary/(index).page.ts
+│   │   │   └── glossary/[term].page.ts
+│   │   └── components/               ← UI 컴포넌트 (Header, Footer, TOC, PostCard, DomainSidebar, ...)
+│   ├── content/                      ← ★ 위키 콘텐츠
+│   │   ├── wiki/
+│   │   │   └── pnpm/
+│   │   │       └── README.md
+│   │   ├── _glossary/*.md
+│   │   ├── _projects/*.md            ← 각 파일에 domain 필드
+│   │   └── _meta/
+│   │       ├── domains.yml
+│   │       ├── index.md
+│   │       ├── log.md
+│   │       └── STYLE.md
+│   ├── styles/                       ← Tailwind 진입점 + 커스텀 레이어
+│   └── main.ts
+├── public/
+│   └── fonts/                        ← woff2 셀프 호스트
+├── angular.json
+├── package.json
+├── vite.config.ts
+├── index.html
+├── docs/                              ← spec/plan
+├── stitch_visual_study_archive/       ← 디자인 참고자료
+├── CLAUDE.md
+├── README.md
+└── .gitignore
 ```
 
 ## 콘텐츠 모델
 
 ### 도메인 카탈로그
 
-`app/src/content/_meta/domains.yml`:
+`src/content/_meta/domains.yml`:
 
 ```yaml
 domains:
@@ -218,7 +215,7 @@ DESIGN.md 의 light 만 정의됨. dark 는 다음 원칙으로 파생:
 
 ### 폰트 로딩
 
-- woff2 셀프 호스트 → `app/public/fonts/`
+- woff2 셀프 호스트 → `public/fonts/`
 - `@font-face` 정의 + `font-display: swap`
 - 외부 CDN 의존 제거, CLS 통제
 
@@ -264,13 +261,13 @@ DESIGN.md 의 light 만 정의됨. dark 는 다음 원칙으로 파생:
 1. **스캐폴드** (`/angular-new-app` 스킬 활용):
    ```
    ng new app --routing --style=css --strict --package-manager=pnpm --skip-git
-   cd app
+   
    ng add @analogjs/platform
    ```
    Angular 21 호환성 검증. 미지원 시 Angular 20 으로 내림.
 2. **TailwindCSS 설정**: v4 (CSS-first) 또는 v3 (config 파일). DESIGN.md 토큰 → 테마 매핑.
-3. **폰트 다운로드**: Hanken Grotesk / Source Serif 4 / JetBrains Mono woff2 → `app/public/fonts/`.
-4. **콘텐츠 이주**: 루트의 `wiki/`, `_glossary/`, `_projects/`, `index.md`/`log.md`/`STYLE.md` → `app/src/content/` 안으로. `_meta/domains.yml` 신규 작성. `_projects/pnpm.md` 에 `domain: tooling` 추가.
+3. **폰트 다운로드**: Hanken Grotesk / Source Serif 4 / JetBrains Mono woff2 → `public/fonts/`.
+4. **콘텐츠 이주**: 루트의 `wiki/`, `_glossary/`, `_projects/`, `index.md`/`log.md`/`STYLE.md` → `src/content/` 안으로. `_meta/domains.yml` 신규 작성. `_projects/pnpm.md` 에 `domain: tooling` 추가.
 5. **페이지 컴포넌트 작성** (`/angular-developer` 스킬 활용): 7개 라우트.
 6. **remark 플러그인 체인**: 위키링크 변환, 글로서리 자동 텍스트, Shiki 코드 하이라이트, TOC 데이터 추출.
 7. **다크 모드 토글**: 헤더 컴포넌트 + localStorage.
@@ -282,7 +279,7 @@ DESIGN.md 의 light 만 정의됨. dark 는 다음 원칙으로 파생:
 콘텐츠 이주 후 CLAUDE.md 의 ingest 절차에서 경로만 변경:
 
 - 이전: `wiki/<project>/<path>.md` (루트)
-- 이후: `app/src/content/wiki/<project>/<path>.md`
+- 이후: `src/content/wiki/<project>/<path>.md`
 
 핵심 흐름(번역 → 용어집 갱신 → 프로젝트 카드 갱신 → index/log)은 동일. 새로 추가될 단계:
 
