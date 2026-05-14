@@ -6,6 +6,7 @@ import { map } from 'rxjs';
 import { BadgeComponent } from '../../components/badge/badge.component';
 import { DocNavComponent } from '../../components/doc-nav/doc-nav.component';
 import { wikiTitles } from 'virtual:wiki-titles';
+import { isUnder, normalizeContentFilename, wikiHrefFromFilename, wikiPathFromFilename } from '../../../lib/content-paths';
 
 interface ProjectAttrs {
   project: string;
@@ -70,19 +71,17 @@ export default class ProjectPage {
   );
 
   private projectFiles = injectContentFiles<ProjectAttrs>((f) =>
-    f.filename.startsWith('/src/content/_projects/')
+    isUnder(f.filename, '_projects')
   );
 
-  private wikiFiles = injectContentFiles<WikiAttrs>((f) =>
-    f.filename.startsWith('/src/content/wiki/')
-  );
+  private wikiFiles = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, 'wiki'));
 
   private filesMap = injectContentFilesMap();
 
   project = computed(() => {
     const s = this.slug();
     return this.projectFiles.find(
-      (f) => f.slug === s || f.filename === `/src/content/_projects/${s}.md`
+      (f) => f.slug === s || normalizeContentFilename(f.filename) === `/src/content/_projects/${s}.md`
     );
   });
 
@@ -95,7 +94,7 @@ export default class ProjectPage {
         this.rawHtml.set('');
         return;
       }
-      const loader = (this.filesMap as Record<string, unknown>)[p.filename];
+      const loader = (this.filesMap as Record<string, unknown>)[normalizeContentFilename(p.filename)];
       if (typeof loader !== 'function') {
         this.rawHtml.set('');
         return;
@@ -140,14 +139,10 @@ function stripFrontmatter(raw: string): string {
 // the link target from `filename` and look up the title via the build-time
 // `virtual:wiki-titles` lookup populated by `buildLookups()`.
 function hrefFromWikiFilename(filename: string): string {
-  return filename
-    .replace(/^\/src\/content\/wiki\//, '/wiki/')
-    .replace(/\.md$/, '');
+  return wikiHrefFromFilename(filename);
 }
 
 function wikiTitleFromFilename(filename: string): string {
-  const path = filename
-    .replace(/^\/src\/content\/wiki\//, '')
-    .replace(/\.md$/, '');
+  const path = wikiPathFromFilename(filename);
   return wikiTitles[path]?.title ?? path.split('/').pop() ?? path;
 }

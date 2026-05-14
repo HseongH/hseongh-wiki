@@ -3,6 +3,7 @@ import { injectContentFiles } from '@analogjs/content';
 import { RouterLink } from '@angular/router';
 import { BadgeComponent } from '../../components/badge/badge.component';
 import { DocNavComponent } from '../../components/doc-nav/doc-nav.component';
+import { isUnder } from '../../../lib/content-paths';
 
 interface GlossaryAttrs {
   term: string;
@@ -42,9 +43,7 @@ interface GlossaryAttrs {
   `,
 })
 export default class GlossaryIndexPage {
-  private files = injectContentFiles<GlossaryAttrs>((f) =>
-    f.filename.startsWith('/src/content/_glossary/')
-  );
+  private files = injectContentFiles<GlossaryAttrs>((f) => isUnder(f.filename, '_glossary'));
 
   terms = this.files
     .map((f) => f.attributes)

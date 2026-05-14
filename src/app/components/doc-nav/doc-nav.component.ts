@@ -2,10 +2,7 @@ import { Component, computed } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { injectContentFiles } from '@analogjs/content';
 import { wikiTitles, projectNames } from 'virtual:wiki-titles';
-
-interface AnyAttrs {
-  project?: string;
-}
+import { isUnder, wikiHrefFromFilename, wikiPathFromFilename } from '../../../lib/content-paths';
 
 interface ProjectAttrs {
   project: string;
@@ -38,9 +35,7 @@ interface NavProject {
     <nav class="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto pr-2" aria-label="문서 네비게이션">
       <h2 class="label-md mb-3 text-on-surface-variant uppercase tracking-wide">문서</h2>
       @if (projects().length === 0) {
-        <p class="label-md text-on-surface-variant">
-          프로젝트 로딩 실패 ({{ debug() }})
-        </p>
+        <p class="label-md text-on-surface-variant">번역된 프로젝트가 없습니다.</p>
       }
       <ul class="space-y-4">
         @for (p of projects(); track p.slug) {
@@ -71,22 +66,13 @@ interface NavProject {
   `,
 })
 export class DocNavComponent {
-  private allFiles = injectContentFiles<AnyAttrs>();
+  private projectFiles = injectContentFiles<ProjectAttrs>((f) =>
+    isUnder(f.filename, '_projects')
+  );
 
-  private projectFiles = this.allFiles.filter((f) =>
-    /(^|\/)src\/content\/_projects\//.test(f.filename)
-  ) as Array<{ filename: string; slug: string; attributes: ProjectAttrs }>;
-
-  private wikiFiles = this.allFiles.filter((f) =>
-    /(^|\/)src\/content\/wiki\//.test(f.filename)
-  ) as Array<{ filename: string; slug: string; attributes: WikiAttrs }>;
-
-  // Diagnostic helper exposed so we can see what filenames are reachable when
-  // the project list comes out empty — remove once layout is stable.
-  debug = () => {
-    const sample = this.allFiles.slice(0, 3).map((f) => f.filename).join(' | ');
-    return `total=${this.allFiles.length}, _projects=${this.projectFiles.length}, wiki=${this.wikiFiles.length}, sample=[${sample}]`;
-  };
+  private wikiFiles = injectContentFiles<WikiAttrs>((f) =>
+    isUnder(f.filename, 'wiki')
+  );
 
   projects = computed<NavProject[]>(() => {
     return this.projectFiles
@@ -95,12 +81,10 @@ export class DocNavComponent {
         const pages: NavPage[] = this.wikiFiles
           .filter((w) => w.attributes.project === slug)
           .map((w) => {
-            const path = w.filename
-              .replace(/^\/src\/content\/wiki\//, '')
-              .replace(/\.md$/, '');
+            const path = wikiPathFromFilename(w.filename);
             return {
               title: wikiTitles[path]?.title ?? path.split('/').pop() ?? path,
-              href: `/wiki/${path}`,
+              href: wikiHrefFromFilename(w.filename),
             };
           })
           .sort((a, b) => a.title.localeCompare(b.title, 'ko'));

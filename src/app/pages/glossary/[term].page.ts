@@ -5,6 +5,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { BadgeComponent } from '../../components/badge/badge.component';
 import { DocNavComponent } from '../../components/doc-nav/doc-nav.component';
+import { isUnder, normalizeContentFilename } from '../../../lib/content-paths';
 
 interface GlossaryAttrs {
   term: string;
@@ -45,14 +46,14 @@ export default class GlossaryTermPage {
   );
 
   private files = injectContentFiles<GlossaryAttrs>((f) =>
-    f.filename.startsWith('/src/content/_glossary/')
+    isUnder(f.filename, '_glossary')
   );
   private filesMap = injectContentFilesMap();
 
   entry = computed(() => {
     const s = this.termSlug();
     return this.files.find(
-      (f) => f.slug === s || f.filename === `/src/content/_glossary/${s}.md`
+      (f) => f.slug === s || normalizeContentFilename(f.filename) === `/src/content/_glossary/${s}.md`
     );
   });
 
@@ -65,7 +66,7 @@ export default class GlossaryTermPage {
         this.rawHtml.set('');
         return;
       }
-      const loader = (this.filesMap as Record<string, unknown>)[e.filename];
+      const loader = (this.filesMap as Record<string, unknown>)[normalizeContentFilename(e.filename)];
       if (typeof loader !== 'function') {
         this.rawHtml.set('');
         return;

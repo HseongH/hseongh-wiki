@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { injectContentFiles } from '@analogjs/content';
+import { isUnder } from '../../lib/content-paths';
 
 export interface DomainEntry {
   id: string;
@@ -22,11 +23,9 @@ export interface WikiAttributes {
 @Injectable({ providedIn: 'root' })
 export class DomainService {
   private projects = injectContentFiles<ProjectAttributes>((f) =>
-    f.filename.startsWith('/src/content/_projects/')
+    isUnder(f.filename, '_projects')
   );
-  private wikiPages = injectContentFiles<WikiAttributes>((f) =>
-    f.filename.startsWith('/src/content/wiki/')
-  );
+  private wikiPages = injectContentFiles<WikiAttributes>((f) => isUnder(f.filename, 'wiki'));
 
   // domains.yml is the source of truth — currently mirrored here.
   // TODO (future): load via vite-plugin-yaml or build-time generator.

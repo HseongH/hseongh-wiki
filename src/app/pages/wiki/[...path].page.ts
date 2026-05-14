@@ -5,6 +5,7 @@ import { map } from 'rxjs';
 import { injectContentFiles, injectContentFilesMap, MarkdownComponent } from '@analogjs/content';
 import { BadgeComponent } from '../../components/badge/badge.component';
 import { DocNavComponent } from '../../components/doc-nav/doc-nav.component';
+import { isUnder, normalizeContentFilename } from '../../../lib/content-paths';
 
 interface WikiAttrs {
   source: string;
@@ -47,9 +48,7 @@ interface WikiAttrs {
 })
 export default class WikiArticlePage {
   private route = inject(ActivatedRoute);
-  private allFiles = injectContentFiles<WikiAttrs>((f) =>
-    f.filename.startsWith('/src/content/wiki/')
-  );
+  private allFiles = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, 'wiki'));
   private filesMap = injectContentFilesMap();
 
   // Catch-all routes (`**`) reuse the component on URL changes, so subscribe
@@ -61,11 +60,10 @@ export default class WikiArticlePage {
 
   entry = computed(() => {
     const target = `/src/content/wiki/${this.segments()}`;
-    return this.allFiles.find(
-      (f) =>
-        f.filename === `${target}.md` ||
-        f.filename === `${target}/index.md`
-    );
+    return this.allFiles.find((f) => {
+      const fn = normalizeContentFilename(f.filename);
+      return fn === `${target}.md` || fn === `${target}/index.md`;
+    });
   });
 
   // `injectContentFiles()` returns only frontmatter attributes; the rendered
@@ -80,7 +78,7 @@ export default class WikiArticlePage {
         this.rawHtml.set('');
         return;
       }
-      const loader = (this.filesMap as Record<string, unknown>)[e.filename];
+      const loader = (this.filesMap as Record<string, unknown>)[normalizeContentFilename(e.filename)];
       if (typeof loader !== 'function') {
         this.rawHtml.set('');
         return;

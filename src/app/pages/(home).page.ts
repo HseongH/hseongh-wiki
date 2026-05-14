@@ -3,6 +3,7 @@ import { injectContentFiles } from '@analogjs/content';
 import { wikiTitles } from 'virtual:wiki-titles';
 import { DocNavComponent } from '../components/doc-nav/doc-nav.component';
 import { PostCardComponent, PostCardData } from '../components/post-card/post-card.component';
+import { isUnder, wikiHrefFromFilename, wikiPathFromFilename } from '../../lib/content-paths';
 
 interface WikiAttrs {
   project: string;
@@ -28,9 +29,7 @@ interface WikiAttrs {
   `,
 })
 export default class HomePage {
-  private files = injectContentFiles<WikiAttrs>((f) =>
-    f.filename.startsWith('/src/content/wiki/')
-  );
+  private files = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, 'wiki'));
 
   posts: PostCardData[] = this.files
     .sort((a, b) =>
@@ -38,15 +37,13 @@ export default class HomePage {
     )
     .slice(0, 12)
     .map((f) => {
-      const path = f.filename
-        .replace(/^\/src\/content\/wiki\//, '')
-        .replace(/\.md$/, '');
+      const path = wikiPathFromFilename(f.filename);
       return {
         title: wikiTitles[path]?.title ?? path.split('/').pop() ?? path,
         excerpt: '',
         project: f.attributes.project,
         translatedAt: f.attributes.translated_at,
-        href: `/wiki/${path}`,
+        href: wikiHrefFromFilename(f.filename),
       };
     });
 }

@@ -7,6 +7,7 @@ import { wikiTitles } from 'virtual:wiki-titles';
 import { DomainService } from '../../services/domain.service';
 import { PostCardComponent, PostCardData } from '../../components/post-card/post-card.component';
 import { DocNavComponent } from '../../components/doc-nav/doc-nav.component';
+import { isUnder, wikiHrefFromFilename, wikiPathFromFilename } from '../../../lib/content-paths';
 
 interface ProjectAttrs {
   project: string;
@@ -65,12 +66,8 @@ export default class DomainPage {
     { initialValue: '' }
   );
 
-  private projects = injectContentFiles<ProjectAttrs>((f) =>
-    f.filename.startsWith('/src/content/_projects/')
-  );
-  private wikiFiles = injectContentFiles<WikiAttrs>((f) =>
-    f.filename.startsWith('/src/content/wiki/')
-  );
+  private projects = injectContentFiles<ProjectAttrs>((f) => isUnder(f.filename, '_projects'));
+  private wikiFiles = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, 'wiki'));
 
   domain = computed(() => this.domainService.listDomains().find((d) => d.id === this.id()));
 
@@ -83,15 +80,13 @@ export default class DomainPage {
     return this.wikiFiles
       .filter((f) => projectSlugs.includes(f.attributes.project))
       .map((f) => {
-        const path = f.filename
-          .replace(/^\/src\/content\/wiki\//, '')
-          .replace(/\.md$/, '');
+        const path = wikiPathFromFilename(f.filename);
         return {
           title: wikiTitles[path]?.title ?? path.split('/').pop() ?? path,
           excerpt: '',
           project: f.attributes.project,
           translatedAt: f.attributes.translated_at,
-          href: `/wiki/${path}`,
+          href: wikiHrefFromFilename(f.filename),
         };
       });
   });
