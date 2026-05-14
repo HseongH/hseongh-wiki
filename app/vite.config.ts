@@ -23,6 +23,7 @@ export default defineConfig(({ mode }) => {
         prerender: {
           routes: [],
         },
+        content: {},
       }),
       viteTsConfigPaths(),
     ],
