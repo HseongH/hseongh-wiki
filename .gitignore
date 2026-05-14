@@ -16,3 +16,10 @@ Thumbs.db
 # Env
 .env
 .env.local
+
+# Angular / AnalogJS app
+app/node_modules/
+app/dist/
+app/.angular/
+app/.nx/
+app/.vite/
