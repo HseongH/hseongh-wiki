@@ -7,6 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { shikiOptions } from './src/lib/shiki-config';
 import { buildLookups } from './src/lib/build-lookups';
 import { wikilinkExtension } from './src/lib/marked-wikilink';
+import { wikiTitlesPlugin } from './src/lib/wiki-titles-plugin';
 
 // Build wikilink lookups at startup so [[...]] refs resolve at build time.
 const lookups = buildLookups();
@@ -22,6 +23,7 @@ export default defineConfig(({ mode }) => {
       target: ['es2020'],
     },
     plugins: [
+      wikiTitlesPlugin(),
       tailwindcss(),
       analog({
         ssr: false,

@@ -5,6 +5,7 @@ import { map } from 'rxjs';
 import { injectContentFiles, injectContentFilesMap, MarkdownComponent } from '@analogjs/content';
 import { TocComponent, TocEntry } from '../../components/toc/toc.component';
 import { BadgeComponent } from '../../components/badge/badge.component';
+import { DocNavComponent } from '../../components/doc-nav/doc-nav.component';
 
 interface WikiAttrs {
   source: string;
@@ -17,11 +18,11 @@ interface WikiAttrs {
 @Component({
   selector: 'app-wiki-article',
   standalone: true,
-  imports: [MarkdownComponent, TocComponent, BadgeComponent],
+  imports: [MarkdownComponent, TocComponent, BadgeComponent, DocNavComponent],
   template: `
     @if (entry()) {
       <div class="mx-auto grid max-w-(--container-site) grid-cols-[14rem_minmax(0,720px)_14rem] gap-8 px-6 py-12">
-        <app-toc [entries]="toc()" />
+        <app-doc-nav />
 
         <article class="body-md">
           <h1 class="headline-xl mb-2">{{ title() }}</h1>
@@ -38,12 +39,14 @@ interface WikiAttrs {
           </div>
         </article>
 
-        <aside class="space-y-4">
+        <aside class="space-y-6">
           <app-badge variant="primary">{{ entry()!.attributes.project }}</app-badge>
+          <app-toc [entries]="toc()" />
         </aside>
       </div>
     } @else {
-      <div class="mx-auto max-w-(--container-site) px-6 py-12">
+      <div class="mx-auto grid max-w-(--container-site) grid-cols-[14rem_1fr] gap-8 px-6 py-12">
+        <app-doc-nav />
         <p class="body-md text-on-surface-variant">페이지를 찾을 수 없습니다.</p>
       </div>
     }

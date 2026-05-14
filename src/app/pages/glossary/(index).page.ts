@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { injectContentFiles } from '@analogjs/content';
 import { RouterLink } from '@angular/router';
 import { BadgeComponent } from '../../components/badge/badge.component';
+import { DocNavComponent } from '../../components/doc-nav/doc-nav.component';
 
 interface GlossaryAttrs {
   term: string;
@@ -13,28 +14,31 @@ interface GlossaryAttrs {
 @Component({
   selector: 'app-glossary-index',
   standalone: true,
-  imports: [RouterLink, BadgeComponent],
+  imports: [RouterLink, BadgeComponent, DocNavComponent],
   template: `
-    <section class="mx-auto max-w-(--container-article) px-6 py-12">
-      <h1 class="headline-xl mb-8">용어집</h1>
-      <ul class="space-y-3">
-        @for (t of terms; track t.term) {
-          <li>
-            <a [routerLink]="['/glossary', t.term]" class="flex items-center justify-between rounded p-3 hover:bg-surface-low">
-              <span>
-                <span class="body-md">{{ t.korean }}</span>
-                <span class="label-md text-on-surface-variant"> ({{ t.term }})</span>
-              </span>
-              <span class="flex gap-2">
-                @for (d of t.domains ?? []; track d) {
-                  <app-badge variant="neutral">{{ d }}</app-badge>
-                }
-              </span>
-            </a>
-          </li>
-        }
-      </ul>
-    </section>
+    <div class="mx-auto grid max-w-(--container-site) grid-cols-[14rem_1fr] gap-8 px-6 py-12">
+      <app-doc-nav />
+      <section class="max-w-(--container-article)">
+        <h1 class="headline-xl mb-8">용어집</h1>
+        <ul class="space-y-3">
+          @for (t of terms; track t.term) {
+            <li>
+              <a [routerLink]="['/glossary', t.term]" class="flex items-center justify-between rounded p-3 hover:bg-surface-low">
+                <span>
+                  <span class="body-md">{{ t.korean }}</span>
+                  <span class="label-md text-on-surface-variant"> ({{ t.term }})</span>
+                </span>
+                <span class="flex gap-2">
+                  @for (d of t.domains ?? []; track d) {
+                    <app-badge variant="neutral">{{ d }}</app-badge>
+                  }
+                </span>
+              </a>
+            </li>
+          }
+        </ul>
+      </section>
+    </div>
   `,
 })
 export default class GlossaryIndexPage {

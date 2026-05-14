@@ -4,6 +4,8 @@ import { injectContentFiles, injectContentFilesMap, MarkdownComponent } from '@a
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { BadgeComponent } from '../../components/badge/badge.component';
+import { DocNavComponent } from '../../components/doc-nav/doc-nav.component';
+import { wikiTitles } from 'virtual:wiki-titles';
 
 interface ProjectAttrs {
   project: string;
@@ -23,38 +25,41 @@ interface WikiAttrs {
 @Component({
   selector: 'app-project-page',
   standalone: true,
-  imports: [MarkdownComponent, RouterLink, BadgeComponent],
+  imports: [MarkdownComponent, RouterLink, BadgeComponent, DocNavComponent],
   template: `
-    @if (project(); as p) {
-      <section class="mx-auto max-w-(--container-article) px-6 py-12">
-        <app-badge variant="primary">{{ p.attributes.domain }}</app-badge>
-        <h1 class="headline-xl mt-3">{{ p.attributes.name }}</h1>
-        <p class="body-lg mt-2 text-on-surface-variant">{{ p.attributes.summary }}</p>
+    <div class="mx-auto grid max-w-(--container-site) grid-cols-[14rem_1fr] gap-8 px-6 py-12">
+      <app-doc-nav />
+      @if (project(); as p) {
+        <section class="max-w-(--container-article)">
+          <app-badge variant="primary">{{ p.attributes.domain }}</app-badge>
+          <h1 class="headline-xl mt-3">{{ p.attributes.name }}</h1>
+          <p class="body-lg mt-2 text-on-surface-variant">{{ p.attributes.summary }}</p>
 
-        <div class="my-6 flex gap-4 label-md">
-          @if (p.attributes.source_repo) {
-            <a [href]="p.attributes.source_repo" target="_blank" rel="noopener" class="hover:text-primary">Source repo →</a>
-          }
-          @if (p.attributes.official_site) {
-            <a [href]="p.attributes.official_site" target="_blank" rel="noopener" class="hover:text-primary">Official site →</a>
-          }
-        </div>
+          <div class="my-6 flex gap-4 label-md">
+            @if (p.attributes.source_repo) {
+              <a [href]="p.attributes.source_repo" target="_blank" rel="noopener" class="hover:text-primary">Source repo →</a>
+            }
+            @if (p.attributes.official_site) {
+              <a [href]="p.attributes.official_site" target="_blank" rel="noopener" class="hover:text-primary">Official site →</a>
+            }
+          </div>
 
-        <analog-markdown [content]="body()" classes="prose max-w-none" />
+          <analog-markdown [content]="body()" classes="prose max-w-none" />
 
-        <h2 class="headline-md mt-12 mb-4">번역된 페이지</h2>
-        <ul class="space-y-2">
-          @for (page of pagesForProject(); track page.href) {
-            <li>
-              <a [routerLink]="page.href" class="hover:text-primary">{{ page.title }}</a>
-              <span class="label-md text-on-surface-variant"> · {{ page.translated_at }}</span>
-            </li>
-          }
-        </ul>
-      </section>
-    } @else {
-      <p class="mx-auto max-w-(--container-article) px-6 py-12">프로젝트를 찾을 수 없습니다.</p>
-    }
+          <h2 class="headline-md mt-12 mb-4">번역된 페이지</h2>
+          <ul class="space-y-2">
+            @for (page of pagesForProject(); track page.href) {
+              <li>
+                <a [routerLink]="page.href" class="hover:text-primary">{{ page.title }}</a>
+                <span class="label-md text-on-surface-variant"> · {{ page.translated_at }}</span>
+              </li>
+            }
+          </ul>
+        </section>
+      } @else {
+        <p class="body-md text-on-surface-variant">프로젝트를 찾을 수 없습니다.</p>
+      }
+    </div>
   `,
 })
 export default class ProjectPage {
@@ -132,7 +137,8 @@ function stripFrontmatter(raw: string): string {
 }
 
 // `injectContentFiles` exposes only frontmatter and a basename `slug`, so derive
-// link target and title from `filename` until a per-page title field is added.
+// the link target from `filename` and look up the title via the build-time
+// `virtual:wiki-titles` lookup populated by `buildLookups()`.
 function hrefFromWikiFilename(filename: string): string {
   return filename
     .replace(/^\/src\/content\/wiki\//, '/wiki/')
@@ -140,6 +146,8 @@ function hrefFromWikiFilename(filename: string): string {
 }
 
 function wikiTitleFromFilename(filename: string): string {
-  const base = filename.split('/').pop()?.replace(/\.md$/, '') ?? '';
-  return base;
+  const path = filename
+    .replace(/^\/src\/content\/wiki\//, '')
+    .replace(/\.md$/, '');
+  return wikiTitles[path]?.title ?? path.split('/').pop() ?? path;
 }

@@ -4,6 +4,7 @@ import { injectContentFiles, injectContentFilesMap, MarkdownComponent } from '@a
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { BadgeComponent } from '../../components/badge/badge.component';
+import { DocNavComponent } from '../../components/doc-nav/doc-nav.component';
 
 interface GlossaryAttrs {
   term: string;
@@ -15,22 +16,25 @@ interface GlossaryAttrs {
 @Component({
   selector: 'app-glossary-term-page',
   standalone: true,
-  imports: [MarkdownComponent, BadgeComponent],
+  imports: [MarkdownComponent, BadgeComponent, DocNavComponent],
   template: `
-    @if (entry(); as e) {
-      <section class="mx-auto max-w-(--container-article) px-6 py-12">
-        <h1 class="headline-xl">{{ e.attributes.korean }} <span class="label-md text-on-surface-variant">({{ e.attributes.term }})</span></h1>
-        <div class="my-4 flex gap-2">
-          <app-badge variant="primary">{{ e.attributes.status }}</app-badge>
-          @for (d of e.attributes.domains ?? []; track d) {
-            <app-badge variant="neutral">{{ d }}</app-badge>
-          }
-        </div>
-        <analog-markdown [content]="body()" classes="prose" />
-      </section>
-    } @else {
-      <p class="mx-auto max-w-(--container-article) px-6 py-12">용어를 찾을 수 없습니다.</p>
-    }
+    <div class="mx-auto grid max-w-(--container-site) grid-cols-[14rem_1fr] gap-8 px-6 py-12">
+      <app-doc-nav />
+      @if (entry(); as e) {
+        <section class="max-w-(--container-article)">
+          <h1 class="headline-xl">{{ e.attributes.korean }} <span class="label-md text-on-surface-variant">({{ e.attributes.term }})</span></h1>
+          <div class="my-4 flex gap-2">
+            <app-badge variant="primary">{{ e.attributes.status }}</app-badge>
+            @for (d of e.attributes.domains ?? []; track d) {
+              <app-badge variant="neutral">{{ d }}</app-badge>
+            }
+          </div>
+          <analog-markdown [content]="body()" classes="prose" />
+        </section>
+      } @else {
+        <p class="body-md text-on-surface-variant">용어를 찾을 수 없습니다.</p>
+      }
+    </div>
   `,
 })
 export default class GlossaryTermPage {
