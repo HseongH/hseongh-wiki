@@ -1,0 +1,16 @@
+domains:
+  - id: frontend
+    name: Frontend
+    summary: UI 프레임워크, CSS, 브라우저
+  - id: backend
+    name: Backend
+    summary: 서버 런타임, API
+  - id: devops
+    name: DevOps
+    summary: 컨테이너, CI/CD, 인프라
+  - id: tooling
+    name: Tooling
+    summary: 빌드 도구, 패키지 매니저, 에디터
+  - id: language
+    name: Languages
+    summary: 프로그래밍 언어 자체

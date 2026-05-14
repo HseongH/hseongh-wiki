@@ -1,5 +1,8 @@
 ---
 project: pnpm
+name: pnpm
+summary: 디스크 효율적인 Node.js 패키지 매니저
+domain: tooling
 source_repo: https://github.com/pnpm/pnpm
 official_site: https://pnpm.io
 last_ingest: 2026-05-14
