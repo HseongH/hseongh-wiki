@@ -1,0 +1,18 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Obsidian (local workspace state)
+.obsidian/workspace*
+.obsidian/cache
+.obsidian/graph.json
+
+# Env
+.env
+.env.local
