@@ -24,7 +24,10 @@ interface GlossaryAttrs {
         <ul class="space-y-3">
           @for (t of terms; track t.term) {
             <li>
-              <a [routerLink]="['/glossary', t.term]" class="flex items-center justify-between rounded p-3 hover:bg-surface-low">
+              <a
+                [routerLink]="['/glossary', t.term]"
+                class="flex items-center justify-between rounded p-3 hover:bg-surface-low"
+              >
                 <span>
                   <span class="body-md">{{ t.korean }}</span>
                   <span class="label-md text-on-surface-variant"> ({{ t.term }})</span>

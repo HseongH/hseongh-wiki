@@ -33,7 +33,7 @@ export default class HomePage {
 
   posts: PostCardData[] = this.files
     .sort((a, b) =>
-      (b.attributes.translated_at ?? '').localeCompare(a.attributes.translated_at ?? '')
+      (b.attributes.translated_at ?? '').localeCompare(a.attributes.translated_at ?? ''),
     )
     .slice(0, 12)
     .map((f) => {

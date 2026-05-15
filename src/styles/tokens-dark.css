@@ -1,12 +1,12 @@
 html.dark {
   /* Surface — light 의 흰 계조 → indigo-tinted 슬레이트 */
-  --color-surface: #0F1428;
+  --color-surface: #0f1428;
   --color-surface-container-lowest: #0a0f20;
   --color-surface-container-low: #131934;
-  --color-surface-container: #1A1F35;
+  --color-surface-container: #1a1f35;
   --color-surface-container-high: #232847;
   --color-surface-container-highest: #2c3158;
-  --color-on-surface: #EEF0FF;
+  --color-on-surface: #eef0ff;
   --color-on-surface-variant: #c8c4d5;
   --color-inverse-surface: #eef0ff;
   --color-inverse-on-surface: #131b2e;
@@ -16,7 +16,7 @@ html.dark {
   --color-on-primary: #1f108e;
   --color-primary-container: #3b35a7;
   --color-on-primary-container: #e2dfff;
-  --color-inverse-primary: #3730A3;
+  --color-inverse-primary: #3730a3;
 
   /* Outline */
   --color-outline: #5a5868;

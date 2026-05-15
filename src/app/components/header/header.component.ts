@@ -11,9 +11,22 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
       <div class="mx-auto flex max-w-(--container-site) items-center justify-between px-6 py-4">
         <a routerLink="/" class="font-display text-xl font-bold tracking-tight">HseongH</a>
         <nav class="flex items-center gap-6">
-          <a routerLink="/" routerLinkActive="text-primary" [routerLinkActiveOptions]="{ exact: true }" class="label-md hover:text-primary">Home</a>
-          <a routerLink="/glossary" routerLinkActive="text-primary" class="label-md hover:text-primary">Glossary</a>
-          <a routerLink="/about" routerLinkActive="text-primary" class="label-md hover:text-primary">About</a>
+          <a
+            routerLink="/"
+            routerLinkActive="text-primary"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="label-md hover:text-primary"
+            >Home</a
+          >
+          <a
+            routerLink="/glossary"
+            routerLinkActive="text-primary"
+            class="label-md hover:text-primary"
+            >Glossary</a
+          >
+          <a routerLink="/about" routerLinkActive="text-primary" class="label-md hover:text-primary"
+            >About</a
+          >
           <app-theme-toggle />
         </nav>
       </div>

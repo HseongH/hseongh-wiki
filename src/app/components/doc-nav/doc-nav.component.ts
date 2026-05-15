@@ -32,7 +32,10 @@ interface NavProject {
   standalone: true,
   imports: [RouterLink, RouterLinkActive],
   template: `
-    <nav class="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto pr-2" aria-label="문서 네비게이션">
+    <nav
+      class="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto pr-2"
+      aria-label="문서 네비게이션"
+    >
       <h2 class="label-md mb-3 text-on-surface-variant uppercase tracking-wide">문서</h2>
       @if (projects().length === 0) {
         <p class="label-md text-on-surface-variant">번역된 프로젝트가 없습니다.</p>
@@ -45,7 +48,8 @@ interface NavProject {
               routerLinkActive="text-primary font-semibold"
               [routerLinkActiveOptions]="{ exact: true }"
               class="label-md block hover:text-primary"
-            >{{ p.name }}</a>
+              >{{ p.name }}</a
+            >
             @if (p.pages.length) {
               <ul class="mt-2 space-y-1 border-l border-outline-variant pl-3">
                 @for (page of p.pages; track page.href) {
@@ -54,7 +58,8 @@ interface NavProject {
                       [routerLink]="page.href"
                       routerLinkActive="text-primary"
                       class="label-md block py-0.5 text-on-surface-variant hover:text-primary"
-                    >{{ page.title }}</a>
+                      >{{ page.title }}</a
+                    >
                   </li>
                 }
               </ul>
@@ -66,13 +71,9 @@ interface NavProject {
   `,
 })
 export class DocNavComponent {
-  private projectFiles = injectContentFiles<ProjectAttrs>((f) =>
-    isUnder(f.filename, '_projects')
-  );
+  private projectFiles = injectContentFiles<ProjectAttrs>((f) => isUnder(f.filename, '_projects'));
 
-  private wikiFiles = injectContentFiles<WikiAttrs>((f) =>
-    isUnder(f.filename, '_wiki')
-  );
+  private wikiFiles = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, '_wiki'));
 
   projects = computed<NavProject[]>(() => {
     return this.projectFiles

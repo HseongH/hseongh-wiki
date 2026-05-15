@@ -37,7 +37,10 @@ interface WikiAttrs {
           <ul class="grid grid-cols-1 gap-4 md:grid-cols-2">
             @for (p of projectsInDomain(); track p.project) {
               <li>
-                <a [routerLink]="['/projects', p.project]" class="block rounded-lg border border-outline-variant p-4 hover:bg-surface-low">
+                <a
+                  [routerLink]="['/projects', p.project]"
+                  class="block rounded-lg border border-outline-variant p-4 hover:bg-surface-low"
+                >
                   <h3 class="headline-md">{{ p.name }}</h3>
                   <p class="body-md text-on-surface-variant mt-2">{{ p.summary }}</p>
                 </a>
@@ -61,10 +64,9 @@ interface WikiAttrs {
 export default class DomainPage {
   private route = inject(ActivatedRoute);
   private domainService = inject(DomainService);
-  private id = toSignal(
-    this.route.paramMap.pipe(map((p) => p.get('id') ?? '')),
-    { initialValue: '' }
-  );
+  private id = toSignal(this.route.paramMap.pipe(map((p) => p.get('id') ?? '')), {
+    initialValue: '',
+  });
 
   private projects = injectContentFiles<ProjectAttrs>((f) => isUnder(f.filename, '_projects'));
   private wikiFiles = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, '_wiki'));
@@ -72,7 +74,7 @@ export default class DomainPage {
   domain = computed(() => this.domainService.listDomains().find((d) => d.id === this.id()));
 
   projectsInDomain = computed(() =>
-    this.projects.filter((p) => p.attributes.domain === this.id()).map((p) => p.attributes)
+    this.projects.filter((p) => p.attributes.domain === this.id()).map((p) => p.attributes),
   );
 
   postsInDomain = computed<PostCardData[]>(() => {

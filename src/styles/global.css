@@ -1,7 +1,7 @@
-@import "tailwindcss";
-@import "./typography.css";
-@import "./tokens.css";
-@import "./tokens-dark.css";
+@import 'tailwindcss';
+@import './typography.css';
+@import './tokens.css';
+@import './tokens-dark.css';
 
 @theme {
   /* Colors — CSS variable backed so dark mode toggles via html.dark class */
@@ -18,9 +18,9 @@
   --color-outline-variant: var(--color-outline-variant);
 
   /* Fonts — actual @font-face is added in Task 5 */
-  --font-display: "Hanken Grotesk", system-ui, sans-serif;
-  --font-body: "Source Serif 4", Georgia, serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body: 'Source Serif 4', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   /* Radius */
   --radius-sm: 0.125rem;
@@ -34,7 +34,11 @@
   --container-site: 1200px;
 }
 
-html, body { height: 100%; margin: 0; }
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
 body {
   background: var(--color-surface);
   color: var(--color-on-surface);
@@ -49,7 +53,10 @@ body {
     max-width: var(--container-article);
     font-family: var(--font-body);
   }
-  .prose h1, .prose h2, .prose h3, .prose h4 {
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
     font-family: var(--font-display);
     color: var(--color-on-surface);
   }
@@ -74,7 +81,9 @@ body {
     color: var(--color-primary);
     text-decoration: none;
   }
-  .prose a:hover { text-decoration: underline; }
+  .prose a:hover {
+    text-decoration: underline;
+  }
 
   html.dark .prose pre {
     background: var(--color-surface-container-high);

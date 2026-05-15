@@ -7,8 +7,8 @@ import { Component } from '@angular/core';
     <section class="mx-auto max-w-(--container-article) px-6 py-12 body-md">
       <h1 class="headline-xl mb-6">HseongH — 학습 위키</h1>
       <p>
-        IT 공식문서 한국어 번역을 모아두는 개인 학습 위키입니다. 본문은 충실한 번역으로 유지하며,
-        그 위에 LLM 이 용어집·프로젝트 카드·로그를 자동으로 관리합니다.
+        IT 공식문서 한국어 번역을 모아두는 개인 학습 위키입니다. 본문은 충실한 번역으로 유지하며, 그
+        위에 LLM 이 용어집·프로젝트 카드·로그를 자동으로 관리합니다.
       </p>
       <h2 class="headline-md mt-8 mb-3">원칙</h2>
       <ul class="list-disc pl-6 space-y-1">
@@ -18,7 +18,13 @@ import { Component } from '@angular/core';
       </ul>
       <h2 class="headline-md mt-8 mb-3">소스</h2>
       <p>
-        <a href="https://github.com/HseongH/hseongh-wiki" target="_blank" rel="noopener" class="text-primary hover:underline">github.com/HseongH/hseongh-wiki</a>
+        <a
+          href="https://github.com/HseongH/hseongh-wiki"
+          target="_blank"
+          rel="noopener"
+          class="text-primary hover:underline"
+          >github.com/HseongH/hseongh-wiki</a
+        >
       </p>
     </section>
   `,

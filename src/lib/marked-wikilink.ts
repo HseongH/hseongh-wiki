@@ -8,10 +8,7 @@ interface WikilinkToken {
   text: string;
 }
 
-function resolveTarget(
-  target: string,
-  lookups: Lookups
-): { url: string; text: string } {
+function resolveTarget(target: string, lookups: Lookups): { url: string; text: string } {
   if (target.startsWith('_glossary/')) {
     const term = target.slice('_glossary/'.length);
     return {

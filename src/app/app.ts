@@ -8,7 +8,7 @@ import { ThemeService } from './services/theme.service';
   selector: 'app-root',
   imports: [RouterOutlet, HeaderComponent, FooterComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
   constructor(theme: ThemeService) {
