@@ -23,5 +23,8 @@ export function wikiHrefFromFilename(filename: string): string {
 
 export function isUnder(filename: string, subdir: string): boolean {
   const normalized = normalizeContentFilename(filename);
+  // AGENTS.md files document directories for AI agents — they are not wiki
+  // content. Excluding them here keeps DocNav, home, prerender etc. clean.
+  if (normalized.endsWith('/AGENTS.md')) return false;
   return normalized.startsWith(`${CONTENT_PREFIX}${subdir}/`);
 }

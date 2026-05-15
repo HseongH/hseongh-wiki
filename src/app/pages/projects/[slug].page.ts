@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { injectContentFiles, injectContentFilesMap, MarkdownComponent } from '@analogjs/content';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -6,7 +6,13 @@ import { map } from 'rxjs';
 import { BadgeComponent } from '../../components/badge/badge.component';
 import { DocNavComponent } from '../../components/doc-nav/doc-nav.component';
 import { wikiTitles } from 'virtual:wiki-titles';
-import { isUnder, normalizeContentFilename, wikiHrefFromFilename, wikiPathFromFilename } from '../../../lib/content-paths';
+import {
+  isUnder,
+  normalizeContentFilename,
+  wikiHrefFromFilename,
+  wikiPathFromFilename,
+} from '../../../lib/content-paths';
+import { loadMarkdownBody, stripDuplicateH1 } from '../../../lib/markdown-body';
 
 interface ProjectAttrs {
   project: string;
@@ -38,10 +44,22 @@ interface WikiAttrs {
 
           <div class="my-6 flex gap-4 label-md">
             @if (p.attributes.source_repo) {
-              <a [href]="p.attributes.source_repo" target="_blank" rel="noopener" class="hover:text-primary">Source repo →</a>
+              <a
+                [href]="p.attributes.source_repo"
+                target="_blank"
+                rel="noopener"
+                class="hover:text-primary"
+                >Source repo →</a
+              >
             }
             @if (p.attributes.official_site) {
-              <a [href]="p.attributes.official_site" target="_blank" rel="noopener" class="hover:text-primary">Official site →</a>
+              <a
+                [href]="p.attributes.official_site"
+                target="_blank"
+                rel="noopener"
+                class="hover:text-primary"
+                >Official site →</a
+              >
             }
           </div>
 
@@ -65,14 +83,11 @@ interface WikiAttrs {
 })
 export default class ProjectPage {
   private route = inject(ActivatedRoute);
-  private slug = toSignal(
-    this.route.paramMap.pipe(map((p) => p.get('slug') ?? '')),
-    { initialValue: '' }
-  );
+  private slug = toSignal(this.route.paramMap.pipe(map((p) => p.get('slug') ?? '')), {
+    initialValue: '',
+  });
 
-  private projectFiles = injectContentFiles<ProjectAttrs>((f) =>
-    isUnder(f.filename, '_projects')
-  );
+  private projectFiles = injectContentFiles<ProjectAttrs>((f) => isUnder(f.filename, '_projects'));
 
   private wikiFiles = injectContentFiles<WikiAttrs>((f) => isUnder(f.filename, '_wiki'));
 
@@ -81,41 +96,13 @@ export default class ProjectPage {
   project = computed(() => {
     const s = this.slug();
     return this.projectFiles.find(
-      (f) => f.slug === s || normalizeContentFilename(f.filename) === `/src/content/_projects/${s}.md`
+      (f) =>
+        f.slug === s || normalizeContentFilename(f.filename) === `/src/content/_projects/${s}.md`,
     );
   });
 
-  rawHtml = signal<string>('');
-
-  constructor() {
-    effect((onCleanup) => {
-      const p = this.project();
-      if (!p) {
-        this.rawHtml.set('');
-        return;
-      }
-      const loader = (this.filesMap as Record<string, unknown>)[normalizeContentFilename(p.filename)];
-      if (typeof loader !== 'function') {
-        this.rawHtml.set('');
-        return;
-      }
-      let cancelled = false;
-      onCleanup(() => {
-        cancelled = true;
-      });
-      (loader as () => Promise<string>)()
-        .then((raw) => {
-          if (cancelled) return;
-          this.rawHtml.set(stripFrontmatter(raw));
-        })
-        .catch(() => {
-          if (cancelled) return;
-          this.rawHtml.set('');
-        });
-    });
-  }
-
-  body = computed(() => this.rawHtml());
+  private rawHtml = loadMarkdownBody(this.project, this.filesMap as Record<string, unknown>);
+  body = computed(() => stripDuplicateH1(this.rawHtml()));
 
   pagesForProject = computed(() => {
     const p = this.project();
@@ -124,22 +111,10 @@ export default class ProjectPage {
       .filter((f) => f.attributes.project === p.attributes.project)
       .map((f) => ({
         title: wikiTitleFromFilename(f.filename),
-        href: hrefFromWikiFilename(f.filename),
+        href: wikiHrefFromFilename(f.filename),
         translated_at: f.attributes.translated_at,
       }));
   });
-}
-
-function stripFrontmatter(raw: string): string {
-  if (typeof raw !== 'string') return '';
-  return raw.replace(/^---\n[\s\S]*?\n---\n\n?/, '');
-}
-
-// `injectContentFiles` exposes only frontmatter and a basename `slug`, so derive
-// the link target from `filename` and look up the title via the build-time
-// `virtual:wiki-titles` lookup populated by `buildLookups()`.
-function hrefFromWikiFilename(filename: string): string {
-  return wikiHrefFromFilename(filename);
 }
 
 function wikiTitleFromFilename(filename: string): string {

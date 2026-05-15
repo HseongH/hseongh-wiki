@@ -33,7 +33,7 @@ Personal Korean-language wiki of IT documentation translations, served as a stat
 | `src/` | All application source — Angular app, content, lib, styles (see `src/AGENTS.md`) |
 | `docs/` | Design docs and implementation plans (see `docs/AGENTS.md`) |
 | `public/` | Static assets bundled as-is into `dist/analog/public/` (see `public/AGENTS.md`) |
-| `dist/` | Build output — gitignored. `dist/analog/public/` is what Cloudflare serves. |
+| `dist/` | Build output — gitignored. `dist/analog/public/` is what Cloudflare serves (now prerendered HTML per route). |
 | `node_modules/` | pnpm-managed dependencies — gitignored. |
 | `.omc/` | oh-my-claudecode runtime state — gitignored. |
 | `.angular/` | Angular CLI build cache — gitignored. |
@@ -49,9 +49,11 @@ Personal Korean-language wiki of IT documentation translations, served as a stat
 - Commit + push every change. `main` push auto-deploys to Cloudflare Workers.
 
 ### Testing Requirements
-- Unit tests: `pnpm test:unit` — vitest, jsdom env, tests in `**/*.spec.ts` and `**/*.test.ts`.
-- Component specs: `pnpm test` — uses `@angular/build:unit-test`.
-- Test setup file: `src/test-setup.ts` calls `setupTestBed()` from `@analogjs/vitest-angular`.
+- All tests run on **vitest** — both lib `*.test.ts` and component `*.spec.ts`.
+- `pnpm test` / `pnpm test:unit` — `vitest run`. `pnpm test:watch` — interactive.
+- jsdom env, include patterns `**/*.spec.ts` and `**/*.test.ts`.
+- Component specs use Angular `TestBed` via `@analogjs/vitest-angular`'s `setupTestBed()` (wired in `src/test-setup.ts`).
+- Karma (`ng test`) is **not** configured — no `architect.test` in `angular.json`.
 
 ### Common Patterns
 - **Standalone Angular components** with `@Component({ standalone: true, ... })` — no NgModules.
@@ -64,9 +66,10 @@ Personal Korean-language wiki of IT documentation translations, served as a stat
 | Command | Purpose |
 |---|---|
 | `pnpm dev` | Vite dev server at `http://localhost:4200` (HMR) |
-| `pnpm build` | Production build → `dist/analog/public/` (static SPA) |
-| `pnpm test:unit` | Vitest unit tests |
-| `pnpm test` | Angular CLI test runner (Karma-style component specs) |
+| `pnpm build` | Production build → `dist/analog/public/` (prerendered SSG) |
+| `pnpm test` / `pnpm test:unit` | Vitest (covers lib + component specs) |
+| `pnpm test:watch` | Vitest watch mode |
+| `pnpm lint` / `pnpm format` | Prettier check / fix |
 
 ### Deployment Gotcha
 - `wrangler.jsonc` has no `main` field — the site is static; no Cloudflare Worker runtime is used.

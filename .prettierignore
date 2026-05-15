@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.angular/
+.wrangler/
+.omc/
+coverage/
+pnpm-lock.yaml
+
+# Content markdown is faithful to upstream — never auto-format.
+src/content/**/*.md
+
+# AGENTS.md tables can hit the print-width and reflow oddly under Prettier.
+AGENTS.md
+**/AGENTS.md

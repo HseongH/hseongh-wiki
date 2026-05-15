@@ -16,6 +16,7 @@ export function wikiTitlesPlugin(): Plugin {
       `export const wikiTitles = ${JSON.stringify(lookups.wikiLookup)};`,
       `export const projectNames = ${JSON.stringify(lookups.projectLookup)};`,
       `export const glossaryKorean = ${JSON.stringify(lookups.glossaryLookup)};`,
+      `export const domains = ${JSON.stringify(lookups.domains)};`,
     ].join('\n');
     return cache;
   };
@@ -33,7 +34,10 @@ export function wikiTitlesPlugin(): Plugin {
       return null;
     },
     handleHotUpdate({ file, server }) {
-      if (file.includes('/src/content/') && file.endsWith('.md')) {
+      if (
+        file.includes('/src/content/') &&
+        (file.endsWith('.md') || file.endsWith('.yml') || file.endsWith('.yaml'))
+      ) {
         cache = null;
         const mod = server.moduleGraph.getModuleById(RESOLVED_ID);
         if (mod) {

@@ -1,11 +1,17 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, startWith } from 'rxjs';
 import { injectContentFiles, injectContentFilesMap, MarkdownComponent } from '@analogjs/content';
+import { wikiTitles } from 'virtual:wiki-titles';
 import { BadgeComponent } from '../../components/badge/badge.component';
 import { DocNavComponent } from '../../components/doc-nav/doc-nav.component';
-import { isUnder, normalizeContentFilename } from '../../../lib/content-paths';
+import {
+  isUnder,
+  normalizeContentFilename,
+  wikiPathFromFilename,
+} from '../../../lib/content-paths';
+import { loadMarkdownBody, stripDuplicateH1 } from '../../../lib/markdown-body';
 
 interface WikiAttrs {
   source: string;
@@ -20,7 +26,9 @@ interface WikiAttrs {
   standalone: true,
   imports: [MarkdownComponent, BadgeComponent, DocNavComponent],
   template: `
-    <div class="mx-auto grid max-w-(--container-site) grid-cols-[14rem_minmax(0,1fr)] gap-8 px-6 py-12">
+    <div
+      class="mx-auto grid max-w-(--container-site) grid-cols-[14rem_minmax(0,1fr)] gap-8 px-6 py-12"
+    >
       <app-doc-nav />
       @if (entry()) {
         <article class="body-md max-w-(--container-article)">
@@ -29,8 +37,12 @@ interface WikiAttrs {
           </div>
           <h1 class="headline-xl mb-2">{{ title() }}</h1>
           <p class="label-md mb-6 text-on-surface-variant">
-            원문: <a [href]="entry()!.attributes.source" class="hover:text-primary">{{ entry()!.attributes.source }}</a>
-            · 동기화: {{ entry()!.attributes.translated_at }} / {{ entry()!.attributes.source_commit?.slice(0, 7) }}
+            원문:
+            <a [href]="entry()!.attributes.source" class="hover:text-primary">{{
+              entry()!.attributes.source
+            }}</a>
+            · 동기화: {{ entry()!.attributes.translated_at }} /
+            {{ entry()!.attributes.source_commit?.slice(0, 7) }}
           </p>
           <analog-markdown [content]="body()" classes="prose prose-lg max-w-none" />
 
@@ -58,9 +70,9 @@ export default class WikiArticlePage {
     this.router.events.pipe(
       filter((e): e is NavigationEnd => e instanceof NavigationEnd),
       startWith(null),
-      map(() => extractWikiPath(this.router.url))
+      map(() => extractWikiPath(this.router.url)),
     ),
-    { initialValue: extractWikiPath(this.router.url) }
+    { initialValue: extractWikiPath(this.router.url) },
   );
 
   entry = computed(() => {
@@ -72,62 +84,20 @@ export default class WikiArticlePage {
     });
   });
 
-  // `injectContentFiles()` returns only frontmatter attributes; the rendered
-  // HTML body lives in lazy loaders keyed by filename in `injectContentFilesMap()`.
-  // Resolve reactively to the current route via effect.
-  rawHtml = signal<string>('');
-
-  constructor() {
-    effect((onCleanup) => {
-      const e = this.entry();
-      if (!e) {
-        this.rawHtml.set('');
-        return;
-      }
-      const loader = (this.filesMap as Record<string, unknown>)[normalizeContentFilename(e.filename)];
-      if (typeof loader !== 'function') {
-        this.rawHtml.set('');
-        return;
-      }
-      let cancelled = false;
-      onCleanup(() => {
-        cancelled = true;
-      });
-      (loader as () => Promise<string>)()
-        .then((raw) => {
-          if (cancelled) return;
-          this.rawHtml.set(stripFrontmatter(raw));
-        })
-        .catch(() => {
-          if (cancelled) return;
-          this.rawHtml.set('');
-        });
-    });
-  }
-
+  private rawHtml = loadMarkdownBody(this.entry, this.filesMap as Record<string, unknown>);
   body = computed(() => stripDuplicateH1(this.rawHtml()));
 
-  title = computed(
-    () => this.rawHtml().match(/<h1\b[^>]*>([\s\S]+?)<\/h1>/i)?.[1]?.replace(/<[^>]+>/g, '').trim() ?? ''
-  );
-}
-
-// The rendered body's first <h1> is duplicated by the article's own <h1>; drop
-// the leading occurrence from the markdown so it doesn't appear twice.
-function stripDuplicateH1(html: string): string {
-  return html.replace(/^\s*<h1\b[^>]*>[\s\S]*?<\/h1>\s*/i, '');
-}
-
-function stripFrontmatter(raw: string): string {
-  if (typeof raw !== 'string') return '';
-  return raw.replace(/^---\n[\s\S]*?\n---\n\n?/, '');
+  title = computed(() => {
+    const e = this.entry();
+    if (!e) return '';
+    const path = wikiPathFromFilename(e.filename);
+    return wikiTitles[path]?.title ?? path.split('/').pop() ?? path;
+  });
 }
 
 function extractWikiPath(routerUrl: string): string {
   // Router.url is the full URL ('/wiki/pnpm/motivation?x=1'). Strip the '/wiki/'
   // prefix plus any query string / fragment so what remains lines up with the
   // file's project-relative path under src/content/_wiki/.
-  return routerUrl
-    .replace(/[?#].*$/, '')
-    .replace(/^\/wiki\/?/, '');
+  return routerUrl.replace(/[?#].*$/, '').replace(/^\/wiki\/?/, '');
 }

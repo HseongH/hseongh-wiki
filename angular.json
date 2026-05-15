@@ -21,9 +21,7 @@
             "main": "src/main.ts",
             "outputPath": "dist/client",
             "tsConfig": "tsconfig.app.json",
-            "styles": [
-              "src/styles/global.css"
-            ]
+            "styles": ["src/styles/global.css"]
           },
           "defaultConfiguration": "production",
           "configurations": {
@@ -52,9 +50,6 @@
               "buildTarget": "app:build:production"
             }
           }
-        },
-        "test": {
-          "builder": "@angular/build:unit-test"
         }
       }
     }

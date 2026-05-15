@@ -58,7 +58,8 @@ tags: [...]
 ---
 
 # 한국어 제목
-*(원제: Original Title)*
+
+_(원제: Original Title)_
 
 > 원문: <link> · 동기화: YYYY-MM-DD / `<commit>`
 
@@ -67,6 +68,7 @@ tags: [...]
 ---
 
 ## 관련 페이지
+
 - [[_glossary/<term>]]
 - [[wiki/<project>/<adjacent-page>]]
 ```
@@ -77,8 +79,8 @@ tags: [...]
 ---
 term: promise
 korean: 프로미스
-status: 정착어    # 정착어 | 원어유지 | 미정
-domains: [language, frontend]   # optional; empty/missing = applies to all domains
+status: 정착어 # 정착어 | 원어유지 | 미정
+domains: [language, frontend] # optional; empty/missing = applies to all domains
 ---
 
 # 프로미스 (promise)
@@ -88,6 +90,7 @@ domains: [language, frontend]   # optional; empty/missing = applies to all domai
 (one or two sentence definition)
 
 ## 등장하는 문서
+
 - [[wiki/<project>/<path>]]
 ```
 
@@ -96,9 +99,9 @@ domains: [language, frontend]   # optional; empty/missing = applies to all domai
 ```markdown
 ---
 project: react
-name: React                       # display name
-summary: UI library for ...       # one-line description
-domain: frontend                  # REQUIRED; must match an id in _meta/domains.yml
+name: React # display name
+summary: UI library for ... # one-line description
+domain: frontend # REQUIRED; must match an id in _meta/domains.yml
 source_repo: <repo URL>
 official_site: <site URL>
 last_ingest: YYYY-MM-DD
@@ -109,9 +112,11 @@ last_ingest: YYYY-MM-DD
 (one-paragraph introduction)
 
 ## 번역된 페이지
+
 - [[wiki/<project>/<path>]] — 한국어 제목
 
 ## 번역 안 한 부분 (선택)
+
 - (deliberately skipped areas and the reason)
 ```
 
@@ -134,11 +139,11 @@ Highlights (full rules in STYLE.md):
 
 At build time, the `marked-wikilink` extension (`src/lib/marked-wikilink.ts`) rewrites these to HTML anchors using lookups built from the content directory (`src/lib/build-lookups.ts`):
 
-| Input | Output text comes from |
-|---|---|
+| Input                   | Output text comes from               |
+| ----------------------- | ------------------------------------ |
 | `[[_glossary/promise]]` | `korean` field of the glossary entry |
-| `[[_projects/pnpm]]` | `name` field of the project card |
-| `[[wiki/pnpm/README]]` | first `#` heading of the target body |
+| `[[_projects/pnpm]]`    | `name` field of the project card     |
+| `[[wiki/pnpm/README]]`  | first `#` heading of the target body |
 
 Unknown targets fall back to the raw path as link text.
 
@@ -153,7 +158,7 @@ Unknown targets fall back to the raw path as link text.
    - If `src/content/_glossary/<term>.md` does not exist, create it.
    - If it exists, append the current page to its "등장하는 문서" list.
    - When a new settled Korean term is decided, also append it to the term decision table in `src/content/_meta/STYLE.md`.
-5. **(New-project step)** If the project belongs to a domain that is not yet in `src/content/_meta/domains.yml`, propose the new domain to the user, get confirmation, then add it. The `domain` field in the project card frontmatter is REQUIRED.
+5. **(New-project step)** If the project belongs to a domain that is not yet in `src/content/_meta/domains.yml`, propose the new domain to the user, get confirmation, then add it. The `domain` field in the project card frontmatter is REQUIRED. `src/lib/build-lookups.ts` reads `domains.yml` at build time and exposes the catalog via `virtual:wiki-titles` (`domains`) — `DomainService` reads it from there. **Only one file to edit: `domains.yml`**.
 6. Update `src/content/_projects/<project>.md`: refresh the "번역된 페이지" list and bump `last_ingest`.
 7. Update `src/content/_meta/index.md`: projects / glossary / "최근 작업" sections.
 8. Append a `## [YYYY-MM-DD] ingest | <Project>: <Page Title>` entry to `src/content/_meta/log.md`.
@@ -204,12 +209,15 @@ Do not write Angular code without consulting these skills first. Consistent patt
 
 ### Build / run
 
-| Command | Purpose |
-|---|---|
-| `pnpm dev` | Vite dev server at `http://localhost:4200` |
-| `pnpm build` | Production build → `dist/analog/public/` (static) + `dist/analog/server/` (server stub) |
-| `pnpm test:unit` | Vitest unit tests |
-| `pnpm test` | Angular's Karma test runner (used by component specs) |
+| Command                        | Purpose                                                                                              |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| `pnpm dev`                     | Vite dev server at `http://localhost:4200`                                                           |
+| `pnpm build`                   | Production build → `dist/analog/public/` (static, prerendered) + `dist/analog/server/` (server stub) |
+| `pnpm test` / `pnpm test:unit` | Vitest unit tests (covers both `*.spec.ts` and `*.test.ts`)                                          |
+| `pnpm test:watch`              | Vitest watch mode                                                                                    |
+| `pnpm lint` / `pnpm format`    | Prettier check / fix                                                                                 |
+
+Vitest covers Angular component specs too via `@analogjs/vitest-angular`'s `setupTestBed()` (see `src/test-setup.ts`). Karma / `ng test` is **not** wired — there is no `architect.test` block in `angular.json`.
 
 ### Deployment
 
@@ -220,6 +228,10 @@ Do not write Angular code without consulting these skills first. Consistent patt
 - No `main` script field — the site is fully static; no Cloudflare Worker runtime is used.
 
 If a future change enables AnalogJS SSR, `wrangler.jsonc` will need a `main` entry pointing to the generated `dist/analog/server/index.mjs`. Until then, keep it static-only.
+
+### Prerender (SSG)
+
+`vite.config.ts` lists every page URL via `buildLookups()` so AnalogJS prerenders one static HTML per route (home, about, glossary index + each term, projects index + each project, every `/wiki/<path>`, every `/domains/<id>`). Adding new content automatically expands the route list — no manual config needed. The SPA fallback in `wrangler.jsonc` still covers any URL not in the prerender set.
 
 ### CSS injection (gotcha)
 
@@ -238,10 +250,11 @@ If styles ever stop applying, check this import first.
 ### AnalogJS content gotchas
 
 - **`injectContentFiles()` returns frontmatter only — no body content.** AnalogJS's build-time transform (`?analog-content-list=true`) extracts only frontmatter attributes for the list. The rendered HTML body lives in **separate lazy loaders** exposed by `injectContentFilesMap()` (keyed by absolute filename like `/src/content/_wiki/pnpm/motivation.md`; values are `() => Promise<string>`). The loader resolves to `---\n<frontmatter>\n---\n\n<HTML>`, so strip the frontmatter delimiters before passing to `<analog-markdown>`. `ContentFile.content` is typed `string | object`, but **at runtime it is `undefined`** when obtained from `injectContentFiles()` — never read it; use the filesMap loader instead.
+- **The body-load + frontmatter-strip + H1-dedup pattern is shared via `src/lib/markdown-body.ts`.** Use `loadMarkdownBody(entrySignal, filesMap)` from a class-field initialiser (an injection context) to get a readonly body signal, then `computed(() => stripDuplicateH1(rawHtml()))` if the page also renders its own `<h1>`. Don't re-roll the effect-with-cancellation pattern per page.
 - **`injectContentFiles()` filenames are missing the leading slash** — they look like `src/content/_wiki/...`, while `injectContentFilesMap()` keys look like `/src/content/_wiki/...`. Use the helpers in `src/lib/content-paths.ts` (`normalizeContentFilename`, `wikiPathFromFilename`, `wikiHrefFromFilename`, `isUnder`) so filters, href generation, and filesMap lookups stay consistent. A literal `f.filename.startsWith('/src/content/...')` filter silently returns 0 results.
-- **AnalogJS auto-routes every `src/content/**/*.md` file**, with the path under `src/content/` becoming the URL. Wiki bodies live under `src/content/_wiki/` (underscore prefix) so the auto-route is `/_wiki/...` instead of `/wiki/...`, leaving the `/wiki/[...path]` catch-all in `src/app/pages/wiki/` free to handle the public URL with its own layout. Meta-prefixed dirs `_glossary/`, `_projects/`, `_meta/`, `_wiki/` are never meant to be browsed at their underscored URL — those are auto-route artifacts.
+- **AnalogJS auto-routes every `src/content/**/\*.md`file**, with the path under`src/content/`becoming the URL. Wiki bodies live under`src/content/\_wiki/`(underscore prefix) so the auto-route is`/\_wiki/...`instead of`/wiki/...`, leaving the `/wiki/[...path]`catch-all in`src/app/pages/wiki/`free to handle the public URL with its own layout. Meta-prefixed dirs`\_glossary/`, `\_projects/`, `\_meta/`, `\_wiki/` are never meant to be browsed at their underscored URL — those are auto-route artifacts.
 - **`injectContent({ customFilename })` accepts a static string, not a function.** For dynamic routes use `injectContentFiles(filter)` for the entry + `injectContentFilesMap()` for the body loader, wired via `effect()` to a `toSignal(route.paramMap)` or `toSignal(route.url)` source.
-- **Catch-all `[...path].page.ts` becomes Angular's `**` wildcard route, and `**` does not expose the matched segments on the activated route.** `ActivatedRoute.url` and `route.snapshot.url` are *both empty arrays* — you can't reconstruct the path from them. Inject `Router` instead, read `router.url` (the full URL like `/wiki/pnpm/motivation`), and strip the route prefix yourself. Make it reactive by subscribing to `router.events.pipe(filter(e => e instanceof NavigationEnd))` (the component is reused across catch-all navigations, so `ngOnInit` only fires once).
+- **Catch-all `[...path].page.ts` becomes Angular's `**`wildcard route, and`**` does not expose the matched segments on the activated route.** `ActivatedRoute.url` and `route.snapshot.url` are _both empty arrays_ — you can't reconstruct the path from them. Inject `Router` instead, read `router.url` (the full URL like `/wiki/pnpm/motivation`), and strip the route prefix yourself. Make it reactive by subscribing to `router.events.pipe(filter(e => e instanceof NavigationEnd))` (the component is reused across catch-all navigations, so `ngOnInit` only fires once).
 - **Markdown pipeline is `marked`, not `remark`.** Production wikilink rewriting lives in `src/lib/marked-wikilink.ts`. `src/lib/remark-wikilink.ts` exists only as a TDD-driven reference implementation of the same resolver logic.
 - **Build outputs**: client to `dist/analog/public/` (this is what Cloudflare serves), server stub to `dist/analog/server/` (unused while SSR is off). Both are gitignored.
 

@@ -12,6 +12,20 @@ import { wikiTitlesPlugin } from './src/lib/wiki-titles-plugin';
 // Build wikilink lookups at startup so [[...]] refs resolve at build time.
 const lookups = buildLookups();
 
+// Enumerate every wiki/project/glossary/domain URL so AnalogJS can prerender
+// the SPA shell into static HTML per route — better first paint and SEO than
+// shipping an empty shell that hydrates client-side.
+const prerenderRoutes: string[] = [
+  '/',
+  '/about',
+  '/glossary',
+  '/projects',
+  ...Object.keys(lookups.glossaryLookup).map((s) => `/glossary/${s}`),
+  ...Object.keys(lookups.projectLookup).map((s) => `/projects/${s}`),
+  ...Object.keys(lookups.wikiLookup).map((p) => `/wiki/${p}`),
+  ...lookups.domains.map((d) => `/domains/${d.id}`),
+];
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
@@ -29,7 +43,7 @@ export default defineConfig(({ mode }) => {
         ssr: false,
         static: true,
         prerender: {
-          routes: [],
+          routes: prerenderRoutes,
         },
         // Path (a): AnalogJS natively integrates Shiki via content options.
         // No separate rehype plugin needed — shikiOptions flows through

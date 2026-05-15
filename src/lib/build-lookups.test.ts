@@ -11,4 +11,12 @@ describe('buildLookups', () => {
     expect(lookups.wikiLookup['pnpm/motivation']).toBeDefined();
     expect(lookups.wikiLookup['pnpm/motivation'].title).toBe('동기');
   });
+
+  it('_meta/domains.yml 로부터 도메인 카탈로그를 읽는다', () => {
+    const lookups = buildLookups();
+    expect(lookups.domains.length).toBeGreaterThan(0);
+    const tooling = lookups.domains.find((d) => d.id === 'tooling');
+    expect(tooling).toBeDefined();
+    expect(tooling?.name).toBe('Tooling');
+  });
 });

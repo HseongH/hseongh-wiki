@@ -20,10 +20,9 @@ All application source: the Angular 21 + AnalogJS app shell, the markdown conten
 |-----------|---------|
 | `app/` | Angular app — components, pages, services, app shell (see `app/AGENTS.md`) |
 | `content/` | Markdown content store consumed at build time by `@analogjs/content` (see `content/AGENTS.md`) |
-| `lib/` | Build-time and runtime utilities — marked plugins, wikilink resolver, content path helpers, Shiki config (see `lib/AGENTS.md`) |
+| `lib/` | Build-time and runtime utilities — marked plugins, wikilink resolver, content path helpers, markdown-body helpers, Shiki config (see `lib/AGENTS.md`) |
 | `styles/` | Tailwind v4 entry + design tokens (see `styles/AGENTS.md`) |
 | `types/` | Ambient TypeScript declarations for virtual modules (see `types/AGENTS.md`) |
-| `server/` | Server route stubs — unused while SSR is off (see `server/AGENTS.md`) |
 
 ## For AI Agents
 
