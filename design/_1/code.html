@@ -1,0 +1,405 @@
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Distilled Knowledge | Modern Minimalist Blog</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@100..900&amp;family=Hanken+Grotesk:wght@100..900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'on-primary-fixed': '#100563',
+              'on-secondary-fixed': '#141b2c',
+              'on-background': '#111c2d',
+              'inverse-surface': '#263143',
+              'on-tertiary': '#ffffff',
+              'primary-fixed': '#e2dfff',
+              'inverse-primary': '#c3c0ff',
+              'on-primary-container': '#9c9af4',
+              'on-tertiary-fixed': '#311300',
+              'on-primary': '#ffffff',
+              'surface-dim': '#cfdaf2',
+              'surface-variant': '#d8e3fb',
+              'on-tertiary-fixed-variant': '#70380b',
+              'error-container': '#ffdad6',
+              'surface-container': '#e7eeff',
+              'primary-fixed-dim': '#c3c0ff',
+              'tertiary-fixed-dim': '#ffb688',
+              'on-secondary-container': '#5d6478',
+              'tertiary-fixed': '#ffdbc7',
+              'on-secondary-fixed-variant': '#3f4759',
+              'on-secondary': '#ffffff',
+              'on-primary-fixed-variant': '#3e3c8f',
+              'secondary-container': '#dbe2fa',
+              'secondary-fixed-dim': '#bfc6dd',
+              secondary: '#575e72',
+              'surface-container-highest': '#d8e3fb',
+              'surface-container-high': '#dee8ff',
+              'surface-container-lowest': '#ffffff',
+              tertiary: '#3e1a00',
+              'tertiary-container': '#5f2b00',
+              error: '#ba1a1a',
+              'primary-container': '#312e81',
+              'on-surface-variant': '#474651',
+              background: '#f9f9ff',
+              'on-surface': '#111c2d',
+              'secondary-fixed': '#dbe2fa',
+              'on-tertiary-container': '#de915e',
+              'inverse-on-surface': '#ecf1ff',
+              'outline-variant': '#c8c5d3',
+              surface: '#f9f9ff',
+              'on-error': '#ffffff',
+              primary: '#1a146b',
+              'surface-tint': '#5654a8',
+              'on-error-container': '#93000a',
+              'surface-container-low': '#f0f3ff',
+              'surface-bright': '#f9f9ff',
+              outline: '#777682',
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              'card-padding': '32px',
+              gutter: '24px',
+              'grid-margin': '4vw',
+            },
+            fontFamily: {
+              'headline-md': ['Newsreader'],
+              'headline-lg': ['Newsreader'],
+              'body-lg': ['Inter'],
+              'label-sm': ['Hanken Grotesk'],
+            },
+            fontSize: {
+              'headline-md': ['36px', { lineHeight: '1.2', fontWeight: '600' }],
+              'headline-lg': [
+                '56px',
+                { lineHeight: '1.05', letterSpacing: '-0.01em', fontWeight: '700' },
+              ],
+              'body-lg': ['20px', { lineHeight: '1.8', fontWeight: '400' }],
+              'label-sm': ['12px', { lineHeight: '1.0', fontWeight: '700' }],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background-color: #f9f9ff;
+        color: #111c2d;
+        font-family: 'Inter', sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;
+        vertical-align: middle;
+      }
+      .text-accent {
+        color: #1a146b;
+      }
+      .bg-accent {
+        background-color: #1a146b;
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-surface">
+    <!-- TopNavBar -->
+    <header class="fixed top-0 w-full z-50 bg-background border-b border-outline-variant">
+      <div class="flex justify-between items-center w-full px-grid-margin py-4 max-w-7xl mx-auto">
+        <a class="text-headline-md font-headline-md italic text-primary" href="#"
+          >Distilled Knowledge</a
+        >
+        <nav class="hidden md:flex items-center space-x-8">
+          <a
+            class="text-primary border-b-2 border-primary font-bold pb-1 text-label-sm font-label-sm"
+            href="#"
+            >Articles</a
+          >
+          <a
+            class="text-secondary font-body-lg hover:text-primary-fixed-variant transition-colors duration-200 text-label-sm font-label-sm"
+            href="#"
+            >Notes</a
+          >
+          <a
+            class="text-secondary font-body-lg hover:text-primary-fixed-variant transition-colors duration-200 text-label-sm font-label-sm"
+            href="#"
+            >About</a
+          >
+          <button class="text-primary flex items-center scale-95 duration-150 ease-in-out">
+            <span class="material-symbols-outlined" data-icon="search">search</span>
+          </button>
+        </nav>
+        <button class="md:hidden text-primary">
+          <span class="material-symbols-outlined" data-icon="menu">menu</span>
+        </button>
+      </div>
+    </header>
+    <main
+      class="max-w-7xl mx-auto pt-32 pb-20 px-grid-margin grid grid-cols-1 md:grid-cols-12 gap-gutter"
+    >
+      <!-- Sidebar Navigation -->
+      <aside class="md:col-span-3 lg:col-span-2 hidden md:block">
+        <div class="sticky top-32">
+          <h3 class="text-label-sm font-label-sm uppercase tracking-widest text-outline mb-6">
+            Categories
+          </h3>
+          <ul class="space-y-4">
+            <li>
+              <a
+                class="text-on-surface font-body-lg text-lg hover:text-primary transition-colors flex items-center group"
+                href="#"
+                >Programming
+                <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity text-primary"
+                  >→</span
+                ></a
+              >
+            </li>
+            <li>
+              <a
+                class="text-on-surface font-body-lg text-lg hover:text-primary transition-colors flex items-center group"
+                href="#"
+                >AI
+                <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity text-primary"
+                  >→</span
+                ></a
+              >
+            </li>
+            <li>
+              <a
+                class="text-on-surface font-body-lg text-lg hover:text-primary transition-colors flex items-center group"
+                href="#"
+                >Design
+                <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity text-primary"
+                  >→</span
+                ></a
+              >
+            </li>
+            <li>
+              <a
+                class="text-on-surface font-body-lg text-lg hover:text-primary transition-colors flex items-center group"
+                href="#"
+                >Notes
+                <span class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity text-primary"
+                  >→</span
+                ></a
+              >
+            </li>
+          </ul>
+          <div class="mt-16 pt-8 border-t border-outline-variant">
+            <p class="text-label-sm font-label-sm text-outline leading-relaxed">
+              A focused journal exploring the intersection of technology and minimalist design
+              philosophy.
+            </p>
+          </div>
+        </div>
+      </aside>
+      <!-- Article List -->
+      <section class="md:col-span-9 lg:col-span-7 lg:col-start-4">
+        <!-- Article Item 1 -->
+        <article class="mb-20 group">
+          <div class="flex items-center gap-4 mb-4">
+            <span
+              class="text-label-sm font-label-sm uppercase tracking-widest text-primary bg-primary-fixed px-2 py-1"
+              >Programming</span
+            >
+            <span class="text-label-sm font-label-sm text-outline">Oct 24, 2024</span>
+          </div>
+          <h2
+            class="font-headline-lg text-headline-lg mb-6 leading-tight group-hover:text-primary transition-colors"
+          >
+            <a href="#">The Art of Functional Purity in Modern Systems</a>
+          </h2>
+          <p class="font-body-lg text-body-lg text-secondary mb-8 max-w-2xl">
+            Exploring how immutable architecture leads to more predictable and maintainable software
+            in an increasingly complex distributed world. We dive deep into the philosophy behind
+            pure functions and state management.
+          </p>
+          <a
+            class="inline-flex items-center text-label-sm font-label-sm text-primary group-hover:gap-4 transition-all gap-2 uppercase tracking-widest"
+            href="#"
+          >
+            Read More <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </a>
+        </article>
+        <!-- Article Item 2 -->
+        <article class="mb-20 group">
+          <div class="flex items-center gap-4 mb-4">
+            <span
+              class="text-label-sm font-label-sm uppercase tracking-widest text-primary bg-primary-fixed px-2 py-1"
+              >AI</span
+            >
+            <span class="text-label-sm font-label-sm text-outline">Oct 18, 2024</span>
+          </div>
+          <h2
+            class="font-headline-lg text-headline-lg mb-6 leading-tight group-hover:text-primary transition-colors"
+          >
+            <a href="#">Cognitive Load and the Artificial Intelligence Paradox</a>
+          </h2>
+          <p class="font-body-lg text-body-lg text-secondary mb-8 max-w-2xl">
+            Does AI actually reduce our mental overhead or just shift it elsewhere? An analysis of
+            the friction between human intuition and machine-generated outputs.
+          </p>
+          <a
+            class="inline-flex items-center text-label-sm font-label-sm text-primary group-hover:gap-4 transition-all gap-2 uppercase tracking-widest"
+            href="#"
+          >
+            Read More <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </a>
+        </article>
+        <!-- Featured Image Break -->
+        <div class="w-full h-96 overflow-hidden rounded-lg mb-20">
+          <img
+            alt="Minimalist writing desk"
+            class="w-full h-full object-cover"
+            data-alt="A serene, minimalist workspace with a single fountain pen and an open notebook on a white marble desk. The lighting is soft and natural, coming from a large window off-camera, creating gentle shadows. The composition is clean and airy, reflecting a mood of deep focus and intellectual clarity. The color palette is composed of muted whites, soft greys, and a single deep indigo accent from the pen's ink."
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJ3NOdTw-HbGVQ0Mthj9CfbMxOCfVHCaWFYZWW_yZyxxSAQ28-u0WRajuE-ffOu3XkjiNvpqFoVIChNy6GJjHvugVf8mCa38ldTCP5SQe391BtmDsGpKd6VOyO8RqvKZFh26jA354AwraX72hTjJ46Btsnv8EfLj2eNJDuN1cKCy0Q9uDbSECkShwDoolLwosZJNdp1LRumm6vXhRH0dlxlPzZmNMMcEuAJYXtrjKII2EiDdHWK7OjZjPyWlGmSFjHkSrzJSF93w"
+          />
+        </div>
+        <!-- Article Item 3 -->
+        <article class="mb-20 group">
+          <div class="flex items-center gap-4 mb-4">
+            <span
+              class="text-label-sm font-label-sm uppercase tracking-widest text-primary bg-primary-fixed px-2 py-1"
+              >Design</span
+            >
+            <span class="text-label-sm font-label-sm text-outline">Oct 12, 2024</span>
+          </div>
+          <h2
+            class="font-headline-lg text-headline-lg mb-6 leading-tight group-hover:text-primary transition-colors"
+          >
+            <a href="#">Typographic Hierarchy in the Age of Scannability</a>
+          </h2>
+          <p class="font-body-lg text-body-lg text-secondary mb-8 max-w-2xl">
+            Balancing the beauty of long-form reading with the reality of digital consumption
+            patterns. Why your font choice is the most important decision you'll make this year.
+          </p>
+          <a
+            class="inline-flex items-center text-label-sm font-label-sm text-primary group-hover:gap-4 transition-all gap-2 uppercase tracking-widest"
+            href="#"
+          >
+            Read More <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </a>
+        </article>
+        <!-- Pagination -->
+        <nav class="flex items-center gap-8 pt-10 border-t border-outline-variant">
+          <span class="text-label-sm font-label-sm text-outline uppercase tracking-widest"
+            >Page 01 of 12</span
+          >
+          <div class="flex gap-4">
+            <a
+              class="p-2 border border-outline-variant hover:border-primary transition-colors"
+              href="#"
+            >
+              <span class="material-symbols-outlined">chevron_left</span>
+            </a>
+            <a
+              class="p-2 border border-primary text-primary hover:bg-primary hover:text-on-primary transition-colors"
+              href="#"
+            >
+              <span class="material-symbols-outlined">chevron_right</span>
+            </a>
+          </div>
+        </nav>
+      </section>
+      <!-- Right Sidebar (Metadata / Newsletter) -->
+      <aside class="lg:col-span-2 hidden lg:block">
+        <div class="sticky top-32 space-y-12">
+          <div>
+            <h3 class="text-label-sm font-label-sm uppercase tracking-widest text-outline mb-6">
+              Trending
+            </h3>
+            <ul class="space-y-6">
+              <li>
+                <a
+                  class="block text-on-surface font-headline-md text-xl leading-snug hover:text-primary transition-colors"
+                  href="#"
+                  >Why Rust is Winning</a
+                >
+                <span class="text-label-sm font-label-sm text-outline">01</span>
+              </li>
+              <li>
+                <a
+                  class="block text-on-surface font-headline-md text-xl leading-snug hover:text-primary transition-colors"
+                  href="#"
+                  >The Death of Minimalism?</a
+                >
+                <span class="text-label-sm font-label-sm text-outline">02</span>
+              </li>
+            </ul>
+          </div>
+          <div class="bg-surface-container p-6 rounded-lg">
+            <h4 class="text-label-sm font-label-sm uppercase tracking-widest text-primary mb-4">
+              Newsletter
+            </h4>
+            <p class="text-body-lg text-sm mb-4 leading-relaxed">
+              Weekly insights delivered to your inbox without the noise.
+            </p>
+            <input
+              class="w-full bg-background border-outline-variant rounded mb-3 text-label-sm p-3 focus:ring-primary focus:border-primary"
+              placeholder="Email Address"
+              type="email"
+            />
+            <button
+              class="w-full bg-primary text-on-primary py-3 text-label-sm font-label-sm uppercase tracking-widest hover:opacity-90 transition-opacity"
+            >
+              Subscribe
+            </button>
+          </div>
+        </div>
+      </aside>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-surface-container border-t border-outline-variant">
+      <div
+        class="flex flex-col md:flex-row justify-between items-center w-full px-grid-margin py- gutter max-w-7xl mx-auto py-12"
+      >
+        <div class="mb-8 md:mb-0 text-center md:text-left">
+          <h2 class="text-headline-sm font-headline-md text-primary mb-2">Distilled Knowledge</h2>
+          <p class="text-label-sm font-label-sm text-secondary">
+            © 2024 Chronicle Learning. All rights reserved.
+          </p>
+        </div>
+        <nav class="flex flex-wrap justify-center gap-8">
+          <a
+            class="text-secondary font-label-sm hover:text-primary underline transition-opacity opacity-80 hover:opacity-100"
+            href="#"
+            >Privacy Policy</a
+          >
+          <a
+            class="text-secondary font-label-sm hover:text-primary transition-opacity opacity-80 hover:opacity-100"
+            href="#"
+            >RSS Feed</a
+          >
+          <a
+            class="text-secondary font-label-sm hover:text-primary transition-opacity opacity-80 hover:opacity-100"
+            href="#"
+            >Contact</a
+          >
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

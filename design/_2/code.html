@@ -1,0 +1,468 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Distilled Knowledge - Editorial Article</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@400;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'on-primary-fixed': '#100563',
+              'on-secondary-fixed': '#141b2c',
+              'on-background': '#111c2d',
+              'inverse-surface': '#263143',
+              'on-tertiary': '#ffffff',
+              'primary-fixed': '#e2dfff',
+              'inverse-primary': '#c3c0ff',
+              'on-primary-container': '#9c9af4',
+              'on-tertiary-fixed': '#311300',
+              'on-primary': '#ffffff',
+              'surface-dim': '#cfdaf2',
+              'surface-variant': '#d8e3fb',
+              'on-tertiary-fixed-variant': '#70380b',
+              'error-container': '#ffdad6',
+              'surface-container': '#e7eeff',
+              'primary-fixed-dim': '#c3c0ff',
+              'tertiary-fixed-dim': '#ffb688',
+              'on-secondary-container': '#5d6478',
+              'tertiary-fixed': '#ffdbc7',
+              'on-secondary-fixed-variant': '#3f4759',
+              'on-secondary': '#ffffff',
+              'on-primary-fixed-variant': '#3e3c8f',
+              'secondary-container': '#dbe2fa',
+              'secondary-fixed-dim': '#bfc6dd',
+              secondary: '#575e72',
+              'surface-container-highest': '#d8e3fb',
+              'surface-container-high': '#dee8ff',
+              'surface-container-lowest': '#ffffff',
+              tertiary: '#3e1a00',
+              'tertiary-container': '#5f2b00',
+              error: '#ba1a1a',
+              'primary-container': '#312e81',
+              'on-surface-variant': '#474651',
+              background: '#f9f9ff',
+              'on-surface': '#111c2d',
+              'secondary-fixed': '#dbe2fa',
+              'on-tertiary-container': '#de915e',
+              'inverse-on-surface': '#ecf1ff',
+              'outline-variant': '#c8c5d3',
+              surface: '#f9f9ff',
+              'on-error': '#ffffff',
+              primary: '#1a146b',
+              'surface-tint': '#5654a8',
+              'on-error-container': '#93000a',
+              'surface-container-low': '#f0f3ff',
+              'surface-bright': '#f9f9ff',
+              outline: '#777682',
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              'card-padding': '32px',
+              gutter: '24px',
+              'grid-margin': '4vw',
+            },
+            fontFamily: {
+              'headline-md': ['Newsreader'],
+              'headline-lg': ['Newsreader'],
+              'body-lg': ['Inter'],
+              'label-sm': ['Hanken Grotesk'],
+            },
+            fontSize: {
+              'headline-md': ['36px', { lineHeight: '1.2', fontWeight: '600' }],
+              'headline-lg': [
+                '56px',
+                { lineHeight: '1.05', letterSpacing: '-0.01em', fontWeight: '700' },
+              ],
+              'body-lg': ['20px', { lineHeight: '1.8', fontWeight: '400' }],
+              'label-sm': ['12px', { lineHeight: '1.0', fontWeight: '700' }],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .article-grid {
+        display: grid;
+        grid-template-columns: 1fr min(720px, 100%) 1fr;
+        column-gap: 24px;
+      }
+      .article-grid > * {
+        grid-column: 2;
+      }
+      .article-grid > .full-bleed {
+        grid-column: 1 / -1;
+      }
+      .article-grid > .break-out {
+        grid-column: 1 / -1;
+        max-width: 1200px;
+        margin-inline: auto;
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-surface font-body-lg">
+    <!-- TopNavBar -->
+    <header class="bg-background sticky top-0 z-50 border-b border-outline-variant">
+      <div class="flex justify-between items-center w-full px-grid-margin py-4 max-w-7xl mx-auto">
+        <div class="text-headline-md font-headline-md italic text-primary">Distilled Knowledge</div>
+        <nav class="hidden md:flex gap-8 items-center">
+          <a class="text-primary border-b-2 border-primary font-bold pb-1 text-label-sm" href="#"
+            >Articles</a
+          >
+          <a
+            class="text-secondary font-body-lg hover:text-primary-fixed-variant transition-colors duration-200 text-label-sm"
+            href="#"
+            >Notes</a
+          >
+          <a
+            class="text-secondary font-body-lg hover:text-primary-fixed-variant transition-colors duration-200 text-label-sm"
+            href="#"
+            >About</a
+          >
+        </nav>
+        <div class="flex items-center gap-4">
+          <button
+            class="material-symbols-outlined text-primary scale-95 duration-150 ease-in-out"
+            data-icon="search"
+          >
+            search
+          </button>
+        </div>
+      </div>
+    </header>
+    <main>
+      <!-- Full-width Hero -->
+      <section class="relative w-full h-[716px] overflow-hidden">
+        <img
+          alt="Library Study"
+          class="w-full h-full object-cover"
+          data-alt="A high-resolution, atmospheric photograph of a sun-drenched library with dust motes dancing in the light. Large mahogany bookshelves overflow with leather-bound volumes, creating a sense of deep, classical wisdom. The lighting is warm and golden, casting long shadows across a dark wood reading table. The overall aesthetic is editorial and sophisticated, aligning with a premium magazine layout featuring deep indigos and paper-white highlights."
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAPztMo5i6zfnzGf4ZstcLo6Uug9DxUgQlBV8ofzSpCIH9hYmpLg8kqfBucl_-MoZOkk8NCcCN8naI9PnzdUAMQPcuyz9wB_QCiLaAWTS8er0KVdJvM13vfDf1CwUg7_w8G3xBRirv93IdKMORYvu-r9l0dGMxOXKeVJsJoR6S9WuiaBZpkeu4iNHipAsK1wiFZc5k1-0SghM0jSREzww8dj-3JVr0ViICn5DhkITSIDXW6jNKKTOnMHHrXuW5mEzJI2sGcipbZA"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"
+        ></div>
+      </section>
+      <!-- Article Header Block (Overlapping) -->
+      <article class="article-grid -mt-32 relative z-10 pb-24">
+        <header class="bg-surface-container-lowest p-card-padding shadow-sm rounded-lg mb-12">
+          <div class="flex items-center gap-2 mb-6">
+            <span
+              class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-label-sm font-label-sm"
+              >COGNITIVE SCIENCE</span
+            >
+            <span class="text-outline text-label-sm font-label-sm">12 MIN READ</span>
+          </div>
+          <h1 class="text-headline-lg font-headline-lg text-primary mb-6">
+            The Architecture of Knowledge Distillation: From Data to Wisdom
+          </h1>
+          <p class="text-headline-md font-headline-md text-secondary leading-relaxed italic mb-8">
+            An exploration into how the human mind filters noise to extract the crystalline essence
+            of understanding.
+          </p>
+          <div class="flex items-center gap-4 border-t border-outline-variant pt-6">
+            <div class="w-12 h-12 rounded-full overflow-hidden bg-surface-variant">
+              <img
+                alt="Author"
+                data-alt="A professional headshot of an intellectual man in his late 40s wearing designer glasses and a navy turtleneck. The lighting is studio-quality and soft, set against a neutral, high-key background. The mood is authoritative yet approachable, fitting for a prestigious editorial publication."
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0MJIEywjTgSYA2WvkeBDZa4cBCczmYlyEeaFbnENpk63xAsDNQ5KGrGBJ7wRYKEFZ47tLHAsqV2bs3wv-8BpKZeK2Ts4CagY8shove_3J9DchdZJ9ZpoTujZ2wWgauHKTQAFUVgTGh7qiifPHQNTJR3PmnMiTdJ292o4XyyYPYbM0dyKCKIVlVIOn6fKI2k5nBKVyVRuYIBwbwTKt8aSTZLlv6M8vt5vD6ExmXkNXMi3E2z58vE6oGbIBXN21PCzNDMfWulAJaQ"
+              />
+            </div>
+            <div>
+              <div class="text-on-surface font-bold text-body-lg">Dr. Alistair Thorne</div>
+              <div class="text-outline text-label-sm font-label-sm italic">
+                Lead Researcher at the Institute of Cognition
+              </div>
+            </div>
+          </div>
+        </header>
+        <!-- Table of Contents (Integrated) -->
+        <aside class="mb-12 p-6 border-l-4 border-primary bg-surface-container-low">
+          <div class="text-label-sm font-label-sm text-primary uppercase tracking-widest mb-4">
+            In this article
+          </div>
+          <ul class="space-y-3">
+            <li>
+              <a
+                class="text-body-lg font-body-lg text-on-surface hover:text-primary transition-colors"
+                href="#intro"
+                >I. The Information Deluge</a
+              >
+            </li>
+            <li>
+              <a
+                class="text-body-lg font-body-lg text-on-surface hover:text-primary transition-colors"
+                href="#distillation"
+                >II. The Distillation Process</a
+              >
+            </li>
+            <li>
+              <a
+                class="text-body-lg font-body-lg text-on-surface hover:text-primary transition-colors"
+                href="#diagram"
+                >III. Visualizing Understanding</a
+              >
+            </li>
+            <li>
+              <a
+                class="text-body-lg font-body-lg text-on-surface hover:text-primary transition-colors"
+                href="#synthesis"
+                >IV. Active Synthesis</a
+              >
+            </li>
+          </ul>
+        </aside>
+        <!-- Body Content -->
+        <section class="mb-12" id="intro">
+          <p
+            class="text-body-lg font-body-lg mb-8 first-letter:text-7xl first-letter:font-headline-lg first-letter:text-primary first-letter:float-left first-letter:mr-3 first-letter:mt-2"
+          >
+            In the modern era, we are not starved for information; we are drowning in it. The
+            challenge has shifted from access to discernment. Knowledge distillation is the art of
+            extracting the meaningful signals from the cacophony of global data. It requires a
+            rigorous methodology, a refined aesthetic for truth, and a patient commitment to
+            silence.
+          </p>
+          <p class="text-body-lg font-body-lg mb-8">
+            To understand this process, we must first look at the layers of cognitive load. When we
+            encounter new information, our brain attempts to map it against existing neural
+            networks—a process that is both energy-intensive and prone to bias.
+          </p>
+        </section>
+        <!-- Breakout Diagram Section -->
+        <section class="break-out mb-16 px-gutter" id="distillation">
+          <div
+            class="bg-on-background text-on-primary p-card-padding rounded-xl overflow-hidden relative"
+          >
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 class="text-headline-md font-headline-md text-primary-fixed mb-4">
+                  The Distillation Loop
+                </h2>
+                <p class="text-body-lg font-body-lg text-primary-fixed-dim opacity-80 mb-6">
+                  Knowledge is not linear. It is a recursive cycle of gathering, filtering, and
+                  internalizing.
+                </p>
+                <div class="space-y-6">
+                  <div class="flex items-start gap-4">
+                    <div class="bg-primary-container p-2 rounded-lg">
+                      <span
+                        class="material-symbols-outlined text-on-primary-container"
+                        data-icon="filter_alt"
+                        >filter_alt</span
+                      >
+                    </div>
+                    <div>
+                      <div class="text-on-primary font-bold">Extraction</div>
+                      <div class="text-label-sm font-label-sm text-primary-fixed-dim">
+                        Identifying key variables and removing redundant noise.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-4">
+                    <div class="bg-primary-container p-2 rounded-lg">
+                      <span
+                        class="material-symbols-outlined text-on-primary-container"
+                        data-icon="bubble_chart"
+                        >bubble_chart</span
+                      >
+                    </div>
+                    <div>
+                      <div class="text-on-primary font-bold">Contextualization</div>
+                      <div class="text-label-sm font-label-sm text-primary-fixed-dim">
+                        Mapping extracted data onto relevant domain models.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="relative aspect-square flex items-center justify-center">
+                <!-- SVG Diagram: Sophisticated Knowledge Distillation -->
+                <svg class="w-full h-full" viewbox="0 0 400 400">
+                  <circle
+                    cx="200"
+                    cy="200"
+                    fill="none"
+                    r="150"
+                    stroke="#312e81"
+                    stroke-dasharray="8 4"
+                    stroke-width="1"
+                  ></circle>
+                  <circle
+                    cx="200"
+                    cy="200"
+                    fill="none"
+                    r="100"
+                    stroke="#3e3c8f"
+                    stroke-dasharray="4 2"
+                    stroke-width="2"
+                  ></circle>
+                  <circle
+                    cx="200"
+                    cy="200"
+                    fill="#c3c0ff"
+                    fill-opacity="0.2"
+                    r="50"
+                    stroke="#c3c0ff"
+                    stroke-width="3"
+                  ></circle>
+                  <g class="text-primary-fixed font-bold text-[10px]">
+                    <text text-anchor="middle" x="200" y="30">RAW DATA</text>
+                    <text text-anchor="middle" x="200" y="85">INFORMATION</text>
+                    <text fill="#ffffff" text-anchor="middle" x="200" y="205">WISDOM</text>
+                  </g>
+                  <path
+                    d="M200 40 L200 150"
+                    marker-end="url(#arrowhead)"
+                    stroke="#9c9af4"
+                    stroke-width="2"
+                  ></path>
+                  <defs>
+                    <marker
+                      id="arrowhead"
+                      markerheight="7"
+                      markerwidth="10"
+                      orient="auto"
+                      refx="0"
+                      refy="3.5"
+                    >
+                      <polygon fill="#9c9af4" points="0 0, 10 3.5, 0 7"></polygon>
+                    </marker>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="mb-12" id="diagram">
+          <blockquote
+            class="border-l-8 border-primary-container pl-8 py-4 my-12 bg-secondary-container/10"
+          >
+            <p class="text-headline-md font-headline-md text-primary italic">
+              "The ability to simplify means to eliminate the unnecessary so that the necessary may
+              speak."
+            </p>
+            <cite class="block mt-4 text-label-sm font-label-sm text-outline">— HANS HOFMANN</cite>
+          </blockquote>
+          <h3 class="text-headline-md font-headline-md text-on-surface mb-6">
+            Knowledge Retention Metrics
+          </h3>
+          <p class="text-body-lg font-body-lg mb-8">
+            Recent studies suggest that distilled knowledge—information that has been actively
+            restructured by the learner—has a 70% higher retention rate over a six-month period
+            compared to passive consumption.
+          </p>
+          <!-- Chart Placeholder -->
+          <div class="bg-surface-container p-gutter rounded-xl mb-12 border border-outline-variant">
+            <div class="flex justify-between items-end h-64 gap-4">
+              <div class="flex-1 flex flex-col justify-end items-center gap-2">
+                <div class="w-full bg-outline-variant rounded-t-lg h-[20%]"></div>
+                <span class="text-label-sm font-label-sm">Passive</span>
+              </div>
+              <div class="flex-1 flex flex-col justify-end items-center gap-2">
+                <div class="w-full bg-secondary-container rounded-t-lg h-[45%]"></div>
+                <span class="text-label-sm font-label-sm">Noted</span>
+              </div>
+              <div class="flex-1 flex flex-col justify-end items-center gap-2">
+                <div class="w-full bg-primary rounded-t-lg h-[90%]"></div>
+                <span class="text-label-sm font-label-sm">Distilled</span>
+              </div>
+            </div>
+            <div
+              class="mt-4 pt-4 border-t border-outline-variant text-center text-outline text-label-sm font-label-sm"
+            >
+              RELATIVE COGNITIVE RETENTION (6 MONTHS)
+            </div>
+          </div>
+        </section>
+        <section class="mb-24" id="synthesis">
+          <h3 class="text-headline-md font-headline-md text-on-surface mb-6">
+            The Final Synthesis
+          </h3>
+          <p class="text-body-lg font-body-lg mb-8">
+            In conclusion, the goal of Distilled Knowledge is not just to know more, but to
+            understand better. By applying editorial rigor to our own learning habits, we can
+            transform the chaotic stream of daily inputs into a structured library of lasting
+            wisdom.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-12">
+            <span
+              class="px-4 py-1 rounded-full border border-primary text-primary text-label-sm font-label-sm"
+              >Thinking</span
+            >
+            <span
+              class="px-4 py-1 rounded-full border border-primary text-primary text-label-sm font-label-sm"
+              >Methodology</span
+            >
+            <span
+              class="px-4 py-1 rounded-full border border-primary text-primary text-label-sm font-label-sm"
+              >Curation</span
+            >
+          </div>
+        </section>
+      </article>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-surface-container border-t border-outline-variant">
+      <div
+        class="flex flex-col md:flex-row justify-between items-center w-full px-grid-margin py-gutter max-w-7xl mx-auto"
+      >
+        <div class="text-headline-sm font-headline-md text-primary mb-6 md:mb-0">
+          Distilled Knowledge
+        </div>
+        <div class="flex flex-col items-center md:items-end gap-4">
+          <nav class="flex gap-6">
+            <a
+              class="text-secondary hover:text-primary underline text-label-sm font-label-sm opacity-80 hover:opacity-100 transition-opacity"
+              href="#"
+              >Privacy Policy</a
+            >
+            <a
+              class="text-secondary hover:text-primary underline text-label-sm font-label-sm opacity-80 hover:opacity-100 transition-opacity"
+              href="#"
+              >RSS Feed</a
+            >
+            <a
+              class="text-secondary hover:text-primary underline text-label-sm font-label-sm opacity-80 hover:opacity-100 transition-opacity"
+              href="#"
+              >Contact</a
+            >
+          </nav>
+          <div class="text-on-surface text-label-sm font-label-sm opacity-60">
+            © 2024 Chronicle Learning. All rights reserved.
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

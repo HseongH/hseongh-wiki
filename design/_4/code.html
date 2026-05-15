@@ -1,0 +1,379 @@
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@100..900&amp;family=Hanken+Grotesk:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'on-primary-fixed': '#100563',
+              'on-secondary-fixed': '#141b2c',
+              'on-background': '#111c2d',
+              'inverse-surface': '#263143',
+              'on-tertiary': '#ffffff',
+              'primary-fixed': '#e2dfff',
+              'inverse-primary': '#c3c0ff',
+              'on-primary-container': '#9c9af4',
+              'on-tertiary-fixed': '#311300',
+              'on-primary': '#ffffff',
+              'surface-dim': '#cfdaf2',
+              'surface-variant': '#d8e3fb',
+              'on-tertiary-fixed-variant': '#70380b',
+              'error-container': '#ffdad6',
+              'surface-container': '#e7eeff',
+              'primary-fixed-dim': '#c3c0ff',
+              'tertiary-fixed-dim': '#ffb688',
+              'on-secondary-container': '#5d6478',
+              'tertiary-fixed': '#ffdbc7',
+              'on-secondary-fixed-variant': '#3f4759',
+              'on-secondary': '#ffffff',
+              'on-primary-fixed-variant': '#3e3c8f',
+              'secondary-container': '#dbe2fa',
+              'secondary-fixed-dim': '#bfc6dd',
+              secondary: '#575e72',
+              'surface-container-highest': '#d8e3fb',
+              'surface-container-high': '#dee8ff',
+              'surface-container-lowest': '#ffffff',
+              tertiary: '#3e1a00',
+              'tertiary-container': '#5f2b00',
+              error: '#ba1a1a',
+              'primary-container': '#312e81',
+              'on-surface-variant': '#474651',
+              background: '#f9f9ff',
+              'on-surface': '#111c2d',
+              'secondary-fixed': '#dbe2fa',
+              'on-tertiary-container': '#de915e',
+              'inverse-on-surface': '#ecf1ff',
+              'outline-variant': '#c8c5d3',
+              surface: '#f9f9ff',
+              'on-error': '#ffffff',
+              primary: '#1a146b',
+              'surface-tint': '#5654a8',
+              'on-error-container': '#93000a',
+              'surface-container-low': '#f0f3ff',
+              'surface-bright': '#f9f9ff',
+              outline: '#777682',
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              'card-padding': '32px',
+              gutter: '24px',
+              'grid-margin': '4vw',
+            },
+            fontFamily: {
+              'headline-md': ['Newsreader'],
+              'headline-lg': ['Newsreader'],
+              'body-lg': ['Inter'],
+              'label-sm': ['Hanken Grotesk'],
+            },
+            fontSize: {
+              'headline-md': ['36px', { lineHeight: '1.2', fontWeight: '600' }],
+              'headline-lg': [
+                '56px',
+                { lineHeight: '1.05', letterSpacing: '-0.01em', fontWeight: '700' },
+              ],
+              'body-lg': ['20px', { lineHeight: '1.8', fontWeight: '400' }],
+              'label-sm': ['12px', { lineHeight: '1.0', fontWeight: '700' }],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;
+      }
+      .asymmetric-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 24px;
+      }
+      .shadow-editorial {
+        box-shadow: 0 4px 20px -4px rgba(26, 20, 107, 0.1);
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-surface font-body-lg">
+    <!-- TopNavBar -->
+    <nav
+      class="bg-background dark:bg-on-background border-b border-outline-variant dark:border-on-surface-variant top-0 sticky z-50"
+    >
+      <div class="flex justify-between items-center w-full px-grid-margin py-4 max-w-7xl mx-auto">
+        <div
+          class="text-headline-md font-headline-md italic text-primary dark:text-inverse-primary"
+        >
+          Chronicle Learning
+        </div>
+        <div class="hidden md:flex items-center gap-8">
+          <a
+            class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary font-bold pb-1 transition-colors duration-200"
+            href="#"
+            >Articles</a
+          >
+          <a
+            class="text-secondary dark:text-secondary-fixed font-body-lg hover:text-primary-fixed-variant dark:hover:text-on-primary-container transition-colors duration-200"
+            href="#"
+            >Notes</a
+          >
+          <a
+            class="text-secondary dark:text-secondary-fixed font-body-lg hover:text-primary-fixed-variant dark:hover:text-on-primary-container transition-colors duration-200"
+            href="#"
+            >About</a
+          >
+        </div>
+        <div class="flex items-center gap-4">
+          <button class="p-2 transition-transform scale-95 duration-150 ease-in-out">
+            <span class="material-symbols-outlined text-primary" data-icon="search">search</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <main class="max-w-7xl mx-auto px-grid-margin py-12">
+      <!-- Hero Section: Featured Article -->
+      <section class="mb-20">
+        <div class="relative group cursor-pointer overflow-hidden rounded-lg shadow-editorial">
+          <div class="aspect-[21/9] w-full overflow-hidden">
+            <img
+              alt="Featured Article Header"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              data-alt="A high-resolution, sophisticated image of a modern architectural library with vast floor-to-ceiling windows overlooking a serene twilight landscape. The interior features deep indigo shadows and warm golden pin-lights illuminating rows of scholarly books. The style is editorial and cinematic, emphasizing a quiet atmosphere of deep intellectual focus and luxury, perfectly aligned with a premium literary magazine aesthetic."
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1qNB-eyg-E8ZOAriEJX2pTZbtf_JaMYuCS2zJ-E22SPqy7MiPOdWhfhz-aTDIWoKqLxbiXIMFrWoPcmWm92qMYsGargIIumplS77FoPoS2Z1TP7Dx3NpRU06sr4g3ZWu2M-46v8b_l4sBjJCutZwgGbMPh4eRxTraVmpGPnpco8ubDhrFXKu3vDu41ZkT9UY2E7znoK9jGV9bOMOo0w_W0d2EJ8oK55yxL-OY3G2iyMypLNho-5ERLg4gb9ZNN8lmZxw-cCdx6Q"
+            />
+          </div>
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent"
+          ></div>
+          <div class="absolute bottom-0 left-0 p-12 max-w-4xl">
+            <span
+              class="inline-block px-3 py-1 mb-6 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm"
+            >
+              FEATURED ESSAY
+            </span>
+            <h1 class="font-headline-lg text-headline-lg text-white mb-4">
+              The Silent Architecture of Deep Learning: Why Context is Everything
+            </h1>
+            <p class="text-white/90 font-body-lg max-w-2xl mb-8">
+              In an age of fragmented information, true understanding requires a return to the
+              long-form narrative. We explore the psychological foundations of curated knowledge.
+            </p>
+            <div class="flex items-center gap-4 text-white/80 font-label-sm text-label-sm">
+              <span>BY ELARA VANCE</span>
+              <span class="w-1 h-1 bg-white/40 rounded-full"></span>
+              <span>12 MIN READ</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Main Content Grid -->
+      <div class="asymmetric-grid">
+        <!-- Left Column: Article Feed -->
+        <div class="col-span-12 lg:col-span-8 space-y-16">
+          <!-- Article Card 1 -->
+          <article class="flex flex-col md:flex-row gap-8 group">
+            <div class="md:w-1/2 overflow-hidden rounded-lg shadow-editorial">
+              <img
+                alt="Learning Rituals"
+                class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                data-alt="A moody, high-contrast close-up of a vintage fountain pen resting on a thick, cream-colored paper journal. Soft, natural morning light creates long, elegant shadows across the desk. The color palette is dominated by deep blues and paper whites, reflecting an atmosphere of refined scholarship and the intentional act of slow, deliberate learning."
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvvpIULXr2ntZDtOZkWUmEwr9-QL8PkyqoaTPsIV15I1uh1Aynn9uPGlmze_PLu0znr3sQz6QBEpyoxA_cJBg0-QmFAIGb9hWslC_NMeMr7I3si5G1fYtLP_cqetRwus5K4mgsM-TVyBRNC6bquV7caObIqhLHc9s8c8qqPmU_RYxuAkvJlMjr5t3YBBJq-pyp7Fdf3ZDV224PouWgYftYTOhsk2ymET4Dov2SKozDFQohbOZ0FUBNwDrt4JXyMs-1Rt7CBiKT3Q"
+              />
+            </div>
+            <div class="md:w-1/2 flex flex-col justify-center">
+              <span class="text-primary font-label-sm text-label-sm mb-3 tracking-widest"
+                >COGNITION</span
+              >
+              <h2
+                class="font-headline-md text-headline-md text-on-surface mb-4 group-hover:text-primary transition-colors"
+              >
+                Rituals of the Modern Polymath
+              </h2>
+              <p class="text-on-surface-variant font-body-lg mb-6 line-clamp-3">
+                Behind every great mind lies a series of meticulously crafted habits. We dive into
+                the daily schedules of historical and contemporary thinkers.
+              </p>
+              <div class="flex items-center text-on-surface-variant font-label-sm text-label-sm">
+                MARCH 14, 2024 • 8 MIN READ
+              </div>
+            </div>
+          </article>
+          <!-- Article Card 2 (Bento Style/Wide) -->
+          <article
+            class="bg-surface-container-low p-card-padding rounded-lg shadow-editorial border border-outline-variant group"
+          >
+            <div class="flex flex-col md:flex-row gap-10">
+              <div class="flex-1">
+                <span class="text-tertiary font-label-sm text-label-sm mb-4 block"
+                  >DESIGN THEORY</span
+                >
+                <h2
+                  class="font-headline-md text-headline-md text-on-surface mb-4 group-hover:text-primary transition-colors"
+                >
+                  The Ethics of Digital Scarcity: Designing for Permanence
+                </h2>
+                <p class="text-on-surface-variant font-body-lg mb-8">
+                  How can we build digital experiences that age like fine leather? Investigating the
+                  principles of "slow-design" in a fast-paced software world.
+                </p>
+                <button
+                  class="px-6 py-2 bg-primary text-on-primary rounded-lg font-label-sm text-label-sm transition-transform active:scale-95"
+                >
+                  READ THE FULL ARTICLE
+                </button>
+              </div>
+              <div class="md:w-1/3 overflow-hidden rounded-lg">
+                <img
+                  alt="Digital Scarcity"
+                  class="w-full h-full object-cover"
+                  data-alt="An abstract, minimalist digital sculpture made of glass-like materials that refract light into indigo and violet hues. The object appears both ancient and futuristic, floating in a clean, brightly lit white studio space. The visual style is high-end corporate meets experimental art gallery, using clean lines and sophisticated lighting to evoke permanence."
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1GJq6RYEirGBr3JjiAewcRoEMazljh5IhMD6oyTq3ghPn7mOCbtVjzRe102ATsUwXSgR1Y62Bxh-KdNffCGodcuY2Gz5uqlhjd4Lj4hIcwPwVc0He4PFAuEdHwK-REidv75ERuGOrVJXGNEl81ByC23JuDvSacr0oVhxoIuPxdAYeDbHcsC2rYWS8pLoTe4uMdo1gUTPjJimN7-2-cSg3MxARWT6XVZT-0_P_Aaigd9pRsLRADWmW4Ql83S7Dj7TQTtHiJcKDUA"
+                />
+              </div>
+            </div>
+          </article>
+          <!-- Article Card 3 -->
+          <article class="flex flex-col md:flex-row gap-8 group">
+            <div class="md:w-1/2 overflow-hidden rounded-lg shadow-editorial">
+              <img
+                alt="Philosophy of Reading"
+                class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                data-alt="An overhead shot of an open, old leather-bound book on a dark wood table next to a simple white ceramic cup of black coffee. The lighting is focused and warm, like a reading lamp in a private study. The aesthetic is sophisticated, intellectual, and traditional, with a strong emphasis on texture and the physical sensation of analog knowledge."
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqAWARLnStfulAdSMF1T_VLiJMV5LxDB8lRFY73hFGa1-nVSwf-YTAKavEVmrULc1fsWufCmWJGoQuR19VD3rPsFqRpgU3YT6yYiNVcOXzs1HaI1EG_dfxRxf3iiYxiIRTELpG0xTMY7LwTdSCSaz_UvyDhhSJn3nF_TE03ov3g3TRhK8pssAeMfGqEntn_28WJfTNSURKY2_FU4XatYzMJ10W_bmu-3whBjqI9l2-t3Q5ztNX7x0pg8a0_fGQk9_ED_ysP3EqDQ"
+              />
+            </div>
+            <div class="md:w-1/2 flex flex-col justify-center">
+              <span class="text-primary font-label-sm text-label-sm mb-3 tracking-widest"
+                >PHILOSOPHY</span
+              >
+              <h2
+                class="font-headline-md text-headline-md text-on-surface mb-4 group-hover:text-primary transition-colors"
+              >
+                The Socratic Method in the AI Era
+              </h2>
+              <p class="text-on-surface-variant font-body-lg mb-6 line-clamp-3">
+                When the answer is always a second away, the value of the question increases
+                tenfold. Re-examining ancient dialogue techniques for the modern prompt engineer.
+              </p>
+              <div class="flex items-center text-on-surface-variant font-label-sm text-label-sm">
+                MARCH 10, 2024 • 15 MIN READ
+              </div>
+            </div>
+          </article>
+        </div>
+        <!-- Right Column: Sidebar -->
+        <aside class="col-span-12 lg:col-span-4 space-y-12">
+          <!-- Newsletter Widget -->
+          <div
+            class="bg-primary text-on-primary p-card-padding rounded-lg shadow-editorial sticky top-28"
+          >
+            <h3 class="font-headline-md text-headline-md mb-4 text-white">The Sunday Edition</h3>
+            <p class="text-white/80 mb-8 font-body-lg text-lg">
+              Curated insights on learning, design, and philosophy delivered to your inbox every
+              week. No noise, just signal.
+            </p>
+            <form class="space-y-4">
+              <div>
+                <input
+                  class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-primary-fixed"
+                  placeholder="Email Address"
+                  type="email"
+                />
+              </div>
+              <button
+                class="w-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm py-4 rounded-lg hover:bg-tertiary-fixed-dim transition-colors uppercase tracking-widest"
+              >
+                SUBSCRIBE
+              </button>
+            </form>
+            <p class="mt-6 text-white/50 text-xs font-label-sm text-center">
+              JOIN 25,000+ CURIOUS MINDS.
+            </p>
+          </div>
+          <!-- Trending/Category Chips -->
+          <div class="p-card-padding">
+            <h4 class="font-label-sm text-label-sm text-primary mb-6 uppercase tracking-widest">
+              TOPICS
+            </h4>
+            <div class="flex flex-wrap gap-3">
+              <span
+                class="px-4 py-2 bg-secondary-container text-on-secondary-container rounded-full font-label-sm text-label-sm cursor-pointer hover:bg-secondary transition-colors hover:text-white"
+                >Cognition</span
+              >
+              <span
+                class="px-4 py-2 bg-secondary-container text-on-secondary-container rounded-full font-label-sm text-label-sm cursor-pointer hover:bg-secondary transition-colors hover:text-white"
+                >Design Systems</span
+              >
+              <span
+                class="px-4 py-2 bg-secondary-container text-on-secondary-container rounded-full font-label-sm text-label-sm cursor-pointer hover:bg-secondary transition-colors hover:text-white"
+                >Artificial Intelligence</span
+              >
+              <span
+                class="px-4 py-2 bg-secondary-container text-on-secondary-container rounded-full font-label-sm text-label-sm cursor-pointer hover:bg-secondary transition-colors hover:text-white"
+                >Digital Epistemology</span
+              >
+              <span
+                class="px-4 py-2 bg-secondary-container text-on-secondary-container rounded-full font-label-sm text-label-sm cursor-pointer hover:bg-secondary transition-colors hover:text-white"
+                >History</span
+              >
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+    <!-- Footer -->
+    <footer
+      class="bg-surface-container dark:bg-inverse-surface border-t border-surface-container-high dark:border-on-background mt-24"
+    >
+      <div
+        class="flex flex-col md:flex-row justify-between items-center w-full px-grid-margin py-gutter max-w-7xl mx-auto"
+      >
+        <div class="mb-8 md:mb-0">
+          <div class="text-headline-sm font-headline-md text-primary dark:text-primary-fixed mb-2">
+            Chronicle Learning
+          </div>
+          <div class="text-secondary dark:text-secondary-fixed text-label-sm font-label-sm">
+            © 2024 Chronicle Learning. All rights reserved.
+          </div>
+        </div>
+        <div class="flex flex-wrap justify-center gap-8">
+          <a
+            class="text-secondary dark:text-secondary-fixed font-label-sm text-label-sm hover:text-primary dark:hover:text-on-primary-container underline transition-opacity opacity-80 hover:opacity-100"
+            href="#"
+            >Privacy Policy</a
+          >
+          <a
+            class="text-secondary dark:text-secondary-fixed font-label-sm text-label-sm hover:text-primary dark:hover:text-on-primary-container underline transition-opacity opacity-80 hover:opacity-100"
+            href="#"
+            >RSS Feed</a
+          >
+          <a
+            class="text-secondary dark:text-secondary-fixed font-label-sm text-label-sm hover:text-primary dark:hover:text-on-primary-container underline transition-opacity opacity-80 hover:opacity-100"
+            href="#"
+            >Contact</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

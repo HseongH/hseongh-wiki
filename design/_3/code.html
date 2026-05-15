@@ -1,0 +1,434 @@
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;family=Inter:wght@400;500;600&amp;family=Hanken+Grotesk:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'on-primary-fixed': '#100563',
+              'on-secondary-fixed': '#141b2c',
+              'on-background': '#111c2d',
+              'inverse-surface': '#263143',
+              'on-tertiary': '#ffffff',
+              'primary-fixed': '#e2dfff',
+              'inverse-primary': '#c3c0ff',
+              'on-primary-container': '#9c9af4',
+              'on-tertiary-fixed': '#311300',
+              'on-primary': '#ffffff',
+              'surface-dim': '#cfdaf2',
+              'surface-variant': '#d8e3fb',
+              'on-tertiary-fixed-variant': '#70380b',
+              'error-container': '#ffdad6',
+              'surface-container': '#e7eeff',
+              'primary-fixed-dim': '#c3c0ff',
+              'tertiary-fixed-dim': '#ffb688',
+              'on-secondary-container': '#5d6478',
+              'tertiary-fixed': '#ffdbc7',
+              'on-secondary-fixed-variant': '#3f4759',
+              'on-secondary': '#ffffff',
+              'on-primary-fixed-variant': '#3e3c8f',
+              'secondary-container': '#dbe2fa',
+              'secondary-fixed-dim': '#bfc6dd',
+              secondary: '#575e72',
+              'surface-container-highest': '#d8e3fb',
+              'surface-container-high': '#dee8ff',
+              'surface-container-lowest': '#ffffff',
+              tertiary: '#3e1a00',
+              'tertiary-container': '#5f2b00',
+              error: '#ba1a1a',
+              'primary-container': '#312e81',
+              'on-surface-variant': '#474651',
+              background: '#f9f9ff',
+              'on-surface': '#111c2d',
+              'secondary-fixed': '#dbe2fa',
+              'on-tertiary-container': '#de915e',
+              'inverse-on-surface': '#ecf1ff',
+              'outline-variant': '#c8c5d3',
+              surface: '#f9f9ff',
+              'on-error': '#ffffff',
+              primary: '#1a146b',
+              'surface-tint': '#5654a8',
+              'on-error-container': '#93000a',
+              'surface-container-low': '#f0f3ff',
+              'surface-bright': '#f9f9ff',
+              outline: '#777682',
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              'card-padding': '32px',
+              gutter: '24px',
+              'grid-margin': '4vw',
+            },
+            fontFamily: {
+              'headline-md': ['Newsreader'],
+              'headline-lg': ['Newsreader'],
+              'body-lg': ['Inter'],
+              'label-sm': ['Hanken Grotesk'],
+            },
+            fontSize: {
+              'headline-md': ['36px', { lineHeight: '1.2', fontWeight: '600' }],
+              'headline-lg': [
+                '56px',
+                { lineHeight: '1.05', letterSpacing: '-0.01em', fontWeight: '700' },
+              ],
+              'body-lg': ['20px', { lineHeight: '1.8', fontWeight: '400' }],
+              'label-sm': ['12px', { lineHeight: '1.0', fontWeight: '700' }],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;
+        display: inline-block;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+      }
+      body {
+        background-color: #f9f9ff;
+        color: #111c2d;
+      }
+      .content-width {
+        max-width: 800px;
+      }
+    </style>
+  </head>
+  <body
+    class="font-body-lg text-body-lg selection:bg-primary-fixed selection:text-on-primary-fixed"
+  >
+    <!-- TopNavBar -->
+    <nav
+      class="bg-background dark:bg-on-background border-b border-outline-variant dark:border-on-surface-variant top-0 sticky z-50"
+    >
+      <div class="flex justify-between items-center w-full px-grid-margin py-4 max-w-7xl mx-auto">
+        <div
+          class="text-headline-md font-headline-md italic text-primary dark:text-inverse-primary"
+        >
+          Chronicle Learning
+        </div>
+        <div class="hidden md:flex items-center space-x-8">
+          <a
+            class="text-secondary dark:text-secondary-fixed font-body-lg hover:text-primary-fixed-variant dark:hover:text-on-primary-container transition-colors duration-200"
+            href="#"
+            >Articles</a
+          >
+          <a
+            class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary font-bold pb-1"
+            href="#"
+            >Notes</a
+          >
+          <a
+            class="text-secondary dark:text-secondary-fixed font-body-lg hover:text-primary-fixed-variant dark:hover:text-on-primary-container transition-colors duration-200"
+            href="#"
+            >About</a
+          >
+        </div>
+        <div class="flex items-center gap-4">
+          <button class="text-primary hover:scale-95 duration-150 ease-in-out">
+            <span class="material-symbols-outlined" data-icon="search">search</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <main
+      class="max-w-7xl mx-auto px-grid-margin py-16 grid grid-cols-1 lg:grid-cols-[200px_1fr_250px] gap-gutter items-start"
+    >
+      <!-- Sticky Table of Contents (Left) -->
+      <aside class="hidden lg:block sticky top-24">
+        <p class="font-label-sm text-label-sm uppercase tracking-widest text-outline mb-6">
+          Contents
+        </p>
+        <nav class="flex flex-col gap-4">
+          <a
+            class="text-label-sm font-label-sm text-primary border-l-2 border-primary pl-4"
+            href="#intro"
+            >Introduction</a
+          >
+          <a
+            class="text-label-sm font-label-sm text-secondary hover:text-primary pl-4 transition-colors"
+            href="#process"
+            >Distillation Process</a
+          >
+          <a
+            class="text-label-sm font-label-sm text-secondary hover:text-primary pl-4 transition-colors"
+            href="#efficiency"
+            >Learning Efficiency</a
+          >
+          <a
+            class="text-label-sm font-label-sm text-secondary hover:text-primary pl-4 transition-colors"
+            href="#conclusion"
+            >Final Thoughts</a
+          >
+        </nav>
+      </aside>
+      <!-- Main Article Content (Center) -->
+      <article class="content-width mx-auto">
+        <header class="mb-12">
+          <div
+            class="flex items-center gap-2 text-primary font-label-sm text-label-sm uppercase tracking-widest mb-4"
+          >
+            <span>Machine Learning</span>
+            <span class="w-1 h-1 bg-outline rounded-full"></span>
+            <span>12 Min Read</span>
+          </div>
+          <h1 class="font-headline-lg text-headline-lg text-on-surface mb-8">
+            The Architecture of Distilled Knowledge
+          </h1>
+          <p
+            class="font-body-lg text-body-lg text-secondary leading-relaxed first-letter:text-5xl first-letter:font-headline-lg first-letter:mr-3 first-letter:float-left first-letter:text-primary"
+          >
+            In the rapidly evolving landscape of artificial intelligence, the quest for efficiency
+            has led us to the paradigm of Knowledge Distillation. This process represents a
+            sophisticated bridge between colossal teacher models and agile student architectures,
+            ensuring that intelligence is not just powerful, but also portable.
+          </p>
+        </header>
+        <img
+          alt="Abstract Data Visualization"
+          class="w-full h-[450px] object-cover mb-12 rounded-lg"
+          data-alt="A sophisticated macro photograph of a translucent glass prism refracting soft, cool blue light in a dark, minimalist setting. The light creates clean geometric lines and gradients of indigo and violet, representing the clarity and precision of distilled knowledge. The overall atmosphere is modern, academic, and highly professional, utilizing the deep indigo and pale lavender color palette of the design system."
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuD55kJMH2_0vywuffgVVV6Ah2uM66jD3WJxMFuUUnlYrvDJoH34znDMbej7zhiIwZvzfofYji9WtjInlgyUyi05pxxqzR24VISIR_EE071h3y1DYCVzjFjoQ4kZSY54QZh5vzMZUTNhJwBCwFPB3n3cAt4nK99efeU6Ex5PvitudjTpTttE12Z8DGTpgJtXrrM7x4E0M34vlo2AAGClBanftDNDztlffDZKhJNjW9ELOJ4uj_LLrH1pDTobbtGTc8cbjRhFlXCqGg"
+        />
+        <section class="mb-16" id="process">
+          <h2 class="font-headline-md text-headline-md text-on-surface mb-6">
+            Knowledge Distillation Process
+          </h2>
+          <p class="mb-8">
+            The distillation process is an elegant transfer of 'dark knowledge'—the subtle
+            relationships between classes that a large model learns during its extensive training
+            phase.
+          </p>
+          <!-- Mermaid-style Diagram Replacement -->
+          <div
+            class="bg-surface-container-low p-card-padding rounded-xl border border-outline-variant mb-8"
+          >
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8 relative">
+              <!-- Teacher Node -->
+              <div class="flex flex-col items-center z-10">
+                <div
+                  class="w-24 h-24 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container mb-4 shadow-lg"
+                >
+                  <span class="material-symbols-outlined text-4xl" data-icon="school">school</span>
+                </div>
+                <span class="font-label-sm text-label-sm">Teacher Model</span>
+                <span class="text-xs text-outline">Complex / 175B Params</span>
+              </div>
+              <!-- Connector -->
+              <div class="hidden md:flex items-center flex-1 h-[2px] bg-outline-variant relative">
+                <div
+                  class="absolute inset-0 bg-gradient-to-r from-primary-container to-secondary-container"
+                ></div>
+                <div
+                  class="absolute top-[-30px] left-1/2 -translate-x-1/2 bg-surface px-4 py-1 border border-outline-variant rounded-full text-[10px] font-bold text-primary"
+                >
+                  Soft Targets
+                </div>
+              </div>
+              <!-- Student Node -->
+              <div class="flex flex-col items-center z-10">
+                <div
+                  class="w-20 h-20 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container mb-4 border-2 border-primary"
+                >
+                  <span class="material-symbols-outlined text-3xl" data-icon="person">person</span>
+                </div>
+                <span class="font-label-sm text-label-sm">Student Model</span>
+                <span class="text-xs text-outline">Agile / 7B Params</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="mb-16" id="efficiency">
+          <h2 class="font-headline-md text-headline-md text-on-surface mb-6">
+            Learning Efficiency
+          </h2>
+          <p class="mb-8">
+            When we measure the performance of distilled models against their raw-trained
+            counterparts, the efficiency gains in inference speed and resource utilization are
+            non-linear and significant.
+          </p>
+          <!-- Simple Bar Chart -->
+          <div class="bg-surface-container-highest p-card-padding rounded-xl">
+            <h3 class="font-label-sm text-label-sm mb-6 text-on-surface">
+              Accuracy vs. Efficiency Gain (%)
+            </h3>
+            <div class="space-y-6">
+              <div>
+                <div
+                  class="flex justify-between font-label-sm text-[10px] mb-2 uppercase tracking-tighter"
+                >
+                  <span>Distilled Student (7B)</span>
+                  <span>94% Accuracy</span>
+                </div>
+                <div class="w-full h-4 bg-outline-variant rounded-full overflow-hidden">
+                  <div class="h-full bg-primary w-[94%]"></div>
+                </div>
+              </div>
+              <div>
+                <div
+                  class="flex justify-between font-label-sm text-[10px] mb-2 uppercase tracking-tighter"
+                >
+                  <span>Native Student (7B)</span>
+                  <span>82% Accuracy</span>
+                </div>
+                <div class="w-full h-4 bg-outline-variant rounded-full overflow-hidden">
+                  <div class="h-full bg-secondary w-[82%]"></div>
+                </div>
+              </div>
+              <div>
+                <div
+                  class="flex justify-between font-label-sm text-[10px] mb-2 uppercase tracking-tighter"
+                >
+                  <span>Teacher Model (175B)</span>
+                  <span>96% Accuracy</span>
+                </div>
+                <div class="w-full h-4 bg-outline-variant rounded-full overflow-hidden">
+                  <div class="h-full bg-on-surface w-[96%]"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="mb-16" id="conclusion">
+          <h2 class="font-headline-md text-headline-md text-on-surface mb-6">Final Thoughts</h2>
+          <p>
+            The journey from massive foundational models to specialized, efficient agents is just
+            beginning. By distilling knowledge, we are not just compressing data, but refining the
+            very essence of learning itself.
+          </p>
+        </section>
+        <div class="border-t border-outline-variant pt-8 flex items-center justify-between">
+          <div class="flex gap-4">
+            <button
+              class="px-4 py-2 border border-outline rounded-lg text-label-sm font-label-sm hover:bg-surface-container transition-colors"
+            >
+              Share
+            </button>
+            <button
+              class="px-4 py-2 border border-outline rounded-lg text-label-sm font-label-sm hover:bg-surface-container transition-colors"
+            >
+              Bookmark
+            </button>
+          </div>
+          <div class="flex gap-2">
+            <div
+              class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-white text-[10px]"
+            >
+              ML
+            </div>
+            <div
+              class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-white text-[10px]"
+            >
+              AI
+            </div>
+          </div>
+        </div>
+      </article>
+      <!-- Author Info (Right) -->
+      <aside class="sticky top-24 flex flex-col gap-8">
+        <div class="bg-surface p-6 border border-outline-variant rounded-lg">
+          <div class="flex flex-col items-center text-center">
+            <img
+              alt="Author"
+              class="w-20 h-20 rounded-full object-cover mb-4 grayscale hover:grayscale-0 transition-all duration-500"
+              data-alt="A professional headshot of a middle-aged man with short dark hair and a neat beard, wearing a crisp white shirt and a dark navy blazer. He is set against a soft-focus studio background with gentle, warm lighting. The image conveys authority, intelligence, and approachable expertise, fitting the editorial magazine aesthetic of a lead researcher."
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYaTffdBHefZX0HUJjhnoMORt2Y_qfX34PTCSND7fp5WI-ubYioGLlYqwIErL-fTulWorERzowkBpbWfggzd5gi-LxX80mRSd6PIYclZypYUzUTTDjf-XhVhx2tEbd3ZklKWUQO95DQU0Lsy9gU9a22l5FippVL_NFgCwcYpeRYEfA82I1q3jb2CASYhhfGfPF1ANlk7HCEq4T1-eDCH4TiEwJ6stbQr9XaMGh0W473hz9htHmOvn-Pz41HmXAm9S9BHpqpsyI_w"
+            />
+            <h3 class="font-label-sm text-label-sm text-on-surface mb-1">Dr. Aris Thorne</h3>
+            <p class="text-[12px] text-outline mb-4">Lead Researcher at Distilled Knowledge</p>
+            <p class="text-[13px] text-secondary leading-relaxed mb-6 italic">
+              Exploring the intersections of algorithmic efficiency and cognitive modeling.
+            </p>
+            <button
+              class="w-full py-2 bg-primary text-on-primary text-label-sm font-label-sm rounded hover:bg-primary-container transition-colors"
+            >
+              Follow
+            </button>
+          </div>
+        </div>
+        <div class="flex flex-col gap-4">
+          <p class="font-label-sm text-label-sm uppercase tracking-widest text-outline">Related</p>
+          <div class="group cursor-pointer">
+            <h4
+              class="font-headline-md text-base leading-tight mb-2 group-hover:text-primary transition-colors"
+            >
+              Why Parameters Matter Less Than You Think
+            </h4>
+            <span class="text-[11px] text-outline">Jan 12, 2024</span>
+          </div>
+          <div class="group cursor-pointer">
+            <h4
+              class="font-headline-md text-base leading-tight mb-2 group-hover:text-primary transition-colors"
+            >
+              Small Models, Big Impact: A Case Study
+            </h4>
+            <span class="text-[11px] text-outline">Jan 08, 2024</span>
+          </div>
+        </div>
+      </aside>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-surface-container dark:bg-inverse-surface mt-20">
+      <div
+        class="flex flex-col md:flex-row justify-between items-center w-full px-grid-margin py-gutter max-w-7xl mx-auto"
+      >
+        <div
+          class="text-headline-sm font-headline-md text-primary dark:text-primary-fixed mb-6 md:mb-0"
+        >
+          Chronicle Learning
+        </div>
+        <div class="flex flex-col items-center md:items-end gap-4">
+          <nav class="flex gap-6">
+            <a
+              class="text-secondary dark:text-secondary-fixed text-label-sm font-label-sm hover:text-primary dark:hover:text-on-primary-container underline opacity-80 hover:opacity-100 transition-opacity"
+              href="#"
+              >Privacy Policy</a
+            >
+            <a
+              class="text-secondary dark:text-secondary-fixed text-label-sm font-label-sm hover:text-primary dark:hover:text-on-primary-container underline opacity-80 hover:opacity-100 transition-opacity"
+              href="#"
+              >RSS Feed</a
+            >
+            <a
+              class="text-secondary dark:text-secondary-fixed text-label-sm font-label-sm hover:text-primary dark:hover:text-on-primary-container underline opacity-80 hover:opacity-100 transition-opacity"
+              href="#"
+              >Contact</a
+            >
+          </nav>
+          <p
+            class="text-label-sm font-label-sm text-secondary dark:text-inverse-on-surface opacity-80"
+          >
+            © 2024 Chronicle Learning. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
