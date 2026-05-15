@@ -18,20 +18,29 @@ interface ProjectAttrs {
   standalone: true,
   imports: [RouterLink, BadgeComponent, DocNavComponent],
   template: `
-    <div class="mx-auto grid max-w-(--container-site) grid-cols-[14rem_1fr] gap-8 px-6 py-12">
-      <app-doc-nav />
+    <div
+      class="mx-auto grid max-w-(--container-site) grid-cols-1 gap-12 px-(--spacing-grid-margin) py-16 md:grid-cols-[14rem_minmax(0,1fr)]"
+    >
+      <aside class="hidden md:block"><app-doc-nav /></aside>
       <section>
-        <h1 class="headline-xl mb-8">프로젝트</h1>
-        <ul class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <p class="label-sm text-outline mb-4">Projects</p>
+        <h1 class="headline-xl text-on-surface mb-12">번역된 프로젝트</h1>
+        <ul class="grid grid-cols-1 gap-8 md:grid-cols-2">
           @for (p of projects; track p.project) {
             <li>
               <a
                 [routerLink]="['/projects', p.project]"
-                class="block rounded-lg border border-outline-variant p-4 hover:bg-surface-low"
+                class="block rounded-lg bg-surface-container-lowest p-(--spacing-card-padding) shadow-editorial border border-outline-variant hover:border-primary transition-colors group"
               >
                 <app-badge variant="primary">{{ p.domain }}</app-badge>
-                <h2 class="headline-md mt-3">{{ p.name }}</h2>
-                <p class="body-md mt-2 text-on-surface-variant">{{ p.summary }}</p>
+                <h2
+                  class="font-display text-3xl font-semibold mt-4 mb-3 text-on-surface group-hover:text-primary transition-colors"
+                >
+                  {{ p.name }}
+                </h2>
+                @if (p.summary) {
+                  <p class="body-md text-on-surface-variant">{{ p.summary }}</p>
+                }
               </a>
             </li>
           }

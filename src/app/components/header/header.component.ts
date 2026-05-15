@@ -7,24 +7,42 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
   standalone: true,
   imports: [RouterLink, RouterLinkActive, ThemeToggleComponent],
   template: `
-    <header class="sticky top-0 z-50 border-b border-outline-variant bg-surface/95 backdrop-blur">
-      <div class="mx-auto flex max-w-(--container-site) items-center justify-between px-6 py-4">
-        <a routerLink="/" class="font-display text-xl font-bold tracking-tight">HseongH</a>
-        <nav class="flex items-center gap-6">
+    <header
+      class="sticky top-0 z-50 border-b border-outline-variant bg-background/95 backdrop-blur"
+    >
+      <div
+        class="mx-auto flex max-w-(--container-site) items-center justify-between px-(--spacing-grid-margin) py-5"
+      >
+        <a
+          routerLink="/"
+          class="font-display text-3xl font-semibold italic text-primary tracking-tight"
+        >
+          HseongH
+        </a>
+        <nav class="flex items-center gap-8">
           <a
             routerLink="/"
-            routerLinkActive="text-primary"
+            routerLinkActive="text-primary border-b-2 border-primary"
             [routerLinkActiveOptions]="{ exact: true }"
-            class="label-md hover:text-primary"
+            class="label-sm hover:text-primary pb-1 transition-colors"
             >Home</a
           >
           <a
+            routerLink="/projects"
+            routerLinkActive="text-primary border-b-2 border-primary"
+            class="label-sm hover:text-primary pb-1 transition-colors"
+            >Projects</a
+          >
+          <a
             routerLink="/glossary"
-            routerLinkActive="text-primary"
-            class="label-md hover:text-primary"
+            routerLinkActive="text-primary border-b-2 border-primary"
+            class="label-sm hover:text-primary pb-1 transition-colors"
             >Glossary</a
           >
-          <a routerLink="/about" routerLinkActive="text-primary" class="label-md hover:text-primary"
+          <a
+            routerLink="/about"
+            routerLinkActive="text-primary border-b-2 border-primary"
+            class="label-sm hover:text-primary pb-1 transition-colors"
             >About</a
           >
           <app-theme-toggle />

@@ -4,34 +4,64 @@
 @import './tokens-dark.css';
 
 @theme {
-  /* Colors — CSS variable backed so dark mode toggles via html.dark class */
+  /* Colors — backed by CSS variables so dark mode swaps via html.dark */
+  --color-background: var(--color-background);
   --color-surface: var(--color-surface);
+  --color-surface-bright: var(--color-surface-bright);
+  --color-surface-dim: var(--color-surface-dim);
   --color-surface-low: var(--color-surface-container-low);
   --color-surface-high: var(--color-surface-container-high);
+  --color-surface-container: var(--color-surface-container);
+  --color-surface-container-lowest: var(--color-surface-container-lowest);
   --color-on-surface: var(--color-on-surface);
   --color-on-surface-variant: var(--color-on-surface-variant);
+  --color-inverse-surface: var(--color-inverse-surface);
+  --color-inverse-on-surface: var(--color-inverse-on-surface);
+
   --color-primary: var(--color-primary);
   --color-on-primary: var(--color-on-primary);
   --color-primary-container: var(--color-primary-container);
   --color-on-primary-container: var(--color-on-primary-container);
+  --color-primary-fixed: var(--color-primary-fixed);
+  --color-primary-fixed-dim: var(--color-primary-fixed-dim);
+  --color-on-primary-fixed: var(--color-on-primary-fixed);
+  --color-inverse-primary: var(--color-inverse-primary);
+
+  --color-secondary: var(--color-secondary);
+  --color-on-secondary: var(--color-on-secondary);
+  --color-secondary-container: var(--color-secondary-container);
+  --color-on-secondary-container: var(--color-on-secondary-container);
+
+  --color-tertiary-fixed: var(--color-tertiary-fixed);
+  --color-on-tertiary-fixed: var(--color-on-tertiary-fixed);
+
   --color-outline: var(--color-outline);
   --color-outline-variant: var(--color-outline-variant);
 
-  /* Fonts — actual @font-face is added in Task 5 */
-  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
-  --font-body: 'Source Serif 4', Georgia, serif;
+  /* Fonts — DESIGN.md mapping */
+  --font-display: 'Newsreader', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-label: 'Hanken Grotesk', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-  /* Radius */
+  /* Radius — soft editorial */
   --radius-sm: 0.125rem;
-  --radius: 0.25rem;
+  --radius: 0.125rem;
   --radius-md: 0.375rem;
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
 
   /* Container widths */
   --container-article: 720px;
-  --container-site: 1200px;
+  --container-site: 1280px;
+
+  /* Spacing */
+  --spacing-card-padding: 2rem;
+  --spacing-gutter: 1.5rem;
+  --spacing-grid-margin: 4vw;
+
+  /* Editorial shadow */
+  --shadow-editorial: 0 4px 20px -4px rgba(26, 20, 107, 0.1);
 }
 
 html,
@@ -40,31 +70,63 @@ body {
   margin: 0;
 }
 body {
-  background: var(--color-surface);
+  background: var(--color-background);
   color: var(--color-on-surface);
   font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-primary-fixed);
+  color: var(--color-on-primary-fixed);
 }
 
 @plugin "@tailwindcss/typography";
 
 @layer components {
+  /* Editorial article prose */
   .prose {
     color: var(--color-on-surface);
     max-width: var(--container-article);
     font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.8;
   }
   .prose h1,
   .prose h2,
   .prose h3,
-  .prose h4 {
+  .prose h4,
+  .prose h5,
+  .prose h6 {
     font-family: var(--font-display);
     color: var(--color-on-surface);
+    letter-spacing: -0.01em;
+  }
+  .prose h2 {
+    font-size: 32px;
+    line-height: 1.2;
+    font-weight: 600;
+    margin-top: 2.5em;
+    margin-bottom: 0.8em;
+  }
+  .prose h3 {
+    font-size: 24px;
+    line-height: 1.3;
+    font-weight: 600;
+    margin-top: 2em;
+    margin-bottom: 0.6em;
+  }
+  .prose p {
+    margin-bottom: 1.2em;
   }
   .prose code {
     font-family: var(--font-mono);
     background: var(--color-surface-container);
     padding: 0.125rem 0.375rem;
-    border-radius: 0.25rem;
+    border-radius: 0.125rem;
+    font-size: 0.9em;
   }
   .prose pre {
     background: var(--color-surface-container-low);
@@ -72,6 +134,8 @@ body {
     border-radius: var(--radius-md);
     padding: 1rem;
     overflow-x: auto;
+    font-size: 14px;
+    line-height: 1.6;
   }
   .prose pre code {
     background: transparent;
@@ -80,12 +144,58 @@ body {
   .prose a {
     color: var(--color-primary);
     text-decoration: none;
+    border-bottom: 1px solid var(--color-primary-fixed-dim);
+    transition:
+      border-color 0.2s,
+      color 0.2s;
   }
   .prose a:hover {
-    text-decoration: underline;
+    border-color: var(--color-primary);
+  }
+  .prose blockquote {
+    border-left: 4px solid var(--color-primary-container);
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: var(--color-on-surface-variant);
+  }
+  .prose img {
+    border-radius: var(--radius-lg);
+    margin: 2rem 0;
+  }
+  .prose ul,
+  .prose ol {
+    margin-bottom: 1.2em;
+    padding-left: 1.5em;
+  }
+  .prose li {
+    margin-bottom: 0.4em;
   }
 
   html.dark .prose pre {
-    background: var(--color-surface-container-high);
+    background: var(--color-surface-container);
+  }
+  html.dark .prose a {
+    border-bottom-color: var(--color-primary-fixed-variant, var(--color-primary-container));
+  }
+
+  /* Drop cap for article opening — applied via class on the first <p> */
+  .drop-cap::first-letter {
+    font-family: var(--font-display);
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    float: left;
+    line-height: 0.9;
+    margin-right: 0.5rem;
+    margin-top: 0.4rem;
+  }
+
+  /* Editorial shadow utility */
+  .shadow-editorial {
+    box-shadow: 0 4px 20px -4px rgba(26, 20, 107, 0.1);
+  }
+  html.dark .shadow-editorial {
+    box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.4);
   }
 }

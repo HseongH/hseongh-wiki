@@ -26,34 +26,57 @@ interface WikiAttrs {
   standalone: true,
   imports: [RouterLink, PostCardComponent, DocNavComponent],
   template: `
-    <div class="mx-auto grid max-w-(--container-site) grid-cols-[14rem_1fr] gap-8 px-6 py-12">
-      <app-doc-nav />
+    <div
+      class="mx-auto grid max-w-(--container-site) grid-cols-1 gap-12 px-(--spacing-grid-margin) py-16 md:grid-cols-[14rem_minmax(0,1fr)]"
+    >
+      <aside class="hidden md:block"><app-doc-nav /></aside>
       @if (domain(); as d) {
         <section>
-          <h1 class="headline-xl">{{ d.name }}</h1>
-          <p class="body-lg mt-2 text-on-surface-variant">{{ d.summary }}</p>
+          <p class="label-sm text-outline mb-4">Domain</p>
+          <h1 class="headline-xl text-on-surface mb-3">{{ d.name }}</h1>
+          @if (d.summary) {
+            <p class="font-display text-2xl italic text-on-surface-variant leading-snug mb-12">
+              {{ d.summary }}
+            </p>
+          }
 
-          <h2 class="headline-md mt-12 mb-4">프로젝트</h2>
-          <ul class="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <h2
+            class="font-display text-3xl font-semibold text-on-surface mt-12 mb-6 pt-12 border-t border-outline-variant"
+          >
+            프로젝트
+          </h2>
+          <ul class="grid grid-cols-1 gap-6 md:grid-cols-2">
             @for (p of projectsInDomain(); track p.project) {
               <li>
                 <a
                   [routerLink]="['/projects', p.project]"
-                  class="block rounded-lg border border-outline-variant p-4 hover:bg-surface-low"
+                  class="block rounded-lg bg-surface-container-lowest p-(--spacing-card-padding) shadow-editorial border border-outline-variant hover:border-primary transition-colors group"
                 >
-                  <h3 class="headline-md">{{ p.name }}</h3>
-                  <p class="body-md text-on-surface-variant mt-2">{{ p.summary }}</p>
+                  <h3
+                    class="font-display text-2xl font-semibold text-on-surface mb-2 group-hover:text-primary transition-colors"
+                  >
+                    {{ p.name }}
+                  </h3>
+                  @if (p.summary) {
+                    <p class="body-md text-on-surface-variant">{{ p.summary }}</p>
+                  }
                 </a>
               </li>
             }
           </ul>
 
-          <h2 class="headline-md mt-12 mb-4">본문</h2>
-          <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-            @for (post of postsInDomain(); track post.href) {
-              <app-post-card [post]="post" />
-            }
-          </div>
+          @if (postsInDomain().length) {
+            <h2
+              class="font-display text-3xl font-semibold text-on-surface mt-16 mb-6 pt-12 border-t border-outline-variant"
+            >
+              본문
+            </h2>
+            <div class="grid grid-cols-1 gap-12 md:grid-cols-2">
+              @for (post of postsInDomain(); track post.href) {
+                <app-post-card [post]="post" />
+              }
+            </div>
+          }
         </section>
       } @else {
         <p class="body-md text-on-surface-variant">도메인을 찾을 수 없습니다.</p>

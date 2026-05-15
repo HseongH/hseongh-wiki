@@ -20,21 +20,24 @@ interface GlossaryAttrs {
   standalone: true,
   imports: [MarkdownComponent, BadgeComponent, DocNavComponent],
   template: `
-    <div class="mx-auto grid max-w-(--container-site) grid-cols-[14rem_1fr] gap-8 px-6 py-12">
-      <app-doc-nav />
+    <div
+      class="mx-auto grid max-w-(--container-site) grid-cols-1 gap-12 px-(--spacing-grid-margin) py-16 md:grid-cols-[14rem_minmax(0,1fr)]"
+    >
+      <aside class="hidden md:block"><app-doc-nav /></aside>
       @if (entry(); as e) {
         <section class="max-w-(--container-article)">
-          <h1 class="headline-xl">
-            {{ e.attributes.korean }}
-            <span class="label-md text-on-surface-variant">({{ e.attributes.term }})</span>
-          </h1>
-          <div class="my-4 flex gap-2">
+          <p class="label-sm text-outline mb-4">Glossary entry</p>
+          <h1 class="headline-xl text-on-surface mb-3">{{ e.attributes.korean }}</h1>
+          <p class="label-md text-on-surface-variant mb-6 lowercase tracking-normal">
+            {{ e.attributes.term }}
+          </p>
+          <div class="flex flex-wrap gap-2 mb-12 border-t border-outline-variant pt-6">
             <app-badge variant="primary">{{ e.attributes.status }}</app-badge>
             @for (d of e.attributes.domains ?? []; track d) {
               <app-badge variant="neutral">{{ d }}</app-badge>
             }
           </div>
-          <analog-markdown [content]="body()" classes="prose" />
+          <analog-markdown [content]="body()" classes="prose max-w-none" />
         </section>
       } @else {
         <p class="body-md text-on-surface-variant">용어를 찾을 수 없습니다.</p>

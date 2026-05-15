@@ -27,30 +27,54 @@ interface WikiAttrs {
   imports: [MarkdownComponent, BadgeComponent, DocNavComponent],
   template: `
     <div
-      class="mx-auto grid max-w-(--container-site) grid-cols-[14rem_minmax(0,1fr)] gap-8 px-6 py-12"
+      class="mx-auto grid max-w-(--container-site) grid-cols-1 gap-12 px-(--spacing-grid-margin) py-16 md:grid-cols-[14rem_minmax(0,1fr)]"
     >
-      <app-doc-nav />
-      @if (entry()) {
-        <article class="body-md max-w-(--container-article)">
-          <div class="mb-4 flex items-center gap-2">
-            <app-badge variant="primary">{{ entry()!.attributes.project }}</app-badge>
-          </div>
-          <h1 class="headline-xl mb-2">{{ title() }}</h1>
-          <p class="label-md mb-6 text-on-surface-variant">
-            원문:
-            <a [href]="entry()!.attributes.source" class="hover:text-primary">{{
-              entry()!.attributes.source
-            }}</a>
-            · 동기화: {{ entry()!.attributes.translated_at }} /
-            {{ entry()!.attributes.source_commit?.slice(0, 7) }}
-          </p>
-          <analog-markdown [content]="body()" classes="prose prose-lg max-w-none" />
+      <aside class="hidden md:block"><app-doc-nav /></aside>
 
-          <div class="mt-12 flex flex-wrap gap-2">
-            @for (t of entry()!.attributes.tags ?? []; track t) {
-              <app-badge variant="neutral">{{ t }}</app-badge>
-            }
+      @if (entry(); as e) {
+        <article>
+          <!-- Editorial meta row -->
+          <div class="flex items-center gap-3 mb-8 flex-wrap">
+            <span class="label-sm text-primary bg-primary-fixed px-2 py-1">{{
+              e.attributes.project
+            }}</span>
+            <span class="label-sm text-outline">{{ e.attributes.translated_at }}</span>
+            <span class="label-sm text-outline">·</span>
+            <span class="label-sm text-outline">{{ e.attributes.source_commit?.slice(0, 7) }}</span>
           </div>
+
+          <!-- Headline -->
+          <h1 class="headline-xl text-on-surface mb-8 leading-tight">{{ title() }}</h1>
+
+          <!-- Source attribution divider -->
+          <div class="border-t border-outline-variant pt-6 mb-12">
+            <p class="label-md text-on-surface-variant">
+              원문:
+              <a
+                [href]="e.attributes.source"
+                target="_blank"
+                rel="noopener"
+                class="text-primary border-b border-primary-fixed-dim hover:border-primary transition-colors"
+              >
+                {{ e.attributes.source }}
+              </a>
+            </p>
+          </div>
+
+          <!-- Body -->
+          <analog-markdown [content]="body()" classes="prose max-w-none" />
+
+          <!-- Tags footer -->
+          @if ((e.attributes.tags?.length ?? 0) > 0) {
+            <div class="mt-16 pt-8 border-t border-outline-variant">
+              <p class="label-sm text-outline mb-4">Tags</p>
+              <div class="flex flex-wrap gap-2">
+                @for (t of e.attributes.tags ?? []; track t) {
+                  <app-badge variant="outline">{{ t }}</app-badge>
+                }
+              </div>
+            </div>
+          }
         </article>
       } @else {
         <p class="body-md text-on-surface-variant">페이지를 찾을 수 없습니다.</p>
@@ -96,8 +120,5 @@ export default class WikiArticlePage {
 }
 
 function extractWikiPath(routerUrl: string): string {
-  // Router.url is the full URL ('/wiki/pnpm/motivation?x=1'). Strip the '/wiki/'
-  // prefix plus any query string / fragment so what remains lines up with the
-  // file's project-relative path under src/content/_wiki/.
   return routerUrl.replace(/[?#].*$/, '').replace(/^\/wiki\/?/, '');
 }

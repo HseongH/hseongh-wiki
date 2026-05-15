@@ -1,24 +1,50 @@
+/* Dark inverse — keep the editorial indigo identity, deepen the surface to slate.
+ * Toggled by html.dark (ThemeService).
+ */
 html.dark {
-  /* Surface — light 의 흰 계조 → indigo-tinted 슬레이트 */
+  /* Surface — indigo-tinted slates */
+  --color-background: #0f1428;
   --color-surface: #0f1428;
+  --color-surface-bright: #232847;
+  --color-surface-dim: #0a0f20;
   --color-surface-container-lowest: #0a0f20;
   --color-surface-container-low: #131934;
-  --color-surface-container: #1a1f35;
+  --color-surface-container: #1a1f3d;
   --color-surface-container-high: #232847;
   --color-surface-container-highest: #2c3158;
-  --color-on-surface: #eef0ff;
-  --color-on-surface-variant: #c8c4d5;
-  --color-inverse-surface: #eef0ff;
-  --color-inverse-on-surface: #131b2e;
+  --color-surface-variant: #2c3158;
+  --color-on-surface: #ecf1ff;
+  --color-on-surface-variant: #c8c5d3;
+  --color-inverse-surface: #ecf1ff;
+  --color-inverse-on-surface: #111c2d;
 
-  /* Primary — light 의 inverse-primary 활용 */
+  /* Primary — inverse_primary becomes the active hue on dark */
   --color-primary: #c3c0ff;
-  --color-on-primary: #1f108e;
-  --color-primary-container: #3b35a7;
+  --color-on-primary: #100563;
+  --color-primary-container: #3e3c8f;
   --color-on-primary-container: #e2dfff;
-  --color-inverse-primary: #3730a3;
+  --color-inverse-primary: #1a146b;
+  --color-primary-fixed: #e2dfff;
+  --color-primary-fixed-dim: #c3c0ff;
+  --color-on-primary-fixed: #100563;
+  --color-on-primary-fixed-variant: #3e3c8f;
+
+  /* Secondary */
+  --color-secondary: #bfc6dd;
+  --color-on-secondary: #141b2c;
+  --color-secondary-container: #3f4759;
+  --color-on-secondary-container: #dbe2fa;
+
+  /* Tertiary */
+  --color-tertiary: #ffb688;
+  --color-on-tertiary: #311300;
+  --color-tertiary-container: #70380b;
+  --color-on-tertiary-container: #ffdbc7;
 
   /* Outline */
-  --color-outline: #5a5868;
+  --color-outline: #777682;
   --color-outline-variant: #3b3a48;
+
+  /* Editorial elevation — softer on dark */
+  --shadow-editorial: 0 4px 20px -4px rgba(0, 0, 0, 0.4);
 }

@@ -10,12 +10,17 @@ export interface TocEntry {
   selector: 'app-toc',
   standalone: true,
   template: `
-    <nav class="sticky top-20 w-56" aria-label="목차">
-      <h2 class="label-md mb-3 text-on-surface-variant uppercase tracking-wide">목차</h2>
-      <ul class="space-y-2 border-l border-outline-variant pl-4">
+    <nav class="sticky top-28 w-full" aria-label="목차">
+      <p class="label-sm text-outline mb-6">In this article</p>
+      <ul class="flex flex-col gap-3 border-l border-outline-variant">
         @for (e of entries(); track e.id) {
-          <li [style.padding-left.rem]="(e.level - 2) * 0.75">
-            <a [href]="'#' + e.id" class="label-md hover:text-primary">{{ e.text }}</a>
+          <li [style.padding-left.rem]="(e.level - 2) * 0.75 + 1">
+            <a
+              [href]="'#' + e.id"
+              class="label-md text-on-surface-variant hover:text-primary block py-0.5 transition-colors"
+            >
+              {{ e.text }}
+            </a>
           </li>
         }
       </ul>

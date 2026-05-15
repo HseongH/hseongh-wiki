@@ -17,22 +17,30 @@ interface GlossaryAttrs {
   standalone: true,
   imports: [RouterLink, BadgeComponent, DocNavComponent],
   template: `
-    <div class="mx-auto grid max-w-(--container-site) grid-cols-[14rem_1fr] gap-8 px-6 py-12">
-      <app-doc-nav />
+    <div
+      class="mx-auto grid max-w-(--container-site) grid-cols-1 gap-12 px-(--spacing-grid-margin) py-16 md:grid-cols-[14rem_minmax(0,1fr)]"
+    >
+      <aside class="hidden md:block"><app-doc-nav /></aside>
       <section class="max-w-(--container-article)">
-        <h1 class="headline-xl mb-8">용어집</h1>
-        <ul class="space-y-3">
+        <p class="label-sm text-outline mb-4">Glossary</p>
+        <h1 class="headline-xl text-on-surface mb-12">용어집</h1>
+        <ul class="border-t border-outline-variant">
           @for (t of terms; track t.term) {
-            <li>
+            <li class="border-b border-outline-variant">
               <a
                 [routerLink]="['/glossary', t.term]"
-                class="flex items-center justify-between rounded p-3 hover:bg-surface-low"
+                class="flex items-center justify-between gap-4 py-4 group transition-colors"
               >
-                <span>
-                  <span class="body-md">{{ t.korean }}</span>
-                  <span class="label-md text-on-surface-variant"> ({{ t.term }})</span>
+                <span class="flex flex-col gap-1">
+                  <span
+                    class="font-display text-xl text-on-surface group-hover:text-primary transition-colors"
+                    >{{ t.korean }}</span
+                  >
+                  <span class="label-md text-on-surface-variant lowercase tracking-normal">{{
+                    t.term
+                  }}</span>
                 </span>
-                <span class="flex gap-2">
+                <span class="flex flex-wrap gap-2 justify-end">
                   @for (d of t.domains ?? []; track d) {
                     <app-badge variant="neutral">{{ d }}</app-badge>
                   }
